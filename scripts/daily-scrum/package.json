@@ -1,0 +1,19 @@
+{
+  "name": "daily-scrum",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "send": "bun ./send.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "1.2.0"
+  },
+  "peerDependencies": {
+    "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "@octokit/rest": "21.1.1",
+    "@slack/web-api": "7.9.1"
+  },
+  "packageManager": "bun@1.2.0"
+}

@@ -1,0 +1,26 @@
+name: send-daily-scrum
+
+on:
+  schedule:
+    - cron: "20 2 * * *"
+  workflow_dispatch:
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./scripts/daily-scrum
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.0
+
+      # cron job을 실행합니다.
+      - name: run script
+        run: |
+          bun install
+          SLACK_BOT_TOKEN=${{ secrets.SLACK_BOT_TOKEN }} \
+          SLACK_CHANNEL=C08HW2053LM \
+            bun send
