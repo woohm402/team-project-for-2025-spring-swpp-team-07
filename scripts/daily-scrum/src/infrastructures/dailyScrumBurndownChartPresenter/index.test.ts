@@ -33,7 +33,7 @@ test("getChartData", () => {
       9,
       9,
       7,
-      null,
+      7,
       null,
       null,
       null,

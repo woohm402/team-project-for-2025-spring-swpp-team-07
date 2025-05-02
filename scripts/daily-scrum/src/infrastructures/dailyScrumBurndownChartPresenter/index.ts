@@ -70,7 +70,7 @@ export const getChartData = ({
       const DAY = 1000 * 60 * 60 * 24;
       const date = new Date(schedule.start.getTime() + DAY * i);
 
-      const isNotYet = date.getTime() > now.getTime() - DAY;
+      const isNotYet = date.getTime() > now.getTime();
 
       return {
         label: [date.getMonth() + 1, date.getDate()]
