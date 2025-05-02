@@ -1,4 +1,4 @@
-import type { Member } from "./member";
+import type { Member } from './member';
 
 export type PullRequest = {
   title: string;

@@ -1,20 +1,20 @@
-import type { getSendDailyScrumUsecase } from "../usecases/sendDailyScrumUsecase";
-import type { Octokit } from "@octokit/rest";
-import { ensure } from "../utils/ensure";
-import { MEMBERS } from "../entities/member";
+import type { Octokit } from '@octokit/rest';
+import { MEMBERS } from '../entities/member';
+import type { getSendDailyScrumUsecase } from '../usecases/sendDailyScrumUsecase';
+import { ensure } from '../utils/ensure';
 
 export const getDailyScrumGitHubOctokitRepository = ({
   octokit,
 }: {
   octokit: Octokit;
-}): Parameters<typeof getSendDailyScrumUsecase>[0]["gitHubRepository"] => {
+}): Parameters<typeof getSendDailyScrumUsecase>[0]['gitHubRepository'] => {
   return {
     getAllOpenPullRequests: async () => {
       const openPullRequests = (
         await octokit.rest.pulls.list({
-          owner: "SWPP-2025SPRING",
-          repo: "team-project-for-2025-spring-swpp-team-07",
-          state: "open",
+          owner: 'SWPP-2025SPRING',
+          repo: 'team-project-for-2025-spring-swpp-team-07',
+          state: 'open',
         })
       ).data.flatMap((pull) => {
         const assignee = pull.assignee ?? pull.user;

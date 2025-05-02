@@ -3,9 +3,11 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "send": "bun src/main.ts"
+    "send": "bun src/main.ts",
+    "fix": "biome check . --fix"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@notionhq/client": "2.3.0",
     "@types/bun": "1.2.0"
   },
@@ -14,7 +16,8 @@
   },
   "dependencies": {
     "@octokit/rest": "21.1.1",
-    "@slack/web-api": "7.9.1"
+    "@slack/web-api": "7.9.1",
+    "chartjs-node-canvas": "5.0.0"
   },
   "packageManager": "bun@1.2.0"
 }

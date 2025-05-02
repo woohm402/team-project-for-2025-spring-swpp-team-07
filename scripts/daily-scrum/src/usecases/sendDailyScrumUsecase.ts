@@ -1,7 +1,7 @@
-import type { PullRequest } from "../entities/github";
-import type { Member } from "../entities/member";
-import { Sprint } from "../entities/sprint";
-import { TaskStatus, type Task } from "../entities/task";
+import type { PullRequest } from '../entities/github';
+import { SPRINT_SCHEDULE_MAP, Sprint } from '../entities/sprint';
+import { type Task, TaskStatus } from '../entities/task';
+import { ensure } from '../utils/ensure';
 
 export type SendDailyScrumUsecase = {
   sendDailyScrum: () => Promise<void>;
@@ -11,7 +11,7 @@ export const getSendDailyScrumUsecase = ({
   notionRepository,
   gitHubRepository,
   slackPresenter,
-  currentSprint,
+  burndownChartPresenter,
 }: {
   notionRepository: {
     getAllTasks: (_: { sprint: Sprint }) => Promise<Task[]>;
@@ -20,15 +20,35 @@ export const getSendDailyScrumUsecase = ({
     getAllOpenPullRequests: () => Promise<PullRequest[]>;
   };
   slackPresenter: {
-    sendDailyScrum: (_: { tasks: Task[] }) => Promise<void>;
+    sendDailyScrum: (_: {
+      tasks: Task[];
+      burndownChart: Blob;
+    }) => Promise<void>;
     sendAwaitingReviews: (_: { pullRequests: PullRequest[] }) => Promise<void>;
   };
-  currentSprint: Sprint;
+  burndownChartPresenter: {
+    getBurndownChartImage: (_: {
+      tasks: Task[];
+      sprint: { start: Date; end: Date };
+    }) => Promise<Blob>;
+  };
 }): SendDailyScrumUsecase => {
   return {
     sendDailyScrum: async () => {
+      const currentSprint = ensure(
+        Object.values(Sprint).find(
+          (sprint) =>
+            SPRINT_SCHEDULE_MAP[sprint].start.getTime() <= Date.now() &&
+            SPRINT_SCHEDULE_MAP[sprint].end.getTime() > Date.now(),
+        ),
+      );
       const tasks = await notionRepository.getAllTasks({
         sprint: currentSprint,
+      });
+
+      const burndownChartImage = await burndownChartPresenter.getBurndownChartImage({
+        tasks,
+        sprint: SPRINT_SCHEDULE_MAP[currentSprint],
       });
 
       await slackPresenter.sendDailyScrum({
@@ -36,11 +56,10 @@ export const getSendDailyScrumUsecase = ({
           .filter(
             (task) =>
               task.status !== TaskStatus.DONE &&
-              task.schedule.start.getTime() <= Date.now(),
+              task.expectedSchedule.start.getTime() <= Date.now(),
           )
-          .toSorted(
-            (a, b) => a.schedule.end.getTime() - b.schedule.end.getTime(),
-          ),
+          .toSorted((a, b) => a.expectedSchedule.end.getTime() - b.expectedSchedule.end.getTime()),
+        burndownChart: burndownChartImage,
       });
 
       const openPullRequests = await gitHubRepository.getAllOpenPullRequests();

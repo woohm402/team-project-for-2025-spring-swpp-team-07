@@ -1,18 +1,18 @@
+import { Client } from "@notionhq/client";
 import { Octokit } from "@octokit/rest";
 import { WebClient } from "@slack/web-api";
-import { Client } from "@notionhq/client";
-import { getSendDailyScrumUsecase } from "./usecases/sendDailyScrumUsecase";
-import { getDailyScrumNotionHqClientRepository } from "./infrastructures/dailyScrumNotionHqClientRepository";
+import { getDailyScrumBurndownChartPresenter } from "./infrastructures/dailyScrumBurndownChartPresenter";
 import { getDailyScrumGitHubOctokitRepository } from "./infrastructures/dailyScrumGitHubOctokitRepository";
+import { getDailyScrumNotionHqClientRepository } from "./infrastructures/dailyScrumNotionHqClientRepository";
 import { getDailyScrumSlackWebApiPresenter } from "./infrastructures/dailyScrumSlackWebApiPresenter";
+import { getSendDailyScrumUsecase } from "./usecases/sendDailyScrumUsecase";
 import { ensure } from "./utils/ensure";
-import { Sprint } from "./entities/sprint";
 
 const SLACK_CHANNEL = ensure(import.meta.env.SLACK_CHANNEL);
 const SLACK_BOT_TOKEN = ensure(import.meta.env.SLACK_BOT_TOKEN);
 const NOTION_TOKEN = ensure(import.meta.env.NOTION_TOKEN);
 
-void getSendDailyScrumUsecase({
+getSendDailyScrumUsecase({
   notionRepository: getDailyScrumNotionHqClientRepository({
     client: new Client({ auth: NOTION_TOKEN }),
   }),
@@ -23,5 +23,9 @@ void getSendDailyScrumUsecase({
     webClient: new WebClient(SLACK_BOT_TOKEN),
     channel: SLACK_CHANNEL,
   }),
-  currentSprint: Sprint.SPRINT_1,
-}).sendDailyScrum();
+  burndownChartPresenter: getDailyScrumBurndownChartPresenter(),
+})
+  .sendDailyScrum()
+  .catch((err) => {
+    console.error(err);
+  });
