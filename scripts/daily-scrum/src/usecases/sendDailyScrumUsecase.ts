@@ -1,7 +1,7 @@
-import type { PullRequest } from '../entities/github';
-import { SPRINT_SCHEDULE_MAP, Sprint } from '../entities/sprint';
-import { type Task, TaskStatus } from '../entities/task';
-import { ensure } from '../utils/ensure';
+import type { PullRequest } from "../entities/github";
+import { SPRINT_SCHEDULE_MAP, Sprint } from "../entities/sprint";
+import { type Task, TaskStatus } from "../entities/task";
+import { ensure } from "../utils/ensure";
 
 export type SendDailyScrumUsecase = {
   sendDailyScrum: () => Promise<void>;
@@ -28,8 +28,12 @@ export const getSendDailyScrumUsecase = ({
   };
   burndownChartPresenter: {
     getBurndownChartImage: (_: {
-      tasks: Task[];
-      sprint: { start: Date; end: Date };
+      tasks: Pick<
+        Task,
+        "actualSchedule" | "expectedSchedule" | "expectedSize"
+      >[];
+      sprint: Sprint;
+      now: Date;
     }) => Promise<Blob>;
   };
 }): SendDailyScrumUsecase => {
@@ -46,10 +50,12 @@ export const getSendDailyScrumUsecase = ({
         sprint: currentSprint,
       });
 
-      const burndownChartImage = await burndownChartPresenter.getBurndownChartImage({
-        tasks,
-        sprint: SPRINT_SCHEDULE_MAP[currentSprint],
-      });
+      const burndownChartImage =
+        await burndownChartPresenter.getBurndownChartImage({
+          tasks,
+          sprint: currentSprint,
+          now: new Date(),
+        });
 
       await slackPresenter.sendDailyScrum({
         tasks: tasks
@@ -58,7 +64,11 @@ export const getSendDailyScrumUsecase = ({
               task.status !== TaskStatus.DONE &&
               task.expectedSchedule.start.getTime() <= Date.now(),
           )
-          .toSorted((a, b) => a.expectedSchedule.end.getTime() - b.expectedSchedule.end.getTime()),
+          .toSorted(
+            (a, b) =>
+              a.expectedSchedule.end.getTime() -
+              b.expectedSchedule.end.getTime(),
+          ),
         burndownChart: burndownChartImage,
       });
 
