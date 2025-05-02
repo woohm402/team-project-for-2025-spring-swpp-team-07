@@ -6,6 +6,7 @@
     "send": "bun ./send.ts"
   },
   "devDependencies": {
+    "@notionhq/client": "2.3.0",
     "@types/bun": "1.2.0"
   },
   "peerDependencies": {
