@@ -22,5 +22,6 @@ jobs:
         run: |
           bun install
           SLACK_BOT_TOKEN=${{ secrets.SLACK_BOT_TOKEN }} \
+          NOTION_TOKEN=${{ secrets.NOTION_TOKEN }} \
           SLACK_CHANNEL=C08KVGJU4H4 \
             bun send

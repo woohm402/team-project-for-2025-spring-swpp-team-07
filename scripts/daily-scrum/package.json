@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "send": "bun ./send.ts"
+    "send": "bun src/main.ts"
   },
   "devDependencies": {
     "@notionhq/client": "2.3.0",
