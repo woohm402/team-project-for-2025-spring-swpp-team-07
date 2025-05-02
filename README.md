@@ -24,7 +24,7 @@
 
 | 폴더 | 설명 |
 | --- | --- |
-| [docs](./docs) | 팀 문서 |
+| [wiki](./wiki) | 게임 위키 문서 |
 | [scripts](./scripts) | 팀 자동화 도구들 |
 | [SchoolRush](./SchoolRush) | Unity 게임 |
 
