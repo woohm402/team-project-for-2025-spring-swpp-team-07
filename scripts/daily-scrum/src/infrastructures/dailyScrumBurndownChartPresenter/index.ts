@@ -39,7 +39,7 @@ export const getDailyScrumBurndownChartPresenter = (): Presenter => {
           scales: {
             y: {
               beginAtZero: true,
-              title: { display: true, text: 'Remaining Tasks' },
+              title: { display: true, text: 'Remaining Size' },
             },
           },
         },
