@@ -1,10 +1,8 @@
-import { ChartJSNodeCanvas } from "chartjs-node-canvas";
-import type { getSendDailyScrumUsecase } from "../../usecases/sendDailyScrumUsecase";
-import { SPRINT_SCHEDULE_MAP } from "../../entities/sprint";
+import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+import { SPRINT_SCHEDULE_MAP } from '../../entities/sprint';
+import type { getSendDailyScrumUsecase } from '../../usecases/sendDailyScrumUsecase';
 
-type Presenter = Parameters<
-  typeof getSendDailyScrumUsecase
->[0]["burndownChartPresenter"];
+type Presenter = Parameters<typeof getSendDailyScrumUsecase>[0]['burndownChartPresenter'];
 
 export const getDailyScrumBurndownChartPresenter = (): Presenter => {
   return {
@@ -12,27 +10,27 @@ export const getDailyScrumBurndownChartPresenter = (): Presenter => {
       const chartJSNodeCanvas = new ChartJSNodeCanvas({
         width: 800,
         height: 400,
-        backgroundColour: "white",
+        backgroundColour: 'white',
       });
 
       const { labels, actualValues, expectedValues } = getChartData(params);
 
       const buffer = await chartJSNodeCanvas.renderToBuffer({
-        type: "line",
+        type: 'line',
         data: {
           labels,
           datasets: [
             {
-              label: "Expected",
+              label: 'Expected',
               data: expectedValues,
-              borderColor: "rgba(0, 255, 0, 0.8)",
+              borderColor: 'rgba(0, 255, 0, 0.8)',
               borderDash: [5, 5],
               fill: false,
             },
             {
-              label: "Actual",
+              label: 'Actual',
               data: actualValues,
-              borderColor: "blue",
+              borderColor: 'blue',
               fill: false,
             },
           ],
@@ -41,12 +39,12 @@ export const getDailyScrumBurndownChartPresenter = (): Presenter => {
           scales: {
             y: {
               beginAtZero: true,
-              title: { display: true, text: "Remaining Tasks" },
+              title: { display: true, text: 'Remaining Tasks' },
             },
           },
         },
       });
-      return new Blob([buffer], { type: "image/png" });
+      return new Blob([buffer], { type: 'image/png' });
     },
   };
 };
@@ -55,7 +53,7 @@ export const getChartData = ({
   tasks,
   sprint,
   now,
-}: Parameters<Presenter["getBurndownChartImage"]>[0]) => {
+}: Parameters<Presenter['getBurndownChartImage']>[0]) => {
   const dates = Array.from(
     { length: 15 },
     (
@@ -74,21 +72,18 @@ export const getChartData = ({
 
       return {
         label: [date.getMonth() + 1, date.getDate()]
-          .map((d) => d.toString().padStart(2, "0"))
-          .join("."),
+          .map((d) => d.toString().padStart(2, '0'))
+          .join('.'),
         expectedValue: tasks.reduce(
           (a, c) =>
-            c.expectedSchedule.end.getTime() > date.getTime() - DAY
-              ? a + c.expectedSize
-              : a,
+            c.expectedSchedule.end.getTime() > date.getTime() - DAY ? a + c.expectedSize : a,
           0,
         ),
         actualValue: isNotYet
           ? null
           : tasks.reduce(
               (a, c) =>
-                c.actualSchedule === null ||
-                c.actualSchedule.end.getTime() > date.getTime() - DAY
+                c.actualSchedule === null || c.actualSchedule.end.getTime() > date.getTime() - DAY
                   ? a + c.expectedSize
                   : a,
               0,

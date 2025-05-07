@@ -17,6 +17,9 @@
       "style": {
         "useBlockStatements": "off",
         "useNamingConvention": "off"
+      },
+      "suspicious": {
+        "noConsole": { "level": "error", "options": { "allow": ["error"] } }
       }
     }
   },

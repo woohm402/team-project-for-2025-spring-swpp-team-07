@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "send": "bun src/main.ts",
+    "check": "biome check .",
     "fix": "biome check . --fix"
   },
   "devDependencies": {

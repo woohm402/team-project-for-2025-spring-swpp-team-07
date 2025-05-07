@@ -1,0 +1,24 @@
+name: daily-scrum-ci
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./scripts/daily-scrum
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.0
+
+      - name: run script
+        run: |
+          bun install
+          bun test
+          bun check
