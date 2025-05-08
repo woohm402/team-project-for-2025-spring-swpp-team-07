@@ -1,30 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-using TMPro;  // TextMeshPro를 사용하는 경우
-
-public class SaveNickname : MonoBehaviour
-{
-
+public class SaveNickname : MonoBehaviour {
     public TMP_InputField nicknameInputField;
 
-    private const string NicknameKey = "PlayerNickname";
+    private const string NICKNAME_KEY = "PlayerNickname";
 
-    void Start()
-    {
-        // 저장된 닉네임 불러오기
-        if (PlayerPrefs.HasKey(NicknameKey))
-        {
-            string savedName = PlayerPrefs.GetString(NicknameKey);
+    void Start() {
+        if (PlayerPrefs.HasKey(NICKNAME_KEY)) {
+            string savedName = PlayerPrefs.GetString(NICKNAME_KEY);
             nicknameInputField.text = savedName;
         }
     }
 
-    public void SaveNicknameClick()
-    {
+    public void SaveNicknameClick() {
         string nickname = nicknameInputField.text;
-        PlayerPrefs.SetString(NicknameKey, nickname);
-        PlayerPrefs.Save();  // 명시적으로 저장 (안 해도 되지만 권장)
+        PlayerPrefs.SetString(NICKNAME_KEY, nickname);
+        PlayerPrefs.Save();
     }
 }
