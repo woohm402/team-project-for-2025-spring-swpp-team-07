@@ -22,7 +22,9 @@ if (!(await Bun.file(reportMarkdownPath).exists())) {
 const run = async () => {
   const pdf = await mdToPdf(
     { path: reportMarkdownPath },
-    { css: 'h1 { page-break-before: always; }' },
+    {
+      css: 'h1 { page-break-before: always; } * { word-break: keep-all; } @page { margin: 2cm 1.5cm; }',
+    },
   );
 
   const pdfPath = path.resolve(outputDirectory, `${filename}.pdf`);
