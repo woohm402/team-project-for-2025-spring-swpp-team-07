@@ -1,7 +1,7 @@
 import type { Client } from '@notionhq/client';
 import { MEMBERS } from '../entities/member';
 import { Sprint } from '../entities/sprint';
-import { TaskStatus } from '../entities/task';
+
 import type { getSendDailyScrumUsecase } from '../usecases/sendDailyScrumUsecase';
 import { ensure } from '../utils/ensure';
 
@@ -28,18 +28,18 @@ export const getDailyScrumNotionHqClientRepository = ({
         if (r.object !== 'page' || !('properties' in r)) throw new Error('invalid task');
         const titleProperty = r.properties['이름'];
         const assigneeProperty = r.properties['담당자'];
-        const statusProperty = r.properties['상태'];
         const expectedScheduleProperty = r.properties['예상 일정'];
         const actualScheduleProperty = r.properties['실제 일정'];
         const expectedSizeProperty = r.properties['예상 시간'];
+        const skipProperty = r.properties['스킵'];
 
         if (
           titleProperty.type !== 'title' ||
           assigneeProperty.type !== 'people' ||
           expectedScheduleProperty.type !== 'date' ||
           actualScheduleProperty.type !== 'date' ||
-          statusProperty.type !== 'status' ||
-          expectedSizeProperty.type !== 'number'
+          expectedSizeProperty.type !== 'number' ||
+          skipProperty.type !== 'checkbox'
         )
           throw new Error('invalid notion task');
 
@@ -54,13 +54,7 @@ export const getDailyScrumNotionHqClientRepository = ({
             start: new Date(actualScheduleProperty.date.start),
             end: new Date(ensure(actualScheduleProperty.date.end)),
           },
-          status: ensure(
-            {
-              '시작 전': TaskStatus.TODO,
-              '진행 중': TaskStatus.IN_PROGRESS,
-              완료: TaskStatus.DONE,
-            }[ensure(statusProperty.status).name],
-          ),
+          skip: skipProperty.checkbox,
           expectedSize: ensure(expectedSizeProperty.number),
         };
       });

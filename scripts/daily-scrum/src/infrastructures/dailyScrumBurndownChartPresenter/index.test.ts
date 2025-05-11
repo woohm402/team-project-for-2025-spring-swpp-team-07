@@ -27,7 +27,7 @@ test('getChartData', () => {
       now: new Date('2025-05-03'),
     }),
   ).toStrictEqual({
-    actualValues: [9, 9, 9, 9, 7, 7, null, null, null, null, null, null, null, null, null],
+    actualValues: [9, 9, 9, 9, 7, 7, 7, null, null, null, null, null, null, null, null],
     expectedValues: [9, 6, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
     labels: [
       '04.28',

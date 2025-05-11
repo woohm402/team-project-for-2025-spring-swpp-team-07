@@ -1,6 +1,6 @@
 import type { PullRequest } from '../entities/github';
 import { SPRINT_SCHEDULE_MAP, Sprint } from '../entities/sprint';
-import { type Task, TaskStatus } from '../entities/task';
+import type { Task } from '../entities/task';
 import { ensure } from '../utils/ensure';
 
 export type SendDailyScrumUsecase = {
@@ -20,10 +20,7 @@ export const getSendDailyScrumUsecase = ({
     getAllOpenPullRequests: () => Promise<PullRequest[]>;
   };
   slackPresenter: {
-    sendDailyScrum: (_: {
-      tasks: Task[];
-      burndownChart: Blob;
-    }) => Promise<void>;
+    sendDailyScrum: (_: { tasks: Task[]; burndownChart: Blob }) => Promise<void>;
     sendAwaitingReviews: (_: { pullRequests: PullRequest[] }) => Promise<void>;
   };
   burndownChartPresenter: {
@@ -56,11 +53,7 @@ export const getSendDailyScrumUsecase = ({
 
       await slackPresenter.sendDailyScrum({
         tasks: tasks
-          .filter(
-            (task) =>
-              task.status !== TaskStatus.DONE &&
-              task.expectedSchedule.start.getTime() <= Date.now(),
-          )
+          .filter((task) => task.expectedSchedule.start.getTime() <= Date.now())
           .toSorted((a, b) => a.expectedSchedule.end.getTime() - b.expectedSchedule.end.getTime()),
         burndownChart: burndownChartImage,
       });

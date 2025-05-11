@@ -24,9 +24,10 @@
 
 | 폴더 | 설명 |
 | --- | --- |
-| [wiki](./wiki) | 게임 위키 문서 |
+| [reports](./reports) | 스프린트 보고서 |
 | [scripts](./scripts) | 팀 자동화 도구들 |
 | [SchoolRush](./SchoolRush) | Unity 게임 |
+| [wiki](./wiki) | 게임 위키 문서 |
 
 ### Git 컨벤션
 

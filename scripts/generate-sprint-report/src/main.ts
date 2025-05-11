@@ -20,7 +20,10 @@ if (!(await Bun.file(reportMarkdownPath).exists())) {
 }
 
 const run = async () => {
-  const pdf = await mdToPdf({ path: reportMarkdownPath });
+  const pdf = await mdToPdf(
+    { path: reportMarkdownPath },
+    { css: 'h1 { page-break-before: always; }' },
+  );
 
   const pdfPath = path.resolve(outputDirectory, `${filename}.pdf`);
   await Bun.file(pdfPath).write(pdf.content);
