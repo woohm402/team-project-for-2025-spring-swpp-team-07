@@ -1,0 +1,25 @@
+name: generate-sprint-report-ci
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "scripts/generate-sprint-report/**"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./scripts/generate-sprint-report
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.0
+
+      - name: run script
+        run: |
+          bun install
+          bun check

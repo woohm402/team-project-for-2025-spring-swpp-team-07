@@ -1,21 +1,19 @@
 {
-  "name": "daily-scrum",
+  "name": "generate-sprint-report",
   "type": "module",
   "scripts": {
-    "send": "bun src/main.ts",
+    "generate": "bun src/main.ts",
     "check": "biome check .",
     "fix": "biome check . --fix"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@notionhq/client": "2.3.0",
-    "@types/bun": "1.2.0",
-    "typescript": "5.8.3"
+    "@types/bun": "1.2.0"
   },
   "dependencies": {
-    "@octokit/rest": "21.1.1",
-    "@slack/web-api": "7.9.1",
-    "chartjs-node-canvas": "5.0.0"
+    "md-to-pdf": "5.2.4",
+    "zod": "3.24.4"
   },
   "packageManager": "bun@1.2.0"
 }

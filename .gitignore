@@ -1,0 +1,5 @@
+.DS_Store
+.vscode
+.vsconfig
+*.local
+node_modules
