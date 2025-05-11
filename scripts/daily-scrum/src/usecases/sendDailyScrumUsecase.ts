@@ -36,11 +36,12 @@ export const getSendDailyScrumUsecase = ({
 }): SendDailyScrumUsecase => {
   return {
     sendDailyScrum: async () => {
+      const DAY = 1000 * 60 * 60 * 24;
       const currentSprint = ensure(
         Object.values(Sprint).find(
           (sprint) =>
             SPRINT_SCHEDULE_MAP[sprint].start.getTime() <= Date.now() &&
-            SPRINT_SCHEDULE_MAP[sprint].end.getTime() > Date.now(),
+            SPRINT_SCHEDULE_MAP[sprint].end.getTime() + DAY > Date.now(),
         ),
       );
       const tasks = await notionRepository.getAllTasks({
