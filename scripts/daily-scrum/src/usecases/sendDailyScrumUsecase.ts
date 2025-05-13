@@ -20,7 +20,10 @@ export const getSendDailyScrumUsecase = ({
     getAllOpenPullRequests: () => Promise<PullRequest[]>;
   };
   slackPresenter: {
-    sendDailyScrum: (_: { tasks: Task[]; burndownChart: Blob }) => Promise<void>;
+    sendDailyScrum: (_: {
+      tasks: Task[];
+      burndownChart: Blob;
+    }) => Promise<void>;
     sendAwaitingReviews: (_: { pullRequests: PullRequest[] }) => Promise<void>;
   };
   burndownChartPresenter: {
@@ -53,7 +56,10 @@ export const getSendDailyScrumUsecase = ({
 
       await slackPresenter.sendDailyScrum({
         tasks: tasks
-          .filter((task) => task.expectedSchedule.start.getTime() <= Date.now())
+          .filter(
+            (task) =>
+              task.actualSchedule === null && task.expectedSchedule.start.getTime() <= Date.now(),
+          )
           .toSorted((a, b) => a.expectedSchedule.end.getTime() - b.expectedSchedule.end.getTime()),
         burndownChart: burndownChartImage,
       });
