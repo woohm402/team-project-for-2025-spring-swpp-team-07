@@ -88,6 +88,7 @@ Sprint 2 기간인 5/12부터 5/25까지의 커밋 내역은 아래 링크에서
 | 문지환 | 조재표 | 05-12 | 19:40-20:20 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/45) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SM2LKC0G/img_3051.jpeg) |
 | 우현민 | 장호림 | 05-12 | 19:45-20:35 | [GitHub Commit](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/46/commits/fa82d7e4c0112efd4977565f0990989386c818c5) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08S01REZUJ/img_1124.jpg) |
 | 장호림 | 우현민 | 05-12 | 20:35-21:05 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/47) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08S01REZUJ/img_1124.jpg)
+| 우현민 | 문지환 | 05-19 | 18:40-19:41 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/54) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SR38S72P/img_1142.jpg) |
 
 # Sprint 2 회고 회의 보고서
 
