@@ -25,6 +25,8 @@ public class KartController : MonoBehaviour
     bool first, second, third;
     Color c;
 
+    PlayerData playerData;
+
     [Header("Bools")]
     public bool drifting;
 
@@ -65,6 +67,9 @@ public class KartController : MonoBehaviour
         {
             secondaryParticles.Add(p);
         }
+
+        playerData = new PlayerData(SaveNickname.LoadNickname());
+        StartCoroutine(PerSecondUpdate());
     }
 
     void Update()
@@ -125,7 +130,7 @@ public class KartController : MonoBehaviour
         currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
 
-        //Animations    
+        //Animations
 
         //a) Kart
         if (!drifting)
@@ -270,5 +275,19 @@ public class KartController : MonoBehaviour
     void ChromaticAmount(float x)
     {
         postProfile.GetSetting<ChromaticAberration>().intensity.value = x;
+    }
+
+    private IEnumerator PerSecondUpdate()
+    {
+        while (true)
+        {
+            playerData.Insert(transform.position);
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    public PlayerData GetPlayerData()
+    {
+        return this.playerData;
     }
 }

@@ -2,12 +2,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-
 public class EndGameController : MonoBehaviour
 {
     public GameObject endGameUI;
     public TextMeshProUGUI finalTimeText;
-
 
     private HUDController hud;
     private bool hasEnded = false;
@@ -39,7 +37,8 @@ public class EndGameController : MonoBehaviour
         if (finalTimeText != null && hud != null)
             finalTimeText.text = hud.timeText.text;
 
+        KartController kartController = FindObjectOfType<KartController>();
+        PlayerData playerData = kartController.GetPlayerData();
+        playerData.Save((int)(hud.GetElapsedTime() * 1000));
     }
-
-    
 }

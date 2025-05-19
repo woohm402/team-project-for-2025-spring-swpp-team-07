@@ -20,4 +20,8 @@ public class SaveNickname : MonoBehaviour {
         PlayerPrefs.SetString(NICKNAME_KEY, nickname);
         PlayerPrefs.Save();
     }
+
+    public static string LoadNickname() {
+        return PlayerPrefs.GetString(NICKNAME_KEY);
+    }
 }

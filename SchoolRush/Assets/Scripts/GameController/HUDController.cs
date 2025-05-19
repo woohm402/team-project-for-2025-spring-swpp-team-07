@@ -38,4 +38,8 @@ public class HUDController : MonoBehaviour
         if (speedText != null)
             speedText.text = string.Format("{0:0.0} m/s", speed);
     }
+
+    public float GetElapsedTime() {
+        return this.elapsedTime;
+    }
 }
