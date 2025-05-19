@@ -7,8 +7,8 @@ TagManager:
   - Traffic
   - Traffic Road
   - Passenger
-  - DestroyObj
   - Sensor
+  - EndWall
   layers:
   - Default
   - TransparentFX
@@ -17,7 +17,7 @@ TagManager:
   - Water
   - UI
   - MiniMap
-  - 
+  - FullMap
   - 
   - 
   - 

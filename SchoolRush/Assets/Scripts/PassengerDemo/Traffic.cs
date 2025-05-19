@@ -24,7 +24,7 @@ public class Traffic : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("DestroyObj"))
+        if (other.CompareTag("EndWall"))
         {
             Destroy(gameObject);
         }
