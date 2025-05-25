@@ -6,13 +6,18 @@
 
 ## 스프린트 백로그 및 태스크 선정 이유
 
-Sprint 2의 주요 목표는 ~~
+Sprint 2의 주요 목표는 맵과 체크포인트 시스템이 적용된 온전한 형태의 게임을 제작하는 것이었습니다.
+이를 통해 Sprint 3부터는 결정된 정확한 증강 목록 기획을 바탕으로 구현하여 게임의 밸런스를 조정하는 시간을 가질 수 있도록 하는 것을 계획하였습니다.
 
-- ~~
-- ~~
-- ~~
+이런 배경에서 아래 태스크를 선정했습니다.
 
-전체 태스크 목록은 아래 태스크 할당 표 섹션에서 확인할 수 있습니다.
+- 주변 행인 및 차량 행동 구현
+- 주변 행인 및 차량 에셋 적용
+- 기본 스펙의 증강 시스템 구현 (Sprint 3에서 교체 예정)
+  - 일을 두 번 하는 게 될 수 있지만, 어차피 밸런스 조정을 하다 보면 증강 요소를 자주 교체하게 될 것이라 처음부터 증강이 교체될 것을 염두하여 아키텍처를 구성해두는 게 필요하다고 판단했습니다.
+- 서울대학교 Map의 형태 완성 (Sprint 3에서 텍스쳐 조정)
+
+전체 태스크 목록 및 선정 이유는 아래 태스크 할당 표 섹션에서 확인할 수 있습니다.
 
 <br/><br/>
 
@@ -30,31 +35,31 @@ Sprint 2의 주요 목표는 ~~
 
 ## 태스크 할당 표
 
-| 태스크 | 담당자 | 스토리 포인트 (소요시간) |
-| --- | --- | --- |
-| 스프린트 2 계획 회의 준비 | 우현민 | 3 |
-| 스프린트 2 계획 회의 진행 | 전체 | 2 |
-| 게임 종료 시 로컬에 기록 저장 구현 | 우현민 | 3 |
-| 구현할 정확한 증강시스템 고민하고 작성해서 리뷰요청하기 | 우현민 | 3 |
-| 배포 파이프라인 구축 | 우현민 | 3 |
-| GameScene에 초기 맵 적용해두기 | 조재표 | 1 |
-| 주변 차량 에셋 제작 및 적용 | 곽승연 | 7 |
-| 맵 고도화: 사이즈 키우기 | 조재표 | 1 |
-| 동료 픽업 체크포인트 구현 | 문지환 | 1 |
-| 행인 충돌 시 이전 체크포인트로 이동 | 문지환 | 1 |
-| 증강 시스템 1차 구현 | 문지환 | 5 |
-| 미니맵 구현 | 장호림 | 3 |
-| 주인공 에셋 1차 제작 및 적용 | 곽승연 | 5 |
-| 맵 고도화: 수목 생성 | 조재표 | 7 |
-| 주변 차량 행동 및 충돌 시 로직 구현 | 문지환 | 5 |
-| 맵 고도화: 교차로 | 조재표 | 6 |
-| 전체화면 맵 구현 | 장호림 | 4 |
-| 기본 차량 적용하면서 고도화 | 곽승연 | 5 |
-| 최종 증강: 비행 시스템 구현 | 문지환 | 4 |
-| 특수 효과 BGM 제작 및 적용 | 장호림 | 6 |
-| 맵 고도화: 보도블럭 | 조재표 | 7 |
-| 스프린트 2 회고 회의 준비 & 끝나고 보고서 작성 | 우현민 | 3 |
-| 스프린트 2 회고 회의 진행 | 전체 | 2 |
+| 태스크 | 담당자 | 스토리 포인트 (소요시간) | 선정 이유 (당연한 태스크는 생략) |
+| --- | --- | --- | --- |
+| 스프린트 2 계획 회의 준비 | 우현민 | 3 | - |
+| 스프린트 2 계획 회의 진행 | 전체 | 2 | - |
+| 게임 종료 시 로컬에 기록 저장 구현 | 우현민 | 3 | Sprint 4에서 랭킹 대시보드 기능을 제작하기 위해 미리 제작 |
+| 구현할 정확한 증강시스템 고민하고 작성해서 리뷰요청하기 | 우현민 | 3 | Sprint 3에서 증강시스템을 개발하려면 기획이 필요. <br/> 핵심 시스템이니만큼 별도 태스크로 처리하여 단체 리뷰 진행 |
+| 배포 파이프라인 구축 | 우현민 | 3 | Sprint 1 회고에서의 Pain Point 로 지적되었던 "최신 상태를 인지하기 힘들다"는 문제를 해결하기 위해 진행 |
+| GameScene에 초기 맵 적용해두기 | 조재표 | 1 | 개발이 파편화되어 진행되고 있었는데, 하나로 합치려면 하나의 맵 위에서 개발하는 게 필요 |
+| 주변 차량 에셋 제작 및 적용 | 곽승연 | 7 | 에셋 제작 |
+| 맵 고도화: 사이즈 키우기 | 조재표 | 1 | 맵 자체 이슈가 있어 진행 |
+| 동료 픽업 체크포인트 구현 | 문지환 | 1 | 게임 구현 |
+| 행인 충돌 시 이전 체크포인트로 이동 | 문지환 | 1 | 게임 구현 |
+| 증강 시스템 1차 구현 | 문지환 | 5 | 게임 구현 |
+| 미니맵 초안 구현 | 장호림 | 3 | 게임 구현 |
+| 주인공 에셋 1차 제작 및 적용 | 곽승연 | 5 | 에셋 제작 |
+| 맵 고도화: 수목 생성 | 조재표 | 7 | 맵 완성도 향상 |
+| 주변 차량 행동 및 충돌 시 로직 구현 | 문지환 | 5 | 게임 구현 |
+| 맵 고도화: 교차로 | 조재표 | 6 | 맵 완성도 향상 |
+| 전체화면 맵 구현 | 장호림 | 4 | 게임 구현 |
+| 기본 차량 적용하면서 고도화 | 곽승연 | 5 | 에셋 제작 |
+| 최종 증강: 비행 시스템 구현 | 문지환 | 4 | 게임 구현 |
+| 특수 효과 BGM 제작 및 적용 | 장호림 | 6 | 에셋 제작 |
+| 맵 고도화: 보도블럭 | 조재표 | 7 | 맵 완성도 향상 |
+| 스프린트 2 회고 회의 준비 & 끝나고 보고서 작성 | 우현민 | 3 | - |
+| 스프린트 2 회고 회의 진행 | 전체 | 2 | - |
 
 <br/><br/><br/><br/><br/>
 
@@ -78,19 +83,42 @@ Sprint 2 기간인 5/12부터 5/25까지의 커밋 내역은 아래 링크에서
 
 | 태스크 | 담당자 | 예상 시간 | 실제 시간 | 예상 일정 | 실제 일정 | 관련 링크 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 나중에 | 복붙해서 | 넣을 | 예정 | 입 | 니 | 다 |
+| 스프린트 2 계획 회의 준비| 우현민| 3| 3| 2025년 5월 9일 → 2025년 5월 12일| 2025년 5월 11일 → 2025년 5월 12일| https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08S00H1XH8/250512_____________________________2____________________________________________.pdf |
+| 스프린트 2 계획 회의 진행| 전체| 2| 2| 2025년 5월 12일 → 2025년 5월 12일| 2025년 5월 12일 → 2025년 5월 12일| https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08S00H1XH8/250512_____________________________2____________________________________________.pdf |
+| 미니맵 초안 구현| 장호림| 3| 1| 2025년 5월 15일 → 2025년 5월 18일| 2025년 5월 12일 → 2025년 5월 12일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/47 |
+| 게임 종료 시 로컬에 기록 저장 구현| 우현민| 3| 2| 2025년 5월 19일 → 2025년 5월 19일| 2025년 5월 12일 → 2025년 5월 12일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/46 |
+| GameScene에 초기 맵 적용해두기| 조재표| 1| 1| 2025년 5월 13일 → 2025년 5월 13일| 2025년 5월 13일 → 2025년 5월 13일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/48 |
+| 주변 차량 에셋 제작 및 적용| 곽승연| 7| 15| 2025년 5월 13일 → 2025년 5월 16일| 2025년 5월 13일 → 2025년 5월 18일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/61 |
+| 특수 효과 BGM 수집| 장호림| 1.5| 1.5| 2025년 5월 22일 → 2025년 5월 24일| 2025년 5월 18일 → 2025년 5월 18일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/62 |
+| 전체화면 맵 구현| 장호림| 4| 1| 2025년 5월 19일 → 2025년 5월 22일| 2025년 5월 19일 → 2025년 5월 19일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/55 |
+| 구현할 정확한 증강시스템 고민하고 작성해서 리뷰요청하기| 우현민| 3| 3| 2025년 5월 12일 → 2025년 5월 21일| 2025년 5월 21일 → 2025년 5월 21일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/58 |
+| 기본 차량 적용하면서 고도화| 곽승연| 5| 5| 2025년 5월 19일 → 2025년 5월 25일| 2025년 5월 25일 → 2025년 5월 25일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/61 |
+| 동료 픽업 체크포인트 구현| 문지환| 1| 0.5 | 2025년 5월 14일 → 2025년 5월 17일| 2025년 5월 25일 → 2025년 5월 25일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/64 |
+| 행인 충돌 시 이전 체크포인트로 이동| 문지환| 1| 0.5 | 2025년 5월 14일 → 2025년 5월 17일| 2025년 5월 25일 → 2025년 5월 25일| https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/64 |
+| 스프린트 2 회고 회의 준비 & 끝나고 보고서 작성| 우현민| 3| 3| 2025년 5월 23일 → 2025년 5월 25일| 2025년 5월 25일 → 2025년 5월 25일| https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08U0CG6KRA/250525_____________________________2___________________________________.pdf |
+| 스프린트 2 회고 회의 진행| 전체| 2| 1| 2025년 5월 25일 → 2025년 5월 25일| 2025년 5월 25일 → 2025년 5월 25일| https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08U0CG6KRA/250525_____________________________2___________________________________.pdf |
+| 배포 파이프라인 구축| 우현민| 3| 3| 2025년 5월 12일 → 2025년 5월 12일|  |
+| 맵 고도화: 사이즈 키우기| 조재표| 1| 미진행 | 2025년 5월 13일 → 2025년 5월 13일|  |
+| 증강 시스템 1차 구현| 문지환| 5| 미진행 | 2025년 5월 15일 → 2025년 5월 18일|  |
+| 주인공 에셋 1차 제작 및 적용| 곽승연| 5| 미진행 | 2025년 5월 16일 → 2025년 5월 18일|  |
+| 맵 고도화: 수목 생성| 조재표| 7| 미진행 | 2025년 5월 16일 → 2025년 5월 18일|  |
+| 주변 차량 행동 및 충돌 시 로직 구현| 문지환| 5| 미진행 | 2025년 5월 18일 → 2025년 5월 21일|  |
+| 맵 고도화: 교차로| 조재표| 6| 미진행 | 2025년 5월 18일 → 2025년 5월 22일|  |
+| 최종 증강: 비행 시스템 구현| 문지환| 4| 미진행 | 2025년 5월 22일 → 2025년 5월 25일|  |
+| 특수 효과 BGM 제작 및 적용| 장호림| 6| 미진행 | 2025년 5월 22일 → 2025년 5월 24일|  |
+| 맵 고도화: 보도블럭| 조재표| 7| 미진행 | 2025년 5월 22일 → 2025년 5월 25일|  |
 
 ## 페어 프로그래밍 기록
 
 | 내용 | Driver | Navigator | 날짜 | 시간 | 작업 결과물 | 증빙 |
 | --- | --- | --- | --- | --- | --- | --- |
-| TBD | 조재표 | 문지환 | 05-12 | 20:50-21:30 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/48) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SM2LKC0G/img_3051.jpeg) |
-| TBD | 문지환 | 조재표 | 05-12 | 19:40-20:20 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/45) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SM2LKC0G/img_3051.jpeg) |
-| TBD | 우현민 | 장호림 | 05-12 | 19:45-20:35 | [GitHub Commit](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/46/commits/fa82d7e4c0112efd4977565f0990989386c818c5) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08S01REZUJ/img_1124.jpg) |
-| TBD | 장호림 | 우현민 | 05-12 | 20:35-21:05 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/47) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08S01REZUJ/img_1124.jpg)
-| TBD | 우현민 | 문지환 | 05-19 | 18:40-19:41 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/54) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SR38S72P/img_1142.jpg) |
-| TBD | 장호림 | 곽승연 | 05-19 | 19:00-19:40 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/52) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SR47UGE7/kakaotalk_20250519_201636283.jpg) |
-| TBD | 곽승연 | 장호림 | 05-19 | 19:40-20:20 | [Slack File](https://2025springswppimo.slack.com/archives/C08KVGJU4H4/p1747653627335159?thread_ts=1747651245.296919&cid=C08KVGJU4H4) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SR47UGE7/kakaotalk_20250519_201636283.jpg)
+| `GameScene에 초기 맵 적용해두기` 태스크 | 조재표 | 문지환 | 05-12 | 20:50-21:30 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/48) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SM2LKC0G/img_3051.jpeg) |
+| `행인 충돌 시 이전 체크포인트로 이동` 태스크 사전작업 | 문지환 | 조재표 | 05-12 | 19:40-20:20 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/45) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SM2LKC0G/img_3051.jpeg) |
+| `게임 종료 시 로컬에 기록 저장 구현` 태스크 | 우현민 | 장호림 | 05-12 | 19:45-20:35 | [GitHub Commit](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/46/commits/fa82d7e4c0112efd4977565f0990989386c818c5) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08S01REZUJ/img_1124.jpg) |
+| `미니맵 초안 구현` 태스크 | 장호림 | 우현민 | 05-12 | 20:35-21:05 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/47) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08S01REZUJ/img_1124.jpg)
+| `주변 차량 행동 및 충돌 시 로직 구현` 태스크 사전작업 | 우현민 | 문지환 | 05-19 | 18:40-19:41 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/54) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SR38S72P/img_1142.jpg) |
+| `특수 효과 BGM 제작 및 적용` 태스크 중 사운드 리서치 작업 | 장호림 | 곽승연 | 05-19 | 19:00-19:40 | [GitHub PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/52) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SR47UGE7/kakaotalk_20250519_201636283.jpg) |
+| `주인공 에셋 1차 제작 및 적용` 태스크 | 곽승연 | 장호림 | 05-19 | 19:40-20:20 | [Slack File](https://2025springswppimo.slack.com/archives/C08KVGJU4H4/p1747653627335159?thread_ts=1747651245.296919&cid=C08KVGJU4H4) | [Slack Image](https://2025springswppimo.slack.com/files/U08HG6Q15NK/F08SR47UGE7/kakaotalk_20250519_201636283.jpg)
 
 # Sprint 2 회고 회의 보고서
 
@@ -98,12 +126,44 @@ Sprint 2 기간인 5/12부터 5/25까지의 커밋 내역은 아래 링크에서
 
 <br/><br/>
 
-## 잘 된/안 된 부분에 대한 내용 정리 및 코멘트
+## 잘 된/안 된 부분에 대한 KPT 정리
 
-- TBD
+| 사람 | Keep | Problem | Try |
+| --- | --- | --- | --- |
+| 우현민 | 페어프로그래밍 진행이 재미있었음 | 슬랙 스크럼 참여도가 떨어지고 있음, 예상 일정이 지켜지지 않고 있음, 태스크를 모두 완료하지 못함 | |
+| 곽승연 | 초반에 큰 로드가 있는 태스크를 진행해서 후반에 수월했음 | 일찍 일찍 안 한 것, 컴퓨터 사양 이슈 | 일정에 맞춰 진행하기 |
+| 조재표 | Sprint 1 회고를 바탕으로, 리서치 시간을 늘린 게 도움이 됨 | 다른 과목 과제들 때문에 예상 일정에 태스크를 진행하기 어려움, 맵이 커서 컴퓨터 사양이 무족하여 컴퓨터가 뻗거나 진행 중인 파일이 날아가는 현상들 발생 | 리소스를 적게 차지하는 방향으로 리서치 필요, 커밋 및 백업 자주 하기 |
+| 장호림 | 페어프로그래밍 진행이 재미도 있었고, 생산성도 높았음. 병목 없이 문제가 생겼을 때 바로 해결되었음 | 태스크 병목 때문에 태스크를 진행하지 못했음 | 사람 간 병목이 없게 태스크를 설계하는 게 필요하다 |
+| 문지환 | 쉬운 태스크들을 쉽게 진행함 | 기능 단위로 커밋을 하지 않았는데, 문제가 발생하니 모두 병목이 걸려버림 | 슬랙으로 소통 더 자주 하기 |
 
 <br/><br/>
 
 ## 프로덕트 백로그 우선순위 조정 기록
 
-- TBD
+- `배포 파이프라인 구축` 태스크의 경우 무료 플랜에서 진행이 불가능하여 태스크 취소했습니다. (관련 [PR](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/60))
+- `맵 고도화: 사이즈 키우기`, `맵 고도화: 수목 생성`, `맵 고도화: 교차로`, `맵 고도화: 보도블럭` 태스크의 경우 조재표 학생의 시간 부족으로 진행하지 못하였습니다. 더해서 조재표 학생의 컴퓨터 사양 문제가 있어 Sprint 3 계획 미팅에서 방향성 재조정 진행 예정입니다.
+- `증강 시스템 1차 구현`, `주변 차량 행동 및 충돌 시 로직 구현`, `최종 증강: 비행 시스템 구현` 태스크의 경우 문지환 학생의 시간 부족으로 진행하지 못했습니다. Sprint 2에서는 진행하지 못했으나 Sprint 3에는 지장이 가지 않도록, 문지환 학생이 Sprint 3 계획 회의 전까지 완료 예정입니다.
+- `주인공 에셋 1차 제작 및 적용` 태스크의 경우 방향성이 재조정되었는데, 곽승연 학생의 시간 부족으로 진행하지 못했습니다. Sprint 3에서 진행 예정입니다.
+- `특수 효과 BGM 제작 및 적용` 태스크의 경우 앞선 태스크의 병목이 해결되지 않아 장호림 학생이 진행할 수 없었습니다. `특수 효과 BGM 수집` 태스크로 변경하고, 적용 태스크는 Sprint 3에서 진행 예정입니다.
+
+<br/><br/>
+
+## 전체 총평
+
+전반적으로 학기가 진행됨에 따라 다른 과목의 과제들이 deadline이 가까워져서, 본 과목의 과제도 Sprint 일정은 맞출 수 있으나 예상 일정 deadline 까지 맞추기는 버거운 상태인 것으로 파악되었습니다. 현실적인 문제가 있긴 하지만, 그래도 가급적이면 제때 진행하는 것으로 논의하였고, 또한 태스크 진행이 늦어질 경우 슬랙을 통해 잘 공유하는 게 필요하겠다고 판단하였습니다.
+
+페어프로그래밍의 경우 긍정적인 피드백을 받고 있고 앞으로도 계속 매주 월요일에 진행 예정입니다.
+
+점점 게임의 스펙이 커지며 학생들의 컴퓨터 사양이 blender와 unity 를 원활하게 실행하고 쾌적하게 개발하기 어려운 상태라는 문제가 존재하는데, 따로 해결방법이 없어 사양에 문제가 있는 학생들은 사비로 더 좋은 노트북을 구매해야 할지 고민하고 있습니다. 또는 학교에서 대여해주는 고사양 기기가 있을지 확인이 필요할 수 있겠다는 논의가 진행되었습니다.
+
+<br/><br/><br/><br/><br/>
+
+# 스프린트 추가내용
+
+Sprint 2에서의 추가 작성 내용은 디자인 패턴입니다.
+
+## 디자인 패턴
+
+- [ProceduralRoad.cs#L186-L218](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/039b76a37d592ca87df977e80a9240a11eaf546a/SchoolRush/Assets/Scripts/Map/ProceduralRoad.cs#L186C1-L218C6) 등 파일들을 보면, unity 가 제공하는 기능에 맞춰 `OnInitialized` 나 `OnDestroy` 와 같은 함수들을 구현하고 있습니다. 이는 unity 가 프레임워크로서 자체적으로 제공하는 기능으로 프레임워크와 결합하여 Observer Pattern 의 형태로 개발된 대표적인 예시입니다.
+- [ProceduralRoad.cs#L228-L234](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/039b76a37d592ca87df977e80a9240a11eaf546a/SchoolRush/Assets/Scripts/Map/ProceduralRoad.cs#L228-L234) 에는 `useSpline` 불리언 변수에 따라 `CreateSplines()` 를 실행하거나, 아니면 if 문 아래의 나머지 구문을 실행하는 식의 코드가 구현되어 있습니다. 정형화된 형태와 조금 다르긴 하나 전략을 정의하고 변수에 따라 정해진 전략을 실행한다는 관점에서 `Strategy Pattern` 과 유사한 형태로 볼 수 있습니다. 추후 리팩토링을 통해 더 Strategy Pattern 스러운 코드로 변경할 수 있습니다.
+- [PlayerData](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/7d84c2089b11d96f069e90690f4d2f160057920a/SchoolRush/Assets/Scripts/PlayerData.cs#L4-L25) class의 구현체는 [KartController](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/7d84c2089b11d96f069e90690f4d2f160057920a/SchoolRush/Assets/Scripts/Kart/KartController.cs#L28)에 Singleton 으로 정의되어서 하나의 인스턴스만 존재하는 형태입니다. 이런 형태를 가진 덕분에 PlayerData 클래스 안에 로그 데이터를 담아 두고, 게임이 종료되었을 때 해당 데이터를 꺼내어 로컬 파일시스템에 저장할 수 있습니다.
