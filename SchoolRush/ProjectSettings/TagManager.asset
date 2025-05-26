@@ -9,6 +9,7 @@ TagManager:
   - Passenger
   - Sensor
   - EndWall
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

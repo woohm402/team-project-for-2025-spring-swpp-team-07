@@ -33,6 +33,7 @@ public class KartController : MonoBehaviour
     [Header("Parameters")]
 
     public float acceleration = 65f;
+    public float boostDuration = 0.3f;
     public float steering = 10f;
     public float gravity = 25f;
     public LayerMask layerMask;
@@ -185,7 +186,7 @@ public class KartController : MonoBehaviour
 
         if (driftMode > 0)
         {
-            DOVirtual.Float(currentSpeed * 3, currentSpeed, .3f * driftMode, Speed);
+            DOVirtual.Float(currentSpeed * 3, currentSpeed, boostDuration * driftMode, Speed);
             DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
             kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
             kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
@@ -212,7 +213,7 @@ public class KartController : MonoBehaviour
 
     public void ColorDrift()
     {
-        if(!first)
+        if (!first)
             c = Color.clear;
 
         if (driftPower > 50 && driftPower < 100-1 && !first)
