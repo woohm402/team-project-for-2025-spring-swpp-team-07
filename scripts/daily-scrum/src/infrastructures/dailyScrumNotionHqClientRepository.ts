@@ -15,8 +15,8 @@ export const getDailyScrumNotionHqClientRepository = ({
       const sprintProperty = {
         [Sprint.SPRINT_1]: 'Sprint 1 (4/28-5/11)',
         [Sprint.SPRINT_2]: 'Sprint 2 (5/12-5/25)',
-        [Sprint.SPRINT_3]: 'Sprint 3 (5/26-6/8)',
-        [Sprint.SPRINT_4]: 'Sprint 4 (6/9-6/22)',
+        [Sprint.SPRINT_3]: 'Sprint 3 (5/26-6/08)',
+        [Sprint.SPRINT_4]: 'Sprint 4 (6/09-6/22)',
       }[sprint];
 
       const queryResult = await client.databases.query({
