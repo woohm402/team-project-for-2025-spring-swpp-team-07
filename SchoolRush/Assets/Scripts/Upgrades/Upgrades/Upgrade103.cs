@@ -4,6 +4,6 @@ public class Upgrade103 : Upgrade {
     }
 
     private static string GetDescription() {
-        return "행인이 더 이상 등장하지 않습니다.";
+        return "행인이 더 이상\n등장하지 않습니다.";
     }
 }

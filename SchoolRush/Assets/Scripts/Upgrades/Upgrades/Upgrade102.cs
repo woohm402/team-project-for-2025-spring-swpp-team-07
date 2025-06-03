@@ -4,6 +4,6 @@ public class Upgrade102 : Upgrade {
     }
 
     private static string GetDescription() {
-        return "가속도가 30% 증가합니다.";
+        return "가속도가\n30% 증가합니다.";
     }
 }

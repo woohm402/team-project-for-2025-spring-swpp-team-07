@@ -4,6 +4,6 @@ public class Upgrade104 : Upgrade {
     }
 
     private static string GetDescription() {
-        return "도로에 차량이 등장하는 빈도가 절반으로 줄어듭니다.";
+        return "도로에 차량이 등장하는 빈도가\n절반으로 줄어듭니다.";
     }
 }

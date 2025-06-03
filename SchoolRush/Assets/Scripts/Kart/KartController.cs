@@ -297,7 +297,6 @@ public class KartController : MonoBehaviour
     }
 
     public void SetMaxSpeed(float x) {
-        Debug.Log($"updated {x}");
         maxSpeed = x;
     }
 }
