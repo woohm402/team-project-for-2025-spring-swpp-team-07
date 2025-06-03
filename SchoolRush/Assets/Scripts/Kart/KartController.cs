@@ -26,13 +26,14 @@ public class KartController : MonoBehaviour
     Color c;
 
     PlayerData playerData;
+    private float maxSpeed = 40f;
 
     [Header("Bools")]
     public bool drifting;
 
     [Header("Parameters")]
 
-    public float acceleration = 65f;
+    public float acceleration = 30f;
     public float boostDuration = 0.3f;
     public float steering = 10f;
     public float gravity = 25f;
@@ -75,18 +76,17 @@ public class KartController : MonoBehaviour
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     float time = Time.timeScale == 1 ? .2f : 1;
-        //     Time.timeScale = time;
-        // }
-
         //Follow Collider
         transform.position = sphere.transform.position - new Vector3(0, 0.4f, 0);
 
         //Accelerate
-        if (Input.GetAxis("Vertical")==1)
-            speed = acceleration;
+        if (Input.GetAxis("Vertical") == 1)
+            currentSpeed += acceleration * Time.deltaTime;
+        else {
+            currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime * 3f);
+            if (currentSpeed < 1) currentSpeed = 0;
+        }
+        currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
 
         //Steer
         if (Input.GetAxis("Horizontal") != 0)
@@ -128,8 +128,8 @@ public class KartController : MonoBehaviour
             Boost();
         }
 
-        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); speed = 0f;
-        currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f); rotate = 0f;
+        currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f);
+        rotate = 0f;
 
         //Animations
 
@@ -290,5 +290,14 @@ public class KartController : MonoBehaviour
     public PlayerData GetPlayerData()
     {
         return this.playerData;
+    }
+
+    public float GetMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void SetMaxSpeed(float x) {
+        Debug.Log($"updated {x}");
+        maxSpeed = x;
     }
 }
