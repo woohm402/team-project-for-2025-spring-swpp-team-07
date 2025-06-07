@@ -8,6 +8,7 @@ using TMPro;
 public class UpgradeManager : MonoBehaviour
 {
     public KartController kartController;
+    public BGMController bgmController;
 
     [SerializeField]
     private GameObject upgradeUI;
@@ -24,6 +25,8 @@ public class UpgradeManager : MonoBehaviour
     }
 
     public void PickUpgrade(int checkpoint) {
+        if (checkpoint == 5) return;
+
         upgradeUI.SetActive(true);
         Time.timeScale = 0;
         List<Upgrade> upgrades = new List<Upgrade>(); // should be length 3
@@ -37,15 +40,29 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade u105 = new Upgrade105(kartController);
                 upgrades.Add(u101);
                 upgrades.Add(u102);
-                upgrades.AddRange(GetRandom(new List<Upgrade> { u105 }, 1));
+                upgrades.AddRange(GetRandom(new List<Upgrade> { u103, u104, u105 }, 1));
                 break;
             case 2:
+                Upgrade u201 = new Upgrade201();
+                Upgrade u202 = new Upgrade202();
+                Upgrade u203 = new Upgrade203();
+                Upgrade u204 = new Upgrade204();
+                Upgrade u205 = new Upgrade205();
+                upgrades.AddRange(GetRandom(new List<Upgrade> { u201, u202 }, 1));
+                upgrades.AddRange(GetRandom(new List<Upgrade> { u203, u204, u205 }, 2));
                 break;
             case 3:
+                Upgrade u301 = new Upgrade301();
+                Upgrade u302 = new Upgrade302();
+                Upgrade u303 = new Upgrade303();
+                upgrades.AddRange(GetRandom(new List<Upgrade> { u301, u302, u303 }, 3));
                 break;
             case 4:
-                break;
-            case 5:
+                Upgrade u401 = new Upgrade401();
+                Upgrade u402 = new Upgrade402(bgmController);
+                Upgrade u403 = new Upgrade403();
+                Upgrade u404 = new Upgrade404();
+                upgrades.AddRange(GetRandom(new List<Upgrade> { u401, u402, u403, u404 }, 3));
                 break;
         }
 
