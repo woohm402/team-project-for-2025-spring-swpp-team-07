@@ -27,6 +27,7 @@ public class KartController : MonoBehaviour
 
     PlayerData playerData;
     private float maxSpeed = 40f;
+    private int shieldCount = 0;
 
     [Header("Bools")]
     public bool drifting;
@@ -299,4 +300,25 @@ public class KartController : MonoBehaviour
     public void SetMaxSpeed(float x) {
         maxSpeed = x;
     }
+
+    public void GiveShields(int count) {
+        shieldCount += count;
+    }
+
+    public ShieldResult UseShield() {
+        Debug.Log($"쉴드 사용 시도 (현재 {shieldCount}개 남음)");
+        if (shieldCount == 0) return ShieldResult.Failed;
+
+        shieldCount--;
+        return ShieldResult.Succeed;
+    }
+
+    public int GetRemainingShields() {
+        return shieldCount;
+    }
+}
+
+public enum ShieldResult {
+  Succeed,
+  Failed
 }

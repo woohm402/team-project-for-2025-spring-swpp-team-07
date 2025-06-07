@@ -34,10 +34,10 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade u102 = new Upgrade102();
                 Upgrade u103 = new Upgrade103();
                 Upgrade u104 = new Upgrade104();
-                Upgrade u105 = new Upgrade105();
+                Upgrade u105 = new Upgrade105(kartController);
                 upgrades.Add(u101);
                 upgrades.Add(u102);
-                upgrades.AddRange(GetRandom(new List<Upgrade> { u103, u104, u105 }, 1));
+                upgrades.AddRange(GetRandom(new List<Upgrade> { u105 }, 1));
                 break;
             case 2:
                 break;

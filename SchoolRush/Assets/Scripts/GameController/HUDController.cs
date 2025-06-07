@@ -7,18 +7,15 @@ public class HUDController : MonoBehaviour
 {
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI speedText;
+    public TextMeshProUGUI shieldsText;
 
     public Rigidbody playerRigidbody;
+    public KartController kartController;
 
     private float elapsedTime = 0f;
 
-    void Start()
-    {
-        // Initialize UI
-        if (timeText != null)
-            timeText.text = "00:00";
-        if (speedText != null)
-            speedText.text = "0.0 m/s";
+    void Start() {
+
     }
 
     void Update()
@@ -31,12 +28,13 @@ public class HUDController : MonoBehaviour
             timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
         // Update speed
-        float speed = 0f;
-        if (playerRigidbody != null)
-            speed = playerRigidbody.velocity.magnitude;
-
+        float speed = playerRigidbody.velocity.magnitude;
         if (speedText != null)
             speedText.text = string.Format("{0:0.0} m/s", speed);
+
+        // Update shields
+        if (shieldsText != null)
+            shieldsText.text = $"쉴드 {kartController.GetRemainingShields()}개 남음";
     }
 
     public float GetElapsedTime() {

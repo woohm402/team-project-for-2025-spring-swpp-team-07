@@ -3,6 +3,8 @@ using System;
 
 public class CheckpointManager : MonoBehaviour
 {
+    public KartController kartController;
+
     [Header("ID 순서대로 1~6 체크포인트 오브젝트를 넣어주세요")]
 
     public GameObject checkpointPosition;
@@ -43,8 +45,9 @@ public class CheckpointManager : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Passenger"))
-        {
+        if (collision.gameObject.CompareTag("Passenger")) {
+            ShieldResult shieldResult = kartController.UseShield();
+            if (shieldResult == ShieldResult.Succeed) return;
             GoToCheckPoint();
         }
     }
