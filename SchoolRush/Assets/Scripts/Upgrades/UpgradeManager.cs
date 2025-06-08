@@ -40,7 +40,7 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade u105 = new Upgrade105(kartController);
                 upgrades.Add(u101);
                 upgrades.Add(u102);
-                upgrades.AddRange(GetRandom(new List<Upgrade> { u103, u104, u105 }, 1));
+                upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u103, u104, u105 }).pick(1));
                 break;
             case 2:
                 Upgrade u201 = new Upgrade201();
@@ -48,21 +48,21 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade u203 = new Upgrade203();
                 Upgrade u204 = new Upgrade204();
                 Upgrade u205 = new Upgrade205();
-                upgrades.AddRange(GetRandom(new List<Upgrade> { u201, u202 }, 1));
-                upgrades.AddRange(GetRandom(new List<Upgrade> { u203, u204, u205 }, 2));
+                upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u201, u202 }).pick(1));
+                upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u203, u204, u205 }).pick(2));
                 break;
             case 3:
                 Upgrade u301 = new Upgrade301();
                 Upgrade u302 = new Upgrade302();
                 Upgrade u303 = new Upgrade303();
-                upgrades.AddRange(GetRandom(new List<Upgrade> { u301, u302, u303 }, 3));
+                upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u301, u302, u303 }).pick(3));
                 break;
             case 4:
                 Upgrade u401 = new Upgrade401();
                 Upgrade u402 = new Upgrade402(bgmController);
                 Upgrade u403 = new Upgrade403();
                 Upgrade u404 = new Upgrade404();
-                upgrades.AddRange(GetRandom(new List<Upgrade> { u401, u402, u403, u404 }, 3));
+                upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u401, u402, u403, u404 }).pick(3));
                 break;
         }
 
@@ -84,24 +84,5 @@ public class UpgradeManager : MonoBehaviour
 
         foreach (var item in upgradeUIItems)
             item.transform.GetChild(2).gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
-    }
-
-    private List<Upgrade> GetRandom(List<Upgrade> upgrades, int count) {
-      List<Upgrade> upgradeList = new List<Upgrade>(upgrades);
-      List<Upgrade> selectedUpgrades = new List<Upgrade>();
-
-      System.Random random = new System.Random();
-
-      int remainingCount = Mathf.Min(count, upgradeList.Count);
-
-      while (remainingCount > 0 && upgradeList.Count > 0)
-      {
-          int randomIndex = random.Next(0, upgradeList.Count);
-          selectedUpgrades.Add(upgradeList[randomIndex]);
-          upgradeList.RemoveAt(randomIndex);
-          remainingCount--;
-      }
-
-      return selectedUpgrades;
     }
 }

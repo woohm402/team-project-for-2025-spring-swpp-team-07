@@ -139,3 +139,21 @@ TBD
 ### Daily Scrum: Burn Down Chart Module
 
 Sprint 1에서 Daily Scrum 봇에 burndown chart 를 구현할 때 [테스트](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/c47fef22b7ec7392f314330dd9eceadfc4ce9b82/scripts/daily-scrum/src/infrastructures/dailyScrumBurndownChartPresenter/index.test.ts#L1-L51)를 작성하여 구현하였습니다. 외부 솔루션을 사용하지 않고 번다운 차트 이미지를 직접 생성하여 구현하다 보니 오늘이 며칠이고 몇 스프린트인지, 각 태스크의 완료 시점이 언제인지, 각 태스크의 사이즈가 얼마인지 등에 따라 달라지는 차트 모양을 직접 계산해야 했는데, 이 스펙이 다소 복잡하여 테스트를 구축했습니다. 또한 이 테스트는 GitHub Actions 를 활용하여 [이렇게](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/62c66f521936eb44f58769bf5c0c50b9ae146363/.github/workflows/daily-scrum-ci.yml#L25) CI에 통합했습니다.
+
+[PR#22](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/22)에서 구현했습니다.
+
+### Unity: RandomPicker
+
+증강 시스템 기획에는 [다음](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/e243c6b3c9a8cf8de9688b77ef1d89bbca76990c/wiki/4.AUGMENTS.md?plain=1#L21)과 같이 `101, 102 중 한 개, 103, 104, 105 중 두 개가 떠야 한다` 같은 스펙이 존재합니다. 증강이 랜덤하게 뜬다는 사실은 게임을 플레이하는 유저들에게 중요한 재미 요소이기 때문에 이 지점을 테스트해야 했습니다. Unity 가 직접 지원하는 테스트 도구도 있었으나, 단위 테스트이니만큼 스크립트가 unity에 종속되지 않길 바랐고, 또한 CI에 원활하게 통합하기 위해 `dotnet` CLI를 활용하는 방향으로 구축했습니다.
+
+테스트 코드는 [/UnitTests/RandomPicker.test.cs](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/e243c6b3c9a8cf8de9688b77ef1d89bbca76990c/UnitTests/RandomPicker.test.cs#L1-L64) 에서 확인할 수 있습니다.
+
+이 중 세 번째 테스트케이스: `Pick_ShouldUniform` 이 다소 특이한데, *정해진 대로 동작해야 한다* 가 아닌 *랜덤하게 동작해야 한다* 를 증명해야 했기에 5개의 아이템들 중 3개를 뽑는 작업을 10000회 반복한 다음 각 아이템이 5700회 초과 6300회 미만으로 떴다면 랜덤하다고 볼 수 있다고 가정했습니다. 따라서 테스트코드의 검증 로직이 아래와 같이 구현되었습니다.
+
+```csharp
+foreach (var count in counts.Values) {
+    Assert.That(count, Is.GreaterThan(5700).And.LessThan(6300));
+}
+```
+
+[PR#83](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/83) 에서 구현했습니다.

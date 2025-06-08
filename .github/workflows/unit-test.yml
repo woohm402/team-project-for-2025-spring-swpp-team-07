@@ -1,0 +1,26 @@
+name: unit-test
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "SchoolRush/Assets/Scripts/**"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./UnitTests
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: run script
+        run: |
+          dotnet test
