@@ -136,4 +136,6 @@ TBD
 
 ## 테스팅
 
-TBD
+### Daily Scrum: Burn Down Chart Module
+
+Sprint 1에서 Daily Scrum 봇에 burndown chart 를 구현할 때 [테스트](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/c47fef22b7ec7392f314330dd9eceadfc4ce9b82/scripts/daily-scrum/src/infrastructures/dailyScrumBurndownChartPresenter/index.test.ts#L1-L51)를 작성하여 구현하였습니다. 외부 솔루션을 사용하지 않고 번다운 차트 이미지를 직접 생성하여 구현하다 보니 오늘이 며칠이고 몇 스프린트인지, 각 태스크의 완료 시점이 언제인지, 각 태스크의 사이즈가 얼마인지 등에 따라 달라지는 차트 모양을 직접 계산해야 했는데, 이 스펙이 다소 복잡하여 테스트를 구축했습니다. 또한 이 테스트는 GitHub Actions 를 활용하여 [이렇게](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/blob/62c66f521936eb44f58769bf5c0c50b9ae146363/.github/workflows/daily-scrum-ci.yml#L25) CI에 통합했습니다.
