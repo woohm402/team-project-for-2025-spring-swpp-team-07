@@ -45,6 +45,7 @@ public class KartController : MonoBehaviour
     public Transform frontWheels;
     public Transform backWheels;
     public Transform steeringWheel;
+    public Transform driver;
     public Transform mainCharacter;
 
     [Header("Particles")]
@@ -153,11 +154,12 @@ public class KartController : MonoBehaviour
         backWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude/2);
 
         //c) Steering Wheel
-        steeringWheel.localEulerAngles = new Vector3(0, ((Input.GetAxis("Horizontal") * 45)), 77.4f);
+        steeringWheel.localEulerAngles = new Vector3(0, ((Input.GetAxis("Horizontal") * 1)), 77.4f);
 
         //d) character
-        mainCharacter.localEulerAngles = new Vector3(0, ((Input.GetAxis("Horizontal") * 35)), 0);
-
+        driver.localEulerAngles = new Vector3(0, ((Input.GetAxis("Horizontal") * 7)), 0);
+        Vector3 kartEuler = kartModel.localEulerAngles;
+        mainCharacter.localEulerAngles = new Vector3(kartEuler.x, kartEuler.y - 90f, kartEuler.z);
     }
 
     private void FixedUpdate()
