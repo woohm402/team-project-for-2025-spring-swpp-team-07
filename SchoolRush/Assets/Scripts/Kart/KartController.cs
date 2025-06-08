@@ -45,6 +45,7 @@ public class KartController : MonoBehaviour
     public Transform frontWheels;
     public Transform backWheels;
     public Transform steeringWheel;
+    public Transform mainCharacter;
 
     [Header("Particles")]
     public Transform wheelParticles;
@@ -153,6 +154,9 @@ public class KartController : MonoBehaviour
 
         //c) Steering Wheel
         steeringWheel.localEulerAngles = new Vector3(0, ((Input.GetAxis("Horizontal") * 45)), 77.4f);
+
+        //d) character
+        mainCharacter.localEulerAngles = new Vector3(0, ((Input.GetAxis("Horizontal") * 35)), 0);
 
     }
 
