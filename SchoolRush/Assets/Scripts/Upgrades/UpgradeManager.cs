@@ -43,7 +43,7 @@ public class UpgradeManager : MonoBehaviour
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u103, u104, u105 }).pick(1));
                 break;
             case 2:
-                Upgrade u201 = new Upgrade201();
+                Upgrade u201 = new Upgrade201(kartController);
                 Upgrade u202 = new Upgrade202();
                 Upgrade u203 = new Upgrade203();
                 Upgrade u204 = new Upgrade204();

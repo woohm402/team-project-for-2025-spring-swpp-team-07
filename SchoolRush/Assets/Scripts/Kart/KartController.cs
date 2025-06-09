@@ -17,7 +17,7 @@ public class KartController : MonoBehaviour
     public List<ParticleSystem> primaryParticles = new List<ParticleSystem>();
     public List<ParticleSystem> secondaryParticles = new List<ParticleSystem>();
 
-    float speed, currentSpeed;
+    float currentSpeed;
     float rotate, currentRotate;
     int driftDirection;
     float driftPower;
