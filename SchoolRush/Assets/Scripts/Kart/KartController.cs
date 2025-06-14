@@ -74,7 +74,7 @@ public class KartController : MonoBehaviour
         }
 
         playerData = new PlayerData(SaveNickname.LoadNickname());
-        StartCoroutine(PerSecondUpdate());
+        StartCoroutine(Per10SecondsUpdate());
     }
 
     void Update()
@@ -285,12 +285,12 @@ public class KartController : MonoBehaviour
         postProfile.GetSetting<ChromaticAberration>().intensity.value = x;
     }
 
-    private IEnumerator PerSecondUpdate()
+    private IEnumerator Per10SecondsUpdate()
     {
         while (true)
         {
             playerData.Insert(transform.position);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(10f);
         }
     }
 
