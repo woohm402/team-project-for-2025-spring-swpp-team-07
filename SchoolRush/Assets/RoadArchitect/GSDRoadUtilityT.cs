@@ -3035,9 +3035,9 @@ namespace GSD.Threaded{
 			
 			//This will speed up later calculations for intersection 4 corner construction:
 			int mCount = tSpline.GetNodeCount();
-			float PreInter_RoadWidthMod = 9f;
+			float PreInter_RoadWidthMod = 4.5f;
 			if(!bOldMethod){
-				PreInter_RoadWidthMod = 11f;
+				PreInter_RoadWidthMod = 5.5f;
 			}
 			float preInterDistance = (tSpline.RoadWidth*PreInter_RoadWidthMod) / tSpline.distance;
 			GSDSplineN iNode = null;
@@ -6339,7 +6339,6 @@ namespace GSD.Threaded{
 		}
 		
 		protected override void ThreadFunction(){
-			Debug.Log("started thread funciton");
 			float Step = (tRoad.opt_RoadDefinition*0.4f) / tSpline.distance;
 			if(Step > 2f){ Step = 2f; }
 			if(Step < 1f){ Step = 1f; }

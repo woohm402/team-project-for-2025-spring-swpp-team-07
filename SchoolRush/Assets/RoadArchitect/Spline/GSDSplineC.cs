@@ -6,9 +6,7 @@ using GSD;
 #endif
 #endregion
 public class GSDSplineC : MonoBehaviour{
-   #if UNITY_EDITOR
-   [Tooltip("When true, spline is treated as a closed loop.")]
-   public bool bClosed = false;
+	#if UNITY_EDITOR
 	public List<GSDSplineN> mNodes = new List<GSDSplineN>();
 	public GameObject mSplineRoot;
 	public GSDRoad tRoad;
@@ -68,7 +66,6 @@ public class GSDSplineC : MonoBehaviour{
 			}
 		}
 		if(tRoad){ 
-			Debug.Log("setup_trigger troad, update road now");
 			tRoad.UpdateRoad(); 
 		}	
 		#endif
@@ -106,9 +103,9 @@ public class GSDSplineC : MonoBehaviour{
 //			if(tRoad.bProfiling){ UnityEngine.Profiling.Profiler.BeginSample("SplineSetupLength"); }
 			Setup_SplineLength();
 //			if(tRoad.bProfiling){ UnityEngine.Profiling.Profiler.EndSample(); }
-		}else if(GetNodeCount() == 1){
-			mNodes[0].tTime = 0f;
-		}
+        }else if(GetNodeCount() == 1){
+            mNodes[0].tTime = 0f;
+        }
 		
 		#if UNITY_EDITOR
 		//Setup preview spline:
@@ -163,63 +160,63 @@ public class GSDSplineC : MonoBehaviour{
 			}else{
 				mNodes[mNodesCount-1].bIsEndPoint = true;		
 			}
-		}else if(mNodesCount == 1){
-			mNodes[0].bIsEndPoint = true;
-			distance = 1;
-		}
+        }else if(mNodesCount == 1){
+            mNodes[0].bIsEndPoint = true;
+            distance = 1;
+        }
 		
 		float fStart = -1f;
-		float fEnd = -1f;
-		if(mNodesCount > 1){
-			for(int i=0;i<mNodesCount;i++){
-				tNode = mNodes[i];
+        float fEnd = -1f;
+        if(mNodesCount > 1){
+            for(int i=0;i<mNodesCount;i++){
+                tNode = mNodes[i];
 				
 				//Bridges:
 				fStart = -1f;
 				fEnd = -1f;
-				if(tNode.bIsBridgeStart && !tNode.bIsTunnelStart){
-					fStart = tNode.tTime;
-					for (int j = i; j < mNodesCount; j++){
-						if (mNodes[j].bIsBridgeEnd){
-							fEnd = mNodes[j].tTime;
-							break;
-						}
-					}
+                if(tNode.bIsBridgeStart && !tNode.bIsTunnelStart){
+                    fStart = tNode.tTime;
+                    for (int j = i; j < mNodesCount; j++){
+                        if (mNodes[j].bIsBridgeEnd){
+                            fEnd = mNodes[j].tTime;
+                            break;
+                        }
+                    }
 					if(fEnd > 0f || GSDRootUtil.IsApproximately(fEnd,0f,0.0001f)){
-						KVP = new KeyValuePair<float, float>(fStart, fEnd);
-						BridgeParams.Add(KVP);
-					}
-				}
+	                    KVP = new KeyValuePair<float, float>(fStart, fEnd);
+	                    BridgeParams.Add(KVP);
+	                }
+                }
 
 				//Tunnels:
 				fStart = -1f;
 				fEnd = -1f;
 				if(!tNode.bIsBridgeStart && tNode.bIsTunnelStart){
 					fStart = tNode.tTime;
-					for (int j = i; j < mNodesCount; j++){
-						if (mNodes[j].bIsTunnelEnd){
-							fEnd = mNodes[j].tTime;
-							break;
-						}
-					}
+                    for (int j = i; j < mNodesCount; j++){
+                        if (mNodes[j].bIsTunnelEnd){
+                            fEnd = mNodes[j].tTime;
+                            break;
+                        }
+                    }
 					
 					if(fEnd > 0f || GSDRootUtil.IsApproximately(fEnd,0f,0.0001f)){
-						KVP = new KeyValuePair<float, float>(fStart, fEnd);
-						TunnelParams.Add(KVP);
-					}
+	                    KVP = new KeyValuePair<float, float>(fStart, fEnd);
+	                    TunnelParams.Add(KVP);
+	                }
 				}
 				
-				tNode.SetGradePercent(mNodesCount);
+                tNode.SetGradePercent(mNodesCount);
 //                tNode.bIsEndPoint = false;
-				tNode.tangent = GetSplineValue(mNodes[i].tTime, true);
-				if(i<(mNodesCount - 1)){
-					tNode.NextTime = mNodes[i+1].tTime;
+                tNode.tangent = GetSplineValue(mNodes[i].tTime, true);
+                if(i<(mNodesCount - 1)){
+                    tNode.NextTime = mNodes[i+1].tTime;
 					tNode.NextTan = mNodes[i+1].tangent;
-				}
-			}
-		}else if(mNodesCount == 1){
-			mNodes[0].tangent = default(Vector3);
-		}
+                }
+            }
+        }else if(mNodesCount == 1){
+            mNodes[0].tangent = default(Vector3);
+        }
 		
 		//Get bounds of road system:
 		float[] tMaxEffects = new float[3];
@@ -311,7 +308,7 @@ public class GSDSplineC : MonoBehaviour{
 	}
 	
 	private void Setup_SplineLength(){
-		int mNodeCount = mNodes.Count;
+        int mNodeCount = mNodes.Count;
 
 		//First lets get the general distance, node to node:
 		mNodes[0].tTime = 0f;
@@ -494,16 +491,16 @@ public class GSDSplineC : MonoBehaviour{
 		
 		int mid = -1;
 		
-		while ((hi - lo) > 1) {
-			mid = Mathf.RoundToInt((lo + hi)/2);
-			if(RoadDefKeysArray[mid] <= x){
-				lo = mid;
-			}else{
-				hi = mid;
-			}
-		}
+	    while ((hi - lo) > 1) {
+	        mid = Mathf.RoundToInt((lo + hi)/2);
+	        if(RoadDefKeysArray[mid] <= x){
+	            lo = mid;
+	        }else{
+	            hi = mid;
+	        }
+	    }
 		
-		if(RoadDefKeysArray[lo] == x){ 
+	    if(RoadDefKeysArray[lo] == x){ 
 			hi = lo; 
 		}
 //		if(hi > RoadDefKeysArray.Length-1){ hi = RoadDefKeysArray.Length-1; }
@@ -536,14 +533,14 @@ public class GSDSplineC : MonoBehaviour{
 		int hi = RoadDefValuesArray.Length-1;
 		int mid = -1;
 		
-		while ((hi - lo) > 1) {
-			mid = Mathf.RoundToInt((lo + hi)/2);
-			if(RoadDefValuesArray[mid] < tX || GSDRootUtil.IsApproximately(RoadDefValuesArray[mid],tX,0.02f)){
-				lo = mid;
-			}else{
-				hi = mid;
-			}
-		}
+	    while ((hi - lo) > 1) {
+	        mid = Mathf.RoundToInt((lo + hi)/2);
+	        if(RoadDefValuesArray[mid] < tX || GSDRootUtil.IsApproximately(RoadDefValuesArray[mid],tX,0.02f)){
+	            lo = mid;
+	        }else{
+	            hi = mid;
+	        }
+	    }
 
 		if(GSDRootUtil.IsApproximately(RoadDefValuesArray[lo],tX,0.02f)){
 			hi = lo; 
@@ -635,8 +632,8 @@ public class GSDSplineC : MonoBehaviour{
 		int i;
 		int idx = - 1;
 
-		if (mNodes.Count == 0) { return default(Vector3); }
-		if (mNodes.Count == 1) { return mNodes[0].pos; }
+        if (mNodes.Count == 0) { return default(Vector3); }
+        if (mNodes.Count == 1) { return mNodes[0].pos; }
 
 //		if(GSDRootUtil.IsApproximately(f,0f,0.00001f)){
 //			if(b){
@@ -679,21 +676,21 @@ public class GSDSplineC : MonoBehaviour{
 		if(f < 0f){ f = 0f; }
 		if(f > 1f){ f = 1f; }
 
-		if (mCount == 0) { 
-			tVect1 = default(Vector3);
-			tVect2 = default(Vector3);
-			return;
-		}
-		if (mCount == 1) { 
+        if (mCount == 0) { 
+            tVect1 = default(Vector3);
+            tVect2 = default(Vector3);
+            return;
+        }
+        if (mCount == 1) { 
 			if(mNodes[0]){
-				tVect1 = mNodes[0].pos;
-				tVect2 = default(Vector3);
+            	tVect1 = mNodes[0].pos;
+            	tVect2 = default(Vector3);
 			}else{
 				tVect1 = default(Vector3);
-				tVect2 = default(Vector3);
+            	tVect2 = default(Vector3);
 			}
 			return;
-		}
+        }
 		
 //		if(GSDRootUtil.IsApproximately(f,1f,0.0001f)){
 //			tVect1 = mNodes[mNodes.Count-1].pos;	
@@ -729,8 +726,8 @@ public class GSDSplineC : MonoBehaviour{
 		int i;
 		int idx = - 1;
 
-		if (mNodes.Count == 0) { return default(Vector3); }
-		if (mNodes.Count == 1) { return mNodes[0].pos; }
+        if (mNodes.Count == 0) { return default(Vector3); }
+        if (mNodes.Count == 1) { return mNodes[0].pos; }
 		
 		
 //		if(GSDRootUtil.IsApproximately(f,0f,0.00001f)){
@@ -783,8 +780,8 @@ public class GSDSplineC : MonoBehaviour{
 		Vector3 BestVect_p = new Vector3(0f,0f,0f);
 		Vector3 BestVect_n = new Vector3(0f,0f,0f);
 
-		if (mNodes.Count == 0) { return 0f; }
-		if (mNodes.Count == 1) { return 1f; }
+        if (mNodes.Count == 0) { return 0f; }
+        if (mNodes.Count == 1) { return 1f; }
 		 
 		//Step 1: 1m 
 		BestValue = GetClosestPoint_Helper(ref tVect,Step1,BestValue,tMin,tMax,ref BestVect_p,ref BestVect_n,true);
@@ -1057,7 +1054,7 @@ public class GSDSplineC : MonoBehaviour{
 	public bool IsNearIntersection(ref Vector3 tPos, ref float nResult){
 		int mCount = GetNodeCount();
 		GSDSplineN tNode;
-		float MetersToCheck = 75f * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f));
+        float MetersToCheck = 75f * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f));
 		float tDist;
 		for(int i=0;i<mCount;i++){
 			tNode = mNodes[i];
@@ -1073,21 +1070,21 @@ public class GSDSplineC : MonoBehaviour{
 				
 				if(tNode.GSDRI.rType == GSDRoadIntersection.RoadTypeEnum.NoTurnLane){
 					if(bUseSQ){
-						MetersToCheck = MetersToCheck_NoTurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
+                        MetersToCheck = MetersToCheck_NoTurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
 					}
 //					else{
 //						MetersToCheck = MetersToCheck_NoTurnLane;
 //					}
 				}else if(tNode.GSDRI.rType == GSDRoadIntersection.RoadTypeEnum.TurnLane){
 					if(bUseSQ){
-						MetersToCheck = MetersToCheck_TurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
+                        MetersToCheck = MetersToCheck_TurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
 					}
 //					else{
 //						MetersToCheck = MetersToCheck_TurnLane;
 //					}
 				}else if(tNode.GSDRI.rType == GSDRoadIntersection.RoadTypeEnum.BothTurnLanes){
 					if(bUseSQ){
-						MetersToCheck = MetersToCheck_BothTurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
+                        MetersToCheck = MetersToCheck_BothTurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
 					}
 //					else{
 //						MetersToCheck = MetersToCheck_BothTurnLane;
@@ -1116,7 +1113,7 @@ public class GSDSplineC : MonoBehaviour{
 		float tDist;
 		GSDSplineN tNode;
 
-		float MetersToCheck = 75f * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f));
+        float MetersToCheck = 75f * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f));
 		
 		for(int i=0;i<mCount;i++){
 			tNode = mNodes[i];
@@ -1132,21 +1129,21 @@ public class GSDSplineC : MonoBehaviour{
 				
 				if(tNode.GSDRI.rType == GSDRoadIntersection.RoadTypeEnum.NoTurnLane){
 					if(bUseSQ){
-						MetersToCheck = MetersToCheck_NoTurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
+                        MetersToCheck = MetersToCheck_NoTurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
 					}
 //					else{
 //						MetersToCheck = MetersToCheck_NoTurnLane;
 //					}
 				}else if(tNode.GSDRI.rType == GSDRoadIntersection.RoadTypeEnum.TurnLane){
 					if(bUseSQ){
-						MetersToCheck = MetersToCheck_TurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
+                        MetersToCheck = MetersToCheck_TurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
 					}
 //					else{
 //						MetersToCheck = MetersToCheck_TurnLane;
 //					}
 				}else if(tNode.GSDRI.rType == GSDRoadIntersection.RoadTypeEnum.BothTurnLanes){
 					if(bUseSQ){
-						MetersToCheck = MetersToCheck_BothTurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
+                        MetersToCheck = MetersToCheck_BothTurnLaneSQ * ((tRoad.opt_LaneWidth / 5f) * (tRoad.opt_LaneWidth / 5f)); ;
 					}
 //					else{
 //						MetersToCheck = MetersToCheck_BothTurnLane;
@@ -1490,10 +1487,10 @@ public class GSDSplineC : MonoBehaviour{
 			NodeCreated1 = mNodes[0];
 		}else{
 			bSpecialEndControlNode = true;
-			GSDSplineN zNode1 = xSpline.GetLastNode_All();
-			if (zNode1 != null && zNode1.bSpecialEndNode) {
-				zNode1.transform.position = tNode1_ExtraPos;
-				zNode1.pos = tNode1_ExtraPos;
+            GSDSplineN zNode1 = xSpline.GetLastNode_All();
+            if (zNode1 != null && zNode1.bSpecialEndNode) {
+                zNode1.transform.position = tNode1_ExtraPos;
+                zNode1.pos = tNode1_ExtraPos;
 			}else{
 				GSD.Roads.GSDConstruction.CreateNode(tRoad,true,tNode1_ExtraPos);	
 			}
@@ -1511,14 +1508,14 @@ public class GSDSplineC : MonoBehaviour{
 			NodeCreated2 = xSpline.mNodes[0];
 		}else{
 			xSpline.bSpecialEndControlNode = true;
-			GSDSplineN zNode2 = xSpline.GetLastNode_All();
-			if (zNode2 != null && zNode2.bSpecialEndNode) {
-				zNode2.transform.position = tNode2_ExtraPos;
-				zNode2.pos = tNode2_ExtraPos;
+            GSDSplineN zNode2 = xSpline.GetLastNode_All();
+            if (zNode2 != null && zNode2.bSpecialEndNode) {
+                zNode2.transform.position = tNode2_ExtraPos;
+                zNode2.pos = tNode2_ExtraPos;
 			}else{
 				GSD.Roads.GSDConstruction.CreateNode(xSpline.tRoad,true,tNode2_ExtraPos);	
 			}
-			NodeCreated2 = xSpline.GetLastNode_All();
+            NodeCreated2 = xSpline.GetLastNode_All();
 		}
 		
 		NodeCreated1.bSpecialEndNode_IsStart = bFirstNode_Start;
@@ -1608,7 +1605,7 @@ public class GSDSplineC : MonoBehaviour{
 
 	#region "General Util"
 	public int GetNodeCount(){
-		return mNodes.Count;
+        return mNodes.Count;
 	}
 	
 	public int GetNodeCountNonNull(){
@@ -1622,7 +1619,7 @@ public class GSDSplineC : MonoBehaviour{
 				}
 			}
 		}
-		return tCount;
+        return tCount;
 	}
 	
 	public bool CheckInvalidNodeCount(){
@@ -1670,23 +1667,23 @@ public class GSDSplineC : MonoBehaviour{
 		return null;
 	}
 
-	public GSDSplineN GetLastNode_All() {
-		int mCount = GetNodeCount();
-		int StartIndex = (mCount - 1);
-		GSDSplineN tNode = null;
+    public GSDSplineN GetLastNode_All() {
+        int mCount = GetNodeCount();
+        int StartIndex = (mCount - 1);
+        GSDSplineN tNode = null;
 
-		int i = StartIndex;
-		while (i >= 0) {
-			if (i <= (mNodes.Count - 1)) {
-				tNode = mNodes[i];
-				if (tNode != null) {
-					return tNode;
-				}
-			}
-			i -= 1;
-		}
-		return null;
-	}
+        int i = StartIndex;
+        while (i >= 0) {
+            if (i <= (mNodes.Count - 1)) {
+                tNode = mNodes[i];
+                if (tNode != null) {
+                    return tNode;
+                }
+            }
+            i -= 1;
+        }
+        return null;
+    }
 	
 	public GSDSplineN GetPrevLegitimateNode(int tIndex){
 		try{

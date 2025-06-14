@@ -254,7 +254,7 @@ namespace GSD.Roads {
                                 GSDSplineN IntersectionNode1 = null;
                                 GSDSplineN IntersectionNode2 = null;
                                 Vector3 IntersectionPoint3D = new Vector3(IntersectPoint2D.x, tHeight, IntersectPoint2D.y);
-                                Debug.Log("Instersect found road: " + xRoad.transform.name + " at point: " + IntersectionPoint3D.ToString());
+                                //Debug.Log("Instersect found road: " + xRoad.transform.name + " at point: " + IntersectionPoint3D.ToString());
 
                                 //Check primary road if any nodes are nearby and usable for intersection
                                 foreach(GSDSplineN tNode in tRoad.GSDSpline.mNodes){

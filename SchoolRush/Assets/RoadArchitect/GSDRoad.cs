@@ -388,15 +388,13 @@ public class GSDRoad : MonoBehaviour{
         if (!GSDRS.opt_bAllowRoadUpdates) {
             GSDSpline.Setup();
             Editor_bIsConstructing = false;
-            Debug.Log($"Road: {transform.name} - UpdateRoad returning: Road updates are not allowed (GSDRS.opt_bAllowRoadUpdates is false).");
             return;
         }
 
 		if(Editor_bIsConstructing){
-			Debug.Log($"Road: {transform.name} - UpdateRoad returning: Editor is already constructing.");
 			return;	
 		}
-		Debug.Log("updating road");
+
 		SetupUniqueIdentifier();
 
 
@@ -546,7 +544,6 @@ public class GSDRoad : MonoBehaviour{
 			if(MeshiMainPlates != null){ Object.DestroyImmediate(MeshiMainPlates); }
 			if(MeshiMarkerPlates != null){ Object.DestroyImmediate(MeshiMarkerPlates); }
 			if(bProfiling){ UnityEngine.Profiling.Profiler.EndSample(); }
-			Debug.Log($"Road: {transform.name} - UpdateRoad returning: Node count (mCount) is less than 2.");
 			return;
 		}
 		
@@ -585,14 +582,11 @@ public class GSDRoad : MonoBehaviour{
 		
 		if(GSDRS.opt_bMultithreading){
 			if(RCS.bTerrainOn || TerrainHistory == null){
-				Debug.Log($"Road: {transform.name} - Multithreading enabled. Processing terrain hook. RCS.bTerrainOn: {RCS.bTerrainOn}, TerrainHistory is null: {TerrainHistory == null}");
 				GSDTerraforming.ProcessRoad_Terrain_Hook1(GSDSpline,this);
 			}else{
-				Debug.Log($"Road: {transform.name} - Multithreading enabled. Skipping terrain hook. RCS.bTerrainOn: {RCS.bTerrainOn}, TerrainHistory is not null.");
 				ConstructRoad2();
 			}
 		}else{
-			Debug.Log($"Road: {transform.name} - Multithreading disabled. Calling UpdateRoad_NoMultiThreading.");
 			UpdateRoad_NoMultiThreading();
 		}
 	}
