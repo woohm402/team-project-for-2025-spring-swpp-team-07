@@ -1,26 +1,12 @@
-import { z } from "zod";
 import mongodb from "mongodb";
+import { parsePlayerData } from "@/entities/player-data";
 
 export const POST = async (request: Request) => {
   const { result, data } = await (async () => {
     try {
       return {
         result: "success",
-        data: z
-          .object({
-            nickname: z.string(),
-            totalTime: z.number(),
-            augmentIds: z.array(z.number()),
-            logs: z.array(
-              z.object({
-                time: z.number(),
-                x: z.number(),
-                y: z.number(),
-                z: z.number(),
-              }),
-            ),
-          })
-          .parse(await request.json()),
+        data: parsePlayerData(await request.json()),
       } as const;
     } catch (err) {
       return { result: "error", data: null } as const;
