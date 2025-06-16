@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -53,8 +53,15 @@ public class KartController : MonoBehaviour
     public Transform flashParticles;
     public Color[] turboColors;
 
+    private bool isDizzy = false;
+    private float dizzyTime = 1.5f;
+
+
     void Start()
     {
+        transform.parent.gameObject.GetComponentInChildren<CollisionManager>()
+        .KCRegister(this);
+
         postVolume = Camera.main.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
 
@@ -83,16 +90,20 @@ public class KartController : MonoBehaviour
         transform.position = sphere.transform.position - new Vector3(0, 0.4f, 0);
 
         //Accelerate
-        if (Input.GetAxis("Vertical") == 1)
-            currentSpeed += acceleration * Time.deltaTime;
-        else {
-            currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime * 3f);
-            if (currentSpeed < 1) currentSpeed = 0;
+        if (!isDizzy) {
+            if (Input.GetAxis("Vertical") == 1)
+                currentSpeed += acceleration * Time.deltaTime;
+            else {
+                currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime * 3f);
+                if (currentSpeed < 1) currentSpeed = 0;
+            }
+            currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
         }
-        currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
+
+
 
         //Steer
-        if (Input.GetAxis("Horizontal") != 0)
+        if (!isDizzy && Input.GetAxis("Horizontal") != 0)
         {
             int dir = Input.GetAxis("Horizontal") > 0 ? 1 : -1;
             float amount = Mathf.Abs((Input.GetAxis("Horizontal")));
@@ -100,7 +111,7 @@ public class KartController : MonoBehaviour
         }
 
         //Drift
-        if (Input.GetButtonDown("Jump") && !drifting && Input.GetAxis("Horizontal") != 0)
+        if (!isDizzy && Input.GetButtonDown("Jump") && !drifting && Input.GetAxis("Horizontal") != 0)
         {
             drifting = true;
             driftDirection = Input.GetAxis("Horizontal") > 0 ? 1 : -1;
@@ -116,7 +127,7 @@ public class KartController : MonoBehaviour
 
         }
 
-        if (drifting)
+        if (!isDizzy && drifting)
         {
             float control = (driftDirection == 1) ? ExtensionMethods.Remap(Input.GetAxis("Horizontal"), -1, 1, 0, 2) : ExtensionMethods.Remap(Input.GetAxis("Horizontal"), -1, 1, 2, 0);
             float powerControl = (driftDirection == 1) ? ExtensionMethods.Remap(Input.GetAxis("Horizontal"), -1, 1, .2f, 1) : ExtensionMethods.Remap(Input.GetAxis("Horizontal"), -1, 1, 1, .2f);
@@ -126,7 +137,7 @@ public class KartController : MonoBehaviour
             ColorDrift();
         }
 
-        if (Input.GetButtonUp("Jump") && drifting)
+        if (!isDizzy && Input.GetButtonUp("Jump") && drifting)
         {
             Boost();
         }
@@ -137,7 +148,7 @@ public class KartController : MonoBehaviour
         //Animations
 
         //a) Kart
-        if (!drifting)
+        if (!isDizzy && !drifting)
         {
             kartModel.localEulerAngles = Vector3.Lerp(kartModel.localEulerAngles, new Vector3(0, 90 + (Input.GetAxis("Horizontal") * 15), kartModel.localEulerAngles.z), .2f);
         }
@@ -186,6 +197,7 @@ public class KartController : MonoBehaviour
         kartNormal.up = Vector3.Lerp(kartNormal.up, hitNear.normal, Time.deltaTime * 8.0f);
         kartNormal.Rotate(0, transform.eulerAngles.y, 0);
     }
+
 
     public void Boost()
     {
@@ -322,9 +334,30 @@ public class KartController : MonoBehaviour
     public int GetRemainingShields() {
         return shieldCount;
     }
+
+    public void GetDizzy() {
+        CancelInvoke(nameof(NotDizzy));
+
+        isDizzy = true;
+
+        sphere.velocity = Vector3.zero;
+
+        currentSpeed = 0;
+
+        Debug.Log("Dizzy");
+
+        Invoke(nameof(NotDizzy), dizzyTime);
+    }
+
+    private void NotDizzy() {
+        isDizzy = false;
+
+        Debug.Log("Not Dizzy");
+    }
 }
 
 public enum ShieldResult {
   Succeed,
   Failed
 }
+

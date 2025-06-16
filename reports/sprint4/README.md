@@ -85,7 +85,7 @@ Sprint  기간인 6/09부터 6/22까지의 커밋 내역은 아래 링크에서 
 | `제작한 Map GameScene에 적용` 태스크 중 적용 작업 | 조재표 | 문지환 | 06-09 | 18:00-19:25 | [PR#72](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/72) | [Slack Image](https://2025springswppimo.slack.com/archives/C08KVGJU4H4/p1750066127350699?thread_ts=1749460069.351659&cid=C08KVGJU4H4) |
 | `제작한 Map GameScene에 적용` 태스크 중 마무리 작업 | 우현민 | 조재표,곽승연 | 06-09 | 19:25-19:55 | [PR#72](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/72) | [Slack Image](https://2025springswppimo.slack.com/archives/C08KVGJU4H4/p1750066127350699?thread_ts=1749460069.351659&cid=C08KVGJU4H4) |
 | `행인 및 주변 차량 관련 로직 GameScene에 적용` 태스크 중 주변차량로직 적용 | 문지환 | 조재표 | 06-12 | 15:00-20:00 | | | | [Slack Image](https://2025springswppimo.slack.com/archives/C08KVGJU4H4/p1749899470080349?thread_ts=1749783423.267939&cid=C08KVGJU4H4) |
-| `차량 충돌 시 로직` 태스크, `특수 효과 BGM 적용` 태스크 중 충돌 시 BGM | 장호림 | 곽승연 | 06-16 | 17:35-18:45 | | [Slack Image]() |
+| `차량 충돌 시 로직` 태스크, `특수 효과 BGM 적용` 태스크 중 충돌 시 BGM | 장호림 | 곽승연 | 06-16 | 17:35-18:45 | [GitHub PR#104](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/pull/104) | [Slack Image](https://2025springswppimo.slack.com/archives/C08KVGJU4H4/p1750068777505649?thread_ts=1750042878.743469&cid=C08KVGJU4H4) |
 | `행인 및 주변 차량 로직 GameScene에 적용` 태스크 중 행인로직 완성 | 우현민 | 문지환 | 06-16 | 17:35-17:54 | | [Slack Image](https://2025springswppimo.slack.com/archives/C08KVGJU4H4/p1750066757689789?thread_ts=1750064039.918209&cid=C08KVGJU4H4) |
 
 # Sprint 4 회고 회의 보고서

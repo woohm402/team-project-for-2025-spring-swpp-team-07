@@ -15,6 +15,8 @@ public class MapController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.mapAudio);
+
             if (mainCam.isActiveAndEnabled)
             {
                 mainCam.enabled = false;

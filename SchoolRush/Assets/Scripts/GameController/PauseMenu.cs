@@ -7,16 +7,22 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     private bool isPaused = false;
 
+    private AudioManager am;
+
     void Start()
     {
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(false);
+
+        am = AudioManager.Instance;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            am.PlayOneShot(am.pauseAudio);
+
             if (isPaused) Resume();
             else Pause();
         }
