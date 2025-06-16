@@ -1,0 +1,14 @@
+{
+  "name": "check-pair-programming-log",
+  "type": "module",
+  "scripts": {
+    "run": "bun src/run.ts",
+    "check": "biome check .",
+    "fix": "biome check . --fix"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/bun": "1.2.0"
+  },
+  "packageManager": "bun@1.2.0"
+}
