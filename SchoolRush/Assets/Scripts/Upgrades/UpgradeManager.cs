@@ -25,8 +25,6 @@ public class UpgradeManager : MonoBehaviour
     }
 
     public void PickUpgrade(int checkpoint) {
-        if (checkpoint == 5) return;
-
         upgradeUI.SetActive(true);
         Time.timeScale = 0;
         List<Upgrade> upgrades = new List<Upgrade>(); // should be length 3

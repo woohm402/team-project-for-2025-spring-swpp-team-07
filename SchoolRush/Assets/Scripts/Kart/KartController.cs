@@ -360,4 +360,3 @@ public enum ShieldResult {
   Succeed,
   Failed
 }
-

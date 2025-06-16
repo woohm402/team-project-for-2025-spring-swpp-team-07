@@ -5,56 +5,43 @@ public class CheckpointManager : MonoBehaviour
 {
     public KartController kartController;
 
-    [Header("ID 순서대로 1~6 체크포인트 오브젝트를 넣어주세요")]
+    [Header("ID 순서대로 0~6 체크포인트 오브젝트를 넣어주세요")]
 
-    public GameObject checkpointPosition;
-    public GameObject[] checkpoints;  // 0→ID=1, … , 5→ID=6(도착지점)
+    public GameObject[] checkpoints;           // 0→ID=0(시작지점), … , 6→ID=6(도착지점)
+    private int nextCheckpointID = 0;          // 지금까지 통과한 마지막 cp ID (0=start)
 
-    private int _current = 0;          // 지금까지 통과한 마지막 cp ID (0=start)
-    public int CurrentCheckpoint => _current;
-
-
-    void Start()
-    {
+    void Start() {
         for (int i = 0; i < checkpoints.Length; i++)
             checkpoints[i].SetActive(false);
 
-        if (checkpoints.Length > 0)
-            checkpoints[0].SetActive(true);
+        OnEnterCheckpoint(0);
     }
 
-    void OnTriggerEnter(Collider other)
-    {
+    void OnTriggerEnter(Collider other) {
         if (!other.CompareTag("Checkpoint")) return;
+        int checkpointID = other.GetComponent<CheckpointIdentifier>().ID;
+        if (checkpointID != nextCheckpointID) return;
 
-        int cpId = other.GetComponent<CheckpointIdentifier>().ID;
-        if (cpId == _current + 1)
-        {
-            checkpoints[_current].SetActive(false);
-            _current++;
-            Debug.Log($"체크포인트 {_current} 통과!");
-            checkpointPosition = checkpoints[_current - 1];
-
-            if (_current < checkpoints.Length)
-            {
-                checkpoints[_current].SetActive(true);
-            }
-
-        }
-
+        OnEnterCheckpoint(checkpointID);
     }
-    private void OnCollisionEnter(Collision collision)
-    {
+
+    void OnEnterCheckpoint(int checkpointID) {
+        Debug.Log($"체크포인트 {checkpointID} 통과!");
+        checkpoints[checkpointID].SetActive(false);
+        nextCheckpointID++;
+
+        if (nextCheckpointID < checkpoints.Length) checkpoints[nextCheckpointID].SetActive(true);
+    }
+
+    private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Passenger")) {
             ShieldResult shieldResult = kartController.UseShield();
             if (shieldResult == ShieldResult.Succeed) return;
-            GoToCheckPoint();
+            GoToCheckPoint(nextCheckpointID - 1);
         }
     }
 
-    private void GoToCheckPoint()
-    {
-        if (checkpointPosition == null) return;
-        transform.position = checkpointPosition.transform.position;
+    private void GoToCheckPoint(int id) {
+        transform.position = checkpoints[id].transform.position;
     }
 }
