@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -34,10 +34,10 @@ public class KartController : MonoBehaviour
 
     [Header("Parameters")]
 
-    public float acceleration = 30f;
-    public float boostDuration = 0.3f;
-    public float steering = 10f;
-    public float gravity = 25f;
+    private float acceleration = 30f;
+    private float boostDuration = 0.3f;
+    private float steering = 10f;
+    private float gravity = 25f;
     public LayerMask layerMask;
 
     [Header("Model Parts")]
@@ -319,6 +319,22 @@ public class KartController : MonoBehaviour
         maxSpeed = x;
     }
 
+    public float GetAccel() {
+        return acceleration;
+    }
+
+    public void SetAccel(float x) {
+        acceleration = x;
+    }
+
+    public float GetBoostDuration() {
+        return boostDuration;
+    }
+
+    public void SetBoostDuration(float x) {
+        boostDuration = x;
+    }
+
     public void GiveShields(int count) {
         shieldCount += count;
     }
@@ -333,6 +349,10 @@ public class KartController : MonoBehaviour
 
     public int GetRemainingShields() {
         return shieldCount;
+    }
+
+    public void IncrementDizzyTime(float x) {
+        dizzyTime += x;
     }
 
     public void GetDizzy() {

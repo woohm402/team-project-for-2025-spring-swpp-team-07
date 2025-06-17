@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Upgrade101 : Upgrade {
     private KartController kartController;
     private readonly static float rate = 1.3f;
