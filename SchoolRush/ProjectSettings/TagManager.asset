@@ -10,6 +10,7 @@ TagManager:
   - Sensor
   - EndWall
   - Checkpoint
+  - Terrain
   layers:
   - Default
   - TransparentFX

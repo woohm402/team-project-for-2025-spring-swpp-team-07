@@ -31,6 +31,9 @@ public class CollisionManager : MonoBehaviour
             case "Wall":
                 am.PlayOneShot(am.hitWallAudio);
                 break;
+            case "Terrain":
+                kc.SetAsOnGround();
+                break;
         }
 
         GameObject go = collision.gameObject;
@@ -41,9 +44,8 @@ public class CollisionManager : MonoBehaviour
         }
     }
 
-    public void KCRegister(KartController kc) 
+    public void KCRegister(KartController kc)
     {
-
         this.kc = kc;
     }
 

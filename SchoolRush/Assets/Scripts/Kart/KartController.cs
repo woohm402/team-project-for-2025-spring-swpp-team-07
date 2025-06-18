@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -51,13 +51,15 @@ public class KartController : MonoBehaviour
     private bool first, second, third;
     private Color c;
 
+    private bool isOnGround = false;
+
     private PlayerData playerData;
     private int shieldCount = 0;
     #endregion
 
     #region Initialize - Awake & Start
     void Awake()
-    {   
+    {
         driver = kartNormal.Find("Driver");
         colleagues = kartNormal.Find("CharacterModels");
         kartModel = kartNormal.Find("KartModel");
@@ -131,12 +133,12 @@ public class KartController : MonoBehaviour
             Steer((int)(Mathf.Sign(input)), Mathf.Abs(input));
 
             // Begin Drift
-            if (!drifting && Input.GetButtonDown("Jump"))
+            if (!drifting && Input.GetKeyDown(KeyCode.LeftShift))
             {
                 drifting = true;
                 driftDirection = input > 0 ? 1 : -1;
                 foreach (ParticleSystem p in primaryParticles)
-                {   
+                {
                     var pmain = p.main;
                     pmain.startColor = Color.clear;
                     p.Play();
@@ -156,7 +158,13 @@ public class KartController : MonoBehaviour
             UpdateDriftEffects();
 
             // End Drift
-            if (Input.GetButtonUp("Jump")) Boost();
+            if (Input.GetKeyUp(KeyCode.LeftShift)) Boost();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        {
+            sphere.velocity = new Vector3(sphere.velocity.x, 30f, sphere.velocity.z);
+            isOnGround = false;
         }
 
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f);
@@ -279,7 +287,7 @@ public class KartController : MonoBehaviour
 
     private void Speed(float x) => currentSpeed = x;
     private void ChromaticAmount(float x) => postProfile.GetSetting<ChromaticAberration>().intensity.value = x;
-    
+
     #endregion
 
     #region Callbacks - FixedUpdate
@@ -389,6 +397,10 @@ public class KartController : MonoBehaviour
 
 
     #endregion
+
+    public void SetAsOnGround() {
+        isOnGround = true;
+    }
 }
 
 public enum ShieldResult {

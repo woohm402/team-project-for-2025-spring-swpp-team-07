@@ -63,9 +63,8 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade u202 = new Upgrade202(kartController);
                 Upgrade u203 = new Upgrade203(kartController);
                 Upgrade u204 = new Upgrade204(kartController);
-                Upgrade u205 = new Upgrade205();
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u201, u202 }).pick(1));
-                upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u203, u204, u205 }).pick(2));
+                upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u203, u204 }).pick(2));
                 SetColleagueActive(1, true);
                 break;
             case 3:
