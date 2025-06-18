@@ -11,10 +11,11 @@ public class KartController : MonoBehaviour
     [Header("Kart")]
     public Transform kartNormal;
     private Transform kartModel, frontWheels, backWheels, steeringWheel;
-    private Transform driver, colleages;
-    public Rigidbody sphere;
-    public Transform wheelParticles;
-    public Transform flashParticles;
+    private Transform taxi, lfWheel, rfWheel, lbWheel, rbWheel;
+    private Transform driver, colleagues;
+    public Rigidbody sphere, t_sphere;
+    public Transform wheelParticles, flashParticles;
+    public Transform t_wheelParticles, t_flashParticles;
     public Color[] turboColors;
 
     [Header("References")]
@@ -46,6 +47,7 @@ public class KartController : MonoBehaviour
     private int driftMode = 0;
     private bool drifting;
     private bool isDizzy = false;
+    private bool isTaxi = false;
     private bool first, second, third;
     private Color c;
 
@@ -57,11 +59,13 @@ public class KartController : MonoBehaviour
     void Awake()
     {   
         driver = kartNormal.Find("Driver");
-        colleages = kartNormal.Find("CharacterModels");
+        colleagues = kartNormal.Find("CharacterModels");
         kartModel = kartNormal.Find("KartModel");
         frontWheels = kartModel.Find("f_wheel");
         backWheels = kartModel.Find("b_wheel");
         steeringWheel = kartModel.Find("head");
+
+        taxi = kartNormal.Find("Taxi");
     }
 
     void Start()
@@ -75,6 +79,8 @@ public class KartController : MonoBehaviour
 
         playerData = new PlayerData(SaveNickname.LoadNickname());
         StartCoroutine(Per10SecondsUpdate());
+
+        taxi.gameObject.SetActive(false);
     }
 
     private void CacheParticles()
@@ -180,7 +186,7 @@ public class KartController : MonoBehaviour
         //d) character
         driver.localEulerAngles = new Vector3(0, (input * 7), 0);
         Vector3 kartEuler = kartModel.localEulerAngles;
-        colleages.localEulerAngles = new Vector3(kartEuler.x, kartEuler.y - 90f, kartEuler.z);
+        colleagues.localEulerAngles = new Vector3(kartEuler.x, kartEuler.y - 90f, kartEuler.z);
     }
 
     public void Steer(int direction, float amount) => rotate = (steering * direction) * amount;
@@ -192,8 +198,13 @@ public class KartController : MonoBehaviour
         {
             DOVirtual.Float(currentSpeed * 3, currentSpeed, boostDuration * driftMode, Speed);
             DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
-            kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
-            kartModel.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
+            if (isTaxi) {
+                taxi.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
+                taxi.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
+            }
+            else {
+                kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
+            }
         }
 
         driftPower = 0;
@@ -360,6 +371,23 @@ public class KartController : MonoBehaviour
         isDizzy = false;
         Debug.Log("Not Dizzy");
     }
+
+    public void ChangeBikeToTaxi() {
+        driver.gameObject.SetActive(false);
+        colleagues.gameObject.SetActive(false);
+        kartModel.gameObject.SetActive(false);
+        frontWheels.gameObject.SetActive(false);
+        backWheels.gameObject.SetActive(false);
+        steeringWheel.gameObject.SetActive(false);
+        taxi.gameObject.SetActive(true);
+        isTaxi = true;
+        sphere = t_sphere;
+        wheelParticles = t_wheelParticles;
+        flashParticles = t_flashParticles;
+        CacheParticles();
+    }
+
+
     #endregion
 }
 
