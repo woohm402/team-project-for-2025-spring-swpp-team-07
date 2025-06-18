@@ -8,6 +8,7 @@ using TMPro;
 public class UpgradeManager : MonoBehaviour
 {
     public KartController kartController;
+    public Transform CharacterModels;
     public BGMController bgmController;
 
     [SerializeField]
@@ -15,13 +16,29 @@ public class UpgradeManager : MonoBehaviour
     private List<GameObject> upgradeUIItems;
 
     private List<Upgrade> selectedUpgrades;
+    private List<Transform> colleagues;
 
     private void Start() {
         upgradeUIItems = new List<GameObject>();
         selectedUpgrades = new List<Upgrade>();
+        colleagues = new List<Transform>();
 
         for (int i = 0; i < 3; i++)
             upgradeUIItems.Add(upgradeUI.transform.GetChild(i).gameObject);
+
+        for (int i = 0; i < CharacterModels.childCount; i++)
+        {
+            colleagues.Add(CharacterModels.GetChild(i));
+        }
+
+        foreach (var t in colleagues)
+            t.gameObject.SetActive(false);
+    }
+
+    public void SetColleagueActive(int index, bool on)
+    {
+        if (index < 0 || index >= colleagues.Count) return;
+        colleagues[index].gameObject.SetActive(on);
     }
 
     public void PickUpgrade(int checkpoint) {
@@ -39,6 +56,7 @@ public class UpgradeManager : MonoBehaviour
                 upgrades.Add(u101);
                 upgrades.Add(u102);
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u103, u104, u105 }).pick(1));
+                SetColleagueActive(0, true);
                 break;
             case 2:
                 Upgrade u201 = new Upgrade201(kartController);
@@ -48,12 +66,14 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade u205 = new Upgrade205();
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u201, u202 }).pick(1));
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u203, u204, u205 }).pick(2));
+                SetColleagueActive(1, true);
                 break;
             case 3:
                 Upgrade u301 = new Upgrade301(kartController);
                 Upgrade u302 = new Upgrade302(kartController);
                 Upgrade u303 = new Upgrade303(kartController);
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u301, u302, u303 }).pick(3));
+                SetColleagueActive(2, true);
                 break;
             case 4:
                 Upgrade u401 = new Upgrade401(kartController);
@@ -61,6 +81,7 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade u403 = new Upgrade403();
                 Upgrade u404 = new Upgrade404();
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u401, u402, u403, u404 }).pick(3));
+                SetColleagueActive(3, true);
                 break;
         }
 
