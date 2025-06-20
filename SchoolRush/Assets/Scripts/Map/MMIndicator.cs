@@ -6,13 +6,13 @@ public class MMIndicator : MonoBehaviour
 {
     private float length;
     public GameObject player;
-    private GameObject checkpoint; 
+    private GameObject checkpoint;
 
     private float amp = 2f;
     private float freq = 2f;
 
     private void Start() {
-        length = 10f;
+        length = 20f;
     }
 
     private void Update()
