@@ -7,6 +7,7 @@ public class CollisionManager : MonoBehaviour
     private Rigidbody rb;
     private float bumpCoef = 3000f;
 
+    [SerializeField]
     private KartController kc;
 
     private void Start()
