@@ -1,27 +1,29 @@
-"use client";
+'use client';
 
-import { UpgradeId } from "@/entities/upgrade";
-import { formatTimeMMSS } from "@/utils/time";
-import { useState, useCallback, useMemo, memo } from "react";
+import type { UpgradeId } from '@/entities/upgrade';
+import { formatTimeMMSS } from '@/utils/time';
+import { memo, useCallback, useMemo, useState } from 'react';
 
 // CSS 클래스 상수 정의
 const CLASSES = {
-  container: "border rounded-lg mb-4 bg-white shadow-sm transition-shadow duration-200",
-  containerHover: "hover:shadow-md",
-  clickArea: "p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50",
-  header: "flex justify-between items-center w-full",
-  rankBadge: "w-9 h-9 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-xl",
-  detailsContainer: "overflow-hidden transition-all duration-500 ease-in-out",
-  detailsVisible: "max-h-[700px] opacity-100 border-t border-opacity-100",
-  detailsHidden: "max-h-0 opacity-0 border-opacity-0 border-t",
-  sectionHeading: "text-sm text-gray-500 mb-3",
-  sectionContainer: "px-4 py-3",
-  upgradeContainer: "flex flex-wrap gap-2",
-  upgradeBadge: "min-w-[45px] h-10 px-2 bg-gray-100 rounded-md flex items-center justify-center text-sm font-medium transition-all duration-200 cursor-pointer border border-gray-200",
-  pathContainer: "border rounded-md p-2 bg-gray-50 mt-3",
-  noDataMessage: "text-center py-4 text-gray-400",
-  chevron: "w-4 h-4 transform transition-transform duration-300 will-change-transform",
-  chevronRotated: "rotate-180",
+  container: 'border rounded-lg mb-4 bg-white shadow-sm transition-shadow duration-200',
+  containerHover: 'hover:shadow-md',
+  clickArea: 'p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50',
+  header: 'flex justify-between items-center w-full',
+  rankBadge:
+    'w-9 h-9 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-xl',
+  detailsContainer: 'overflow-hidden transition-all duration-500 ease-in-out',
+  detailsVisible: 'max-h-[700px] opacity-100 border-t border-opacity-100',
+  detailsHidden: 'max-h-0 opacity-0 border-opacity-0 border-t',
+  sectionHeading: 'text-sm text-gray-500 mb-3',
+  sectionContainer: 'px-4 py-3',
+  upgradeContainer: 'flex flex-wrap gap-2',
+  upgradeBadge:
+    'min-w-[45px] h-10 px-2 bg-gray-100 rounded-md flex items-center justify-center text-sm font-medium transition-all duration-200 cursor-pointer border border-gray-200',
+  pathContainer: 'border rounded-md p-2 bg-gray-50 mt-3',
+  noDataMessage: 'text-center py-4 text-gray-400',
+  chevron: 'w-4 h-4 transform transition-transform duration-300 will-change-transform',
+  chevronRotated: 'rotate-180',
 };
 
 export const Item = memo(
@@ -34,7 +36,7 @@ export const Item = memo(
   }: {
     rank: number;
     nickname: string;
-    totalTime: number; // in seconds
+    totalTime: number; // in milliseconds
     upgradeIds: UpgradeId[];
     log: { time: number; position: { x: number; y: number } }[];
   }) => {
@@ -53,7 +55,12 @@ export const Item = memo(
           maxX: Math.max(acc.maxX, entry.position.x),
           maxY: Math.max(acc.maxY, entry.position.y),
         }),
-        { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity }
+        {
+          minX: Number.POSITIVE_INFINITY,
+          minY: Number.POSITIVE_INFINITY,
+          maxX: Number.NEGATIVE_INFINITY,
+          maxY: Number.NEGATIVE_INFINITY,
+        },
       );
 
       // Width and height for the SVG
@@ -74,7 +81,7 @@ export const Item = memo(
 
     // Generate SVG path
     const pathData = useMemo(() => {
-      if (normalizedLog.length === 0) return "";
+      if (normalizedLog.length === 0) return '';
 
       const firstPoint = normalizedLog[0];
       const restPoints = normalizedLog.slice(1);
@@ -82,18 +89,19 @@ export const Item = memo(
       const moveTo = `M ${firstPoint.normalizedX},${firstPoint.normalizedY}`;
       const lineTo = restPoints
         .map((point) => `L ${point.normalizedX},${point.normalizedY}`)
-        .join(" ");
+        .join(' ');
 
       return `${moveTo} ${lineTo}`;
     }, [normalizedLog]);
 
     return (
-      <div className={`${CLASSES.container} ${CLASSES.containerHover}`}>
-        <div 
-          className={CLASSES.clickArea}
+      <div
+        className={`${CLASSES.container} ${CLASSES.containerHover} flex flex-col overflow-hidden`}
+      >
+        <button
+          type="button"
+          className={`${CLASSES.clickArea}`}
           onClick={toggleDetails}
-          aria-expanded={showDetails}
-          role="button"
           tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -108,12 +116,10 @@ export const Item = memo(
               <div className="font-medium text-xl">{nickname}</div>
             </div>
             <div className="flex items-center space-x-4 pointer-events-none">
-              <div className="text-xl font-semibold">
-                {formatTimeMMSS(totalTime)}
-              </div>
+              <div className="text-xl font-semibold">{formatTimeMMSS(totalTime / 1000)}</div>
               <div className="w-6 h-6 flex items-center justify-center">
                 <svg
-                  className={`${CLASSES.chevron} ${showDetails ? CLASSES.chevronRotated : ""}`}
+                  className={`${CLASSES.chevron} ${showDetails ? CLASSES.chevronRotated : ''}`}
                   aria-hidden="true"
                   fill="none"
                   stroke="currentColor"
@@ -129,30 +135,29 @@ export const Item = memo(
               </div>
             </div>
           </div>
-        </div>
+        </button>
 
         <div
           className={`${CLASSES.detailsContainer} ${
             showDetails ? CLASSES.detailsVisible : CLASSES.detailsHidden
           }`}
-          style={{ willChange: "max-height, opacity" }}
+          style={{ willChange: 'max-height, opacity' }}
           aria-hidden={!showDetails}
         >
           <div className={CLASSES.sectionContainer}>
             <h4 className={CLASSES.sectionHeading}>Upgrades</h4>
             <div className={CLASSES.upgradeContainer}>
               {upgradeIds.map((id) => (
-                <div
+                <button
                   key={id}
                   className={CLASSES.upgradeBadge}
-                  title={`Upgrade ID: ${id}`}
-                  role="button"
+                  type="button"
                   tabIndex={0}
                   onClick={(e) => e.stopPropagation()}
                   onKeyDown={(e) => e.stopPropagation()}
                 >
                   {id}
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -160,18 +165,17 @@ export const Item = memo(
           <div className={CLASSES.sectionContainer}>
             <h4 className={CLASSES.sectionHeading}>Movement Path</h4>
             <div className={CLASSES.pathContainer}>
-                  {normalizedLog.length === 0 ? (
-                    <div className={CLASSES.noDataMessage}>
-                      No movement data available
-                    </div>
-                  ) : (
-                    <svg
-                      width="100%"
-                      height="250"
-                      viewBox="0 0 300 250"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={{ willChange: "transform" }}
-                    >
+              {normalizedLog.length === 0 ? (
+                <div className={CLASSES.noDataMessage}>No movement data available</div>
+              ) : (
+                <svg
+                  width="100%"
+                  height="250"
+                  viewBox="0 0 300 250"
+                  preserveAspectRatio="xMidYMid meet"
+                  style={{ willChange: 'transform' }}
+                >
+                  <title>map</title>
                   <path
                     d={pathData}
                     stroke="#3b82f6"
@@ -201,5 +205,5 @@ export const Item = memo(
         </div>
       </div>
     );
-  }
+  },
 );
