@@ -24,7 +24,7 @@ public class KartController : MonoBehaviour
 
     [Header("Settings")]
     public LayerMask layerMask;
-    private float maxSpeed = 40f;
+    private float maxSpeed = 50f;
     private float acceleration = 30f;
     private float deceleration = 3f;
     private float steering = 10f;
@@ -154,7 +154,7 @@ public class KartController : MonoBehaviour
             float control = (driftDirection == 1) ? ExtensionMethods.Remap(input, -1, 1, 0, 2) : ExtensionMethods.Remap(input, -1, 1, 2, 0);
             float powerControl = (driftDirection == 1) ? ExtensionMethods.Remap(input, -1, 1, .2f, 1) : ExtensionMethods.Remap(input, -1, 1, 1, .2f);
             Steer(driftDirection, control);
-            driftPower += powerControl;
+            driftPower += powerControl * Time.deltaTime * 90;
             UpdateDriftEffects();
 
             // End Drift
