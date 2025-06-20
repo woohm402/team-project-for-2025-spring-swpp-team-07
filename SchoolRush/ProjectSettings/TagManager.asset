@@ -15,16 +15,16 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Layer3
   - Water
   - UI
   - MiniMap
   - FullMap
   - 
+  - CAM
   - 
   - 
-  - 
-  - 
+  - Passenger
   - 
   - 
   - 

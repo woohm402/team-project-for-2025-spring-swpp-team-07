@@ -1,38 +1,67 @@
 ﻿using UnityEngine;
 
 namespace Peque.Traffic
-{ 
+{
     public class CharacterNavigationController : WaypointNavigator
     {
-        public float movementSpeed = 1;
-        public float movementRotation = 1;
+        public float movementSpeed = 1f;
+        public float rotationSpeed = 4f;
+        public float raycastHeight = 50f;
+        public LayerMask groundMask = ~0;
 
         private Animator animator;
-        private WaypointNavigator waypointNavigator;
+        private Rigidbody rb;
+        private WaypointNavigator navigator;
 
-        private void Awake() {
+        private void Awake()
+        {
             animator = GetComponent<Animator>();
-            waypointNavigator = GetComponent<WaypointNavigator>();
+            rb = GetComponent<Rigidbody>();
+            rb.constraints = RigidbodyConstraints.FreezeRotationX |
+                             RigidbodyConstraints.FreezeRotationZ;
+            navigator = GetComponent<WaypointNavigator>();
         }
 
-        private void Update() {
-            if (reachedDestination) {
-                waypointNavigator.getNextWaypoint();
-
-                // if after requesting a new waypoint we didnt get one, stop moving animation
-                if (reachedDestination) {
+        private void Update()
+        {
+            if (reachedDestination)
+            {
+                navigator.getNextWaypoint();
+                if (reachedDestination)
+                {
                     animator.SetFloat("Speed", 0);
                     return;
                 }
             }
-            Vector3 direction = destination - transform.position;
+        }
 
-            animator.SetFloat("Speed", movementSpeed);
-            transform.position = Vector3.MoveTowards(transform.position, destination, Time.deltaTime * movementSpeed);
-
-            if (direction != Vector3.zero) {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 4);
+        private void FixedUpdate()
+        {
+            // 1) 수평 방향만 계산
+            Vector3 dir = destination - rb.position;
+            Vector3 flatDir = new Vector3(dir.x, 0, dir.z);
+            if (flatDir.sqrMagnitude < 0.01f)
+            {
+                animator.SetFloat("Speed", 0);
+                return;
             }
+
+            // 2) 애니메이터 속도 세팅
+            animator.SetFloat("Speed", movementSpeed);
+
+            // 3) 이동할 XZ 좌표 계산
+            Vector3 nextPos = rb.position + flatDir.normalized * movementSpeed * Time.fixedDeltaTime;
+
+            // 4) 바닥 콜라이더 추적: raycast로 y 높이 맞춤
+            Ray ray = new Ray(new Vector3(nextPos.x, rb.position.y + raycastHeight, nextPos.z), Vector3.down);
+            if (Physics.Raycast(ray, out RaycastHit hit, raycastHeight * 2f, groundMask))
+                nextPos.y = hit.point.y;
+
+            rb.MovePosition(nextPos);
+
+            // 5) 회전: 수평 회전만
+            Quaternion targetRot = Quaternion.LookRotation(flatDir);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime));
         }
     }
 }

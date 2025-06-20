@@ -11,7 +11,7 @@ namespace Peque.Traffic
         public bool reachedDestination {
             get {
                 Vector3 direction = destination - transform.position;
-
+                direction.y = 0f;
                 return (direction.magnitude <= stopDistance);
             }
         }
