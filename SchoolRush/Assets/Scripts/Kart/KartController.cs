@@ -154,7 +154,7 @@ public class KartController : MonoBehaviour
             float control = (driftDirection == 1) ? ExtensionMethods.Remap(input, -1, 1, 0, 2) : ExtensionMethods.Remap(input, -1, 1, 2, 0);
             float powerControl = (driftDirection == 1) ? ExtensionMethods.Remap(input, -1, 1, .2f, 1) : ExtensionMethods.Remap(input, -1, 1, 1, .2f);
             Steer(driftDirection, control);
-            driftPower += powerControl * Time.deltaTime * 90;
+            driftPower += powerControl * Time.deltaTime * 120;
             UpdateDriftEffects();
 
             // End Drift
