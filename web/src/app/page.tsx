@@ -1,12 +1,12 @@
 import { PlayerData } from "@/entities/player-data";
-import mongodb, { ObjectId, ServerApiVersion } from "mongodb";
+import { ObjectId, ServerApiVersion, MongoClient } from "mongodb";
 import { Item } from "./_components/Item";
 import { ensure } from "@/utils/ensure";
 import { UPGRADE_IDS } from "@/entities/upgrade";
 
 export default async function Home() {
   const mongodbUrl = `mongodb+srv://woohm404:${process.env.MONGODB_PASSWORD}@cluster0.qtwt5z8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-  const client = await mongodb.MongoClient.connect(mongodbUrl, {
+  const client = await MongoClient.connect(mongodbUrl, {
     serverApi: ServerApiVersion.v1,
   });
 

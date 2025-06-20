@@ -1,4 +1,4 @@
-import mongodb from "mongodb";
+import { MongoClient } from "mongodb";
 import { parsePlayerData } from "@/entities/player-data";
 
 export const POST = async (request: Request) => {
@@ -17,7 +17,7 @@ export const POST = async (request: Request) => {
 
   const mongodbUrl = `mongodb+srv://woohm404:${process.env.MONGODB_PASSWORD}@cluster0.qtwt5z8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
-  const client = await mongodb.MongoClient.connect(mongodbUrl);
+  const client = await MongoClient.connect(mongodbUrl);
 
   try {
     const db = client.db("player-data");
