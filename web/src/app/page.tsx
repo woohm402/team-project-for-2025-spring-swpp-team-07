@@ -27,7 +27,7 @@ export default async function Home() {
           <Item
             log={item.logs.map((l) => ({
               time: l.time,
-              position: { x: l.x, y: l.y },
+              position: { x: l.x, y: l.z },
             }))}
             nickname={item.nickname}
             rank={i + 1}
