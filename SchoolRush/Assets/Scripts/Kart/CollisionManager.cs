@@ -34,13 +34,10 @@ public class CollisionManager : MonoBehaviour
             case "Wall":
                 am.PlayOneShot(am.hitWallAudio);
                 break;
-            case "Road":
-                roadCount++;
-                kc.SetAsOnRoad(roadCount > 0);
-                break;
             case "Terrain":
                 kc.SetAsOnGround();
                 break;
+            
         }
 
         GameObject go = collision.gameObject;
@@ -52,19 +49,7 @@ public class CollisionManager : MonoBehaviour
     }
 
 
-    private void OnCollisionExit(Collision collision)
-    {
-        AudioManager am = AudioManager.Instance;
 
-        switch (collision.gameObject.tag)
-        {
-
-            case "Road":
-                roadCount--;
-                kc.SetAsOnRoad(roadCount > 0);
-                break;
-        }
-    }
 
     public void KCRegister(KartController kc)
     {
