@@ -24,7 +24,7 @@ public class MMIndicator : MonoBehaviour
         Vector3 pos = transform.position;
         transform.position = new(pos.x, player.transform.position.y + 30, pos.z);
 
-        distUI.text = $"{vector.magnitude:F0}m";
+        distUI.text = $"{(vector.magnitude / 3):F0}m";
     }
 
     public void SetCheckpoint(GameObject cp)

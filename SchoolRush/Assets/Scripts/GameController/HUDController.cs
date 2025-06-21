@@ -30,7 +30,7 @@ public class HUDController : MonoBehaviour
         // Update speed
         float speed = playerRigidbody.velocity.magnitude;
         if (speedText != null)
-            speedText.text = string.Format("{0:0.0} m/s", speed);
+            speedText.text = string.Format("{0:0.0}", speed);
 
         // Update shields
         if (shieldsText != null)
