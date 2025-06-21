@@ -91,7 +91,6 @@ namespace GSD.Threaded{
 //		private static float ProcessLineHeights_GetDesiredHeight(Vector3 tVect, ref GSD.Roads.GSDTerraforming.TempTerrainData TTD, ref GSDSplineC tSpline){
 //			return ((((tVect - TTD.TerrainPos).y)-tSpline.tRoad.opt_TerrainSubtract_Alt) / TTD.TerrainSize.y);
 //		}
-		
 		private static void GetTempHeights_Coordinates(ref Vector3 tVect,ref GSD.Roads.GSDTerraforming.TempTerrainData TTD, out int x, out int y){
 			//Get the normalized position of this game object relative to the terrain:
 			Vector3 tempCoord = (tVect - TTD.TerrainPos);
@@ -102,11 +101,11 @@ namespace GSD.Threaded{
 			coord.z = tempCoord.z / TTD.TerrainSize.z;
 				
 			//Get the position of the terrain heightmap where this game object is:
-			y = (int) (coord.x * TTD.HM);
-			x = (int) (coord.z * TTD.HM);
+
+			y = (int) (coord.x * (TTD.HM-1));
+			x = (int) (coord.z * (TTD.HM-1));
 		}
-		
-		private static void GetTempDetails_Coordinates(ref Vector3 tVect,ref GSD.Roads.GSDTerraforming.TempTerrainData TTD, out int x, out int y){
+				private static void GetTempDetails_Coordinates(ref Vector3 tVect,ref GSD.Roads.GSDTerraforming.TempTerrainData TTD, out int x, out int y){
 			//Get the normalized position of this game object relative to the terrain:
 			Vector3 tempCoord = (tVect - TTD.TerrainPos);
 			
@@ -115,7 +114,8 @@ namespace GSD.Threaded{
 			coord.y = tempCoord.y / TTD.TerrainSize.y;
 			coord.z = tempCoord.z / TTD.TerrainSize.z;
 				
-			//Get the position of the terrain heightmap where this game object is:
+			//Get the position of the terrain detail map where this game object is:
+
 			y = (int) (coord.x * TTD.DetailMaxIndex);
 			x = (int) (coord.z * TTD.DetailMaxIndex);
 		}
@@ -124,14 +124,30 @@ namespace GSD.Threaded{
 		public static void DoRects(GSDSplineC tSpline, GSD.Roads.GSDTerraforming.TempTerrainData TTD){
 			DoRectsDo(ref tSpline, ref TTD);
 		}
-		
-		private static void DoRectsDo(ref GSDSplineC tSpline,ref GSD.Roads.GSDTerraforming.TempTerrainData TTD){
+				private static void DoRectsDo(ref GSDSplineC tSpline,ref GSD.Roads.GSDTerraforming.TempTerrainData TTD){
 			float Sep = tSpline.tRoad.RoadWidth()*0.5f;
 			float HeightSep = Sep + (tSpline.tRoad.opt_MatchHeightsDistance * 0.5f);
 			List<TerrainBoundsMaker> TBMList = new List<TerrainBoundsMaker>();
 //			List<GSD.Roads.GSDRoadUtil.Construction3DTri> triList = new List<GSD.Roads.GSDRoadUtil.Construction3DTri>();
 			List<GSD.Roads.GSDRoadUtil.Construction2DRect> TreerectList = new List<GSD.Roads.GSDRoadUtil.Construction2DRect>();
 			float tStep = tSpline.tRoad.opt_RoadDefinition / tSpline.distance;
+
+			if(tSpline.distance > 2000f) {
+
+				tStep = tStep * 2.0f;
+				UnityEngine.Debug.Log($"[VERY LONG ROAD] Increased step size: {tStep} for road length: {tSpline.distance}m");
+			} else if(tSpline.distance > 1000f) {
+
+				tStep = tStep * 1.5f;
+				UnityEngine.Debug.Log($"[LONG ROAD] Moderately increased step size: {tStep} for road length: {tSpline.distance}m");
+			} else if(TTD.HM > 4000) {
+				tStep = tStep / 1.2f;
+				UnityEngine.Debug.Log($"[VERY LARGE HEIGHTMAP] Conservative step size: {tStep} for resolution: {TTD.HM}");
+			} else if(TTD.HM > 2048) {
+				float terrainScale = TTD.HM / 2048f;
+				tStep = tStep / Mathf.Max(1f, terrainScale * 0.7f);
+				UnityEngine.Debug.Log($"[LARGE HEIGHTMAP] Adjusted step size: {tStep} for resolution: {TTD.HM}");
+			}
 //			tStep *= 0.5f;
 			
 			//Start initializing the loop. Convuluted to handle special control nodes, so roads don't get rendered where they aren't supposed to, while still preserving the proper curvature.
@@ -189,20 +205,23 @@ namespace GSD.Threaded{
 			float TreeClearDist = tSpline.tRoad.opt_ClearTreesDistance;
 			if(TreeClearDist < tSpline.tRoad.RoadWidth()){ TreeClearDist = tSpline.tRoad.RoadWidth(); }
 			GSD.Roads.GSDRoadUtil.Construction2DRect tRect = null;
-			float tGrade = 0f;
-			for(float i=StartMin;i<FinalMax;i+=tStep){
-				if(tSpline.tRoad.opt_HeightModEnabled){
-					if(i > 1f){ break; }
-					tNext = i+tStep;
-					if(tNext > 1f){ break; }
+			float tGrade = 0f;		for(float i=StartMin;i<FinalMax;i+=tStep){
+			if(tSpline.tRoad.opt_HeightModEnabled){
+
+
+				if(i > FinalMax){ break; }
+				tNext = i+tStep;
+
+				if(tNext > FinalMax){					tNext = FinalMax;
+				}
 	
-					tSpline.GetSplineValue_Both(i,out tVect1,out POS1);
+				tSpline.GetSplineValue_Both(Mathf.Clamp01(i),out tVect1,out POS1);
 	
-					if(tNext <= 1f){
-						tSpline.GetSplineValue_Both(tNext,out tVect2,out POS2);
-					}else{
-						tSpline.GetSplineValue_Both(1f,out tVect2,out POS2);
-					}
+				if(tNext <= FinalMax){
+					tSpline.GetSplineValue_Both(Mathf.Clamp01(tNext),out tVect2,out POS2);
+				}else{
+					tSpline.GetSplineValue_Both(Mathf.Clamp01(FinalMax),out tVect2,out POS2);
+				}
 					
 					//Determine if intersection:
 					bIsPastInter = false;	//If past intersection
@@ -676,33 +695,29 @@ namespace GSD.Threaded{
 				if(tSpline.tRoad.bProfiling){ UnityEngine.Profiling.Profiler.BeginSample("Dorectsdetails"); }
 				int tInt = 0;
 				for(int i=MinX;i<=MaxX;i++){
-					for(int k=MinY;k<=MaxY;k++){
-						//Bitfield for identification:
-						tInt = k; 
-						tInt = tInt << 16;
-       			 		tInt = tInt | (ushort)i;
-						if(!TTD.DetailHasProcessed.Contains(tInt)){
+					for(int k=MinY;k<=MaxY;k++){						//Safe identifier for large coordinates:
+						string coordKey = i + "," + k;
+						if(!TTD.DetailHasProcessed.Contains(coordKey)){
 //							for(int h=0;h<TTD.DetailLayersCount;h++){
 //								if(TTD.DetailLayersSkip.Contains(h)){ continue; }
 	//							if(!TTD.DetailHasProcessed[h][i,k]){// && TTD.DetailValues[h][i,k] > 0){
-								
-							TTD.MainDetailsX.Add((ushort)i);
-							TTD.MainDetailsY.Add((ushort)k);
+										TTD.MainDetailsX.Add(i);
+							TTD.MainDetailsY.Add(k);
 							
 //								DetailI = TTD.DetailsI[h];
 									
-//								TTD.DetailsX[h].Add((ushort)i);
-//								TTD.DetailsY[h].Add((ushort)k);
+//								TTD.DetailsX[h].Add(i);
+//								TTD.DetailsY[h].Add(k);
 								
-//								TTD.DetailsX[h][DetailI] = (ushort)i;	
-//								TTD.DetailsY[h][DetailI] = (ushort)k;
-//								TTD.OldDetailsValue[h][DetailI] = (ushort)TTD.DetailValues[h][i,k];
+//								TTD.DetailsX[h][DetailI] = i;	
+//								TTD.DetailsY[h][DetailI] = k;
+//								TTD.OldDetailsValue[h][DetailI] = TTD.DetailValues[h][i,k];
 //								TTD.DetailValues[h][i,k] = 0;
 								
 //								TTD.DetailsI[h]+=1;
 							
 //							}
-							TTD.DetailHasProcessed.Add(tInt);
+							TTD.DetailHasProcessed.Add(coordKey);
 						}
 					}
 				}
@@ -727,26 +742,84 @@ namespace GSD.Threaded{
 			if(MinY < 0){ MinY = 0; }
 			if(MaxX < 0){ MaxX = 0; }
 			if(MaxY < 0){ MaxY = 0; }
-			
-			Vector3 xVect = default(Vector3);
+					Vector3 xVect = default(Vector3);
 			bool bAdjusted = false;
 			float tHeight = -1f;
 			float tReturnFloat = 0f;
+			bool canAddPoint = false;
 //			int dX = 0;
 //			int dY = 0;
 //			int tdX = 0;
 //			int tdY = 0;
 //			bool bOneHit = false;
-			
 			for(int i=MinX;i<=MaxX;i++){
 				for(int k=MinY;k<=MaxY;k++){
 					if(TTD.tHeights[i,k] != true){
-						if(TTD.cX.Length <= TTD.cI){ break; }
+						canAddPoint = false;
+						if(TTD.bUseLargeCoords) {
+							if(TTD.cX_large != null && TTD.cI < TTD.cX_large.Length) {
+								canAddPoint = true;
+							} else if(TTD.cI >= TTD.cX_large.Length) {
+							int absoluteMaxPoints = 2000000; 
+							if(TTD.HM > 4000) {
+								absoluteMaxPoints = 1500000; 
+							}if(TTD.cI >= absoluteMaxPoints) {
+								int samplingRate = Mathf.Max(5, (TTD.cI - absoluteMaxPoints) / 1000 + 10);
+								if((i + k) % samplingRate != 0) {
+									continue; 
+								}
+								if(TTD.cI % 5000 == 0) {
+									UnityEngine.Debug.Log($"[TERRAIN] Adaptive sampling rate: 1/{samplingRate}. Points: {TTD.cI}. Coordinates: ({i},{k})");
+								}
+							}
+								
+								int proposedSize = TTD.cX_large.Length * 3 / 2;
+								int maxTerrainSize = TTD.HM * TTD.HM / 10; 
+								int newSize = Mathf.Min(proposedSize, Mathf.Min(maxTerrainSize, absoluteMaxPoints));								if(newSize <= TTD.cX_large.Length && TTD.cI < absoluteMaxPoints) {
+									int adaptiveSamplingRate = Mathf.Max(3, (TTD.cI - absoluteMaxPoints/2) / 1000 + 3);
+									if((i + k) % adaptiveSamplingRate != 0) { 
+										continue;
+									}
+									canAddPoint = true;								}else if(newSize > TTD.cX_large.Length) {
+									if(TTD.cI % 100000 == 0) {
+										UnityEngine.Debug.Log($"[TERRAIN] Expanding arrays from {TTD.cX_large.Length} to {newSize} for resolution {TTD.HM}");
+									}
+									
+									int[] newCX = new int[newSize];
+									int[] newCY = new int[newSize];
+									float[] newOldH = new float[newSize];
+									float[] newCH = new float[newSize];
+									
+									System.Array.Copy(TTD.cX_large, newCX, TTD.cI);
+									System.Array.Copy(TTD.cY_large, newCY, TTD.cI);
+									System.Array.Copy(TTD.oldH, newOldH, TTD.cI);
+									System.Array.Copy(TTD.cH, newCH, TTD.cI);
+									
+									TTD.cX_large = newCX;
+									TTD.cY_large = newCY;
+									TTD.oldH = newOldH;
+									TTD.cH = newCH;
+									
+									canAddPoint = true;
+								}
+							}						} else {
+							canAddPoint = (TTD.cX != null && TTD.cI < TTD.cX.Length);
+							if(!canAddPoint) {
+								int smallTerrainSamplingRate = Mathf.Max(2, TTD.cI / 10000 + 2);
+								if((i + k) % smallTerrainSamplingRate == 0) {
+									canAddPoint = true; 
+								}
+							}
+						}
+						
+						if(!canAddPoint) { 
+
+							continue;
+						}
 						
 						xVect = ConvertTerrainCoordToWorldVect(i,k,TTD.heights[i,k],ref TTD);
 						AdjustedTerrainVect_Tri(ref param, out bAdjusted,out tHeight,ref xVect,ref tList, bIsBridge, bIsTunnel);
-						
-						if(bAdjusted){
+								if(bAdjusted){
 							tHeight-= tSpline.tRoad.opt_TerrainSubtract_Match;
 							if(tHeight < 0f){ tHeight = 0f; }
 							xVect.y = tHeight;
@@ -754,11 +827,33 @@ namespace GSD.Threaded{
 							
 							//Set height values:
 							TTD.tHeights[i,k] = true;
-							TTD.cX[TTD.cI] = (ushort)i;
-							TTD.cY[TTD.cI] = (ushort)k;
-							TTD.oldH[TTD.cI] = TTD.heights[i,k];
-							TTD.heights[i,k] = tHeight;
-							TTD.cI+=1;
+
+							bool coordsSaved = false;
+							if(TTD.bUseLargeCoords) {
+								if(TTD.cX_large != null && TTD.cY_large != null && TTD.cI < TTD.cX_large.Length) {
+									TTD.cX_large[TTD.cI] = i;
+									TTD.cY_large[TTD.cI] = k;
+									coordsSaved = true;
+								}
+								if(TTD.cX != null && i < 65536 && k < 65536 && TTD.cI < TTD.cX.Length) {
+									TTD.cX[TTD.cI] = (ushort)i;
+									TTD.cY[TTD.cI] = (ushort)k;
+								}
+							} else {
+								if(TTD.cX != null && TTD.cI < TTD.cX.Length && i < 65536 && k < 65536) {
+									TTD.cX[TTD.cI] = (ushort)i;
+									TTD.cY[TTD.cI] = (ushort)k;
+									coordsSaved = true;
+								}
+							}
+							
+							if(coordsSaved && TTD.cI < TTD.oldH.Length && TTD.cI < TTD.cH.Length) {
+								TTD.oldH[TTD.cI] = TTD.heights[i,k];
+								TTD.heights[i,k] = tHeight;
+								TTD.cI+=1;
+							} else {
+								TTD.heights[i,k] = tHeight;
+							}
 
 							tReturnFloat = xVect.y;
 //							bOneHit = true;
@@ -783,9 +878,9 @@ namespace GSD.Threaded{
 			
 			return tReturnFloat;
 		}
-		
-		private static Vector3 ConvertTerrainCoordToWorldVect(int x, int y, float tHeight,ref GSD.Roads.GSDTerraforming.TempTerrainData TTD){
+				private static Vector3 ConvertTerrainCoordToWorldVect(int x, int y, float tHeight,ref GSD.Roads.GSDTerraforming.TempTerrainData TTD){
 			//Get the normalized position of this game object relative to the terrain:
+
 			float x1 = x / ((float)TTD.HM-1f);
 			x1 = x1 * TTD.TerrainSize.x;
 			
