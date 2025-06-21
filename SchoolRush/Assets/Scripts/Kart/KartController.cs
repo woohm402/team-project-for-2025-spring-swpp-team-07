@@ -18,6 +18,9 @@ public class KartController : MonoBehaviour
     public Transform t_wheelParticles, t_flashParticles;
     public Color[] turboColors;
 
+    public CinemachineVirtualCamera virtualCamera;
+    private Cinemachine3rdPersonFollow thirdPersonFollow;
+
     [Header("References")]
     private PostProcessVolume postVolume;
     private PostProcessProfile postProfile;
@@ -75,6 +78,8 @@ public class KartController : MonoBehaviour
         steeringWheel = kartModel.Find("head");
 
         taxi = kartNormal.Find("Taxi");
+
+        thirdPersonFollow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
     }
 
     void Start()
@@ -444,7 +449,9 @@ public class KartController : MonoBehaviour
         isTaxi = true;
         t_sphere.transform.position = sphere.transform.position;
         sphere = t_sphere;
-        spherePivot = new Vector3(0, 1.8f, 0);
+        spherePivot = new Vector3(0, 2.1f, 0);
+
+        thirdPersonFollow.ShoulderOffset = new Vector3(0f, 2.5f, -10f);
 
         wheelParticles = t_wheelParticles;
         flashParticles = t_flashParticles;

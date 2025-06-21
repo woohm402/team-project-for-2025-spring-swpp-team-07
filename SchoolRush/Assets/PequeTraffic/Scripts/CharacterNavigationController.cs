@@ -40,11 +40,11 @@ namespace Peque.Traffic
             // 1) 수평 방향만 계산
             Vector3 dir = destination - rb.position;
             Vector3 flatDir = new Vector3(dir.x, 0, dir.z);
-            if (flatDir.sqrMagnitude < 0.01f)
-            {
-                animator.SetFloat("Speed", 0);
-                return;
-            }
+            // if (flatDir.sqrMagnitude < 0.01f)
+            // {
+            //     animator.SetFloat("Speed", 0);
+            //     return;
+            // }
 
             // 2) 애니메이터 속도 세팅
             // animator.SetFloat("Speed", movementSpeed);
