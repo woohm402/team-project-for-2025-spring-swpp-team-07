@@ -4,7 +4,7 @@ public class Upgrade302 : Upgrade {
     private KartController kartController;
     private static readonly float[] rates = { 1.2f, 1.6f, 2.0f };
 
-    public Upgrade302(KartController kartController): base("창업", GetDescription()) {
+    public Upgrade302(KartController kartController): base(302, "창업", GetDescription()) {
         this.kartController = kartController;
     }
 

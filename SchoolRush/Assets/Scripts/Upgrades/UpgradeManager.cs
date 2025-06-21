@@ -97,6 +97,7 @@ public class UpgradeManager : MonoBehaviour
     {
         upgradeUI.SetActive(false);
         upgrade.OnPick();
+        kartController.GetPlayerData().InsertUpgrade(upgrade);
         Time.timeScale = 1;
         selectedUpgrades.Add(upgrade);
 

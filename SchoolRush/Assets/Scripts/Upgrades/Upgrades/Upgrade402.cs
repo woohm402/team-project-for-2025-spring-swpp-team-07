@@ -1,7 +1,7 @@
 public class Upgrade402 : Upgrade {
     private BGMController bgmController;
 
-    public Upgrade402(BGMController bgmController): base("축제", GetDescription()) {
+    public Upgrade402(BGMController bgmController): base(402, "축제", GetDescription()) {
         this.bgmController = bgmController;
     }
 

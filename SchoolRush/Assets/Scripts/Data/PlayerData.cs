@@ -18,6 +18,10 @@ public class PlayerData {
         this.logs.Add(new Log((int)System.DateTimeOffset.UtcNow.ToUnixTimeSeconds(), position));
     }
 
+    public void InsertUpgrade(Upgrade upgrade) {
+        this.augmentIds.Add(upgrade.GetId());
+    }
+
     public void Save(int totalTime) {
         this.totalTime = totalTime;
         PlayerDataSaveLoad.SaveData(this);
