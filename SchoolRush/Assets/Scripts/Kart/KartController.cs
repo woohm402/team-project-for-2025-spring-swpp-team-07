@@ -32,8 +32,8 @@ public class KartController : MonoBehaviour
     private float boostDuration = 0.3f;
     private float dizzyDuration = 1.5f;
     private float firstDriftLimit = 50f;
-    private float secondDriftLimit = 100f;
-    private float thirdDriftLimit = 150f;
+    private float secondDriftLimit = 80f;
+    private float thirdDriftLimit = 110f;
     private Vector3 spherePivot = new Vector3(0, 0.27f, 0);
 
     [Header("States")]
@@ -61,7 +61,6 @@ public class KartController : MonoBehaviour
     private float roadRemainTime = -1f;
     private float roadOnSetTime = 0.5f;
     private float roadSpeedMultiplier = 1.5f;
-
 
     #endregion
 
