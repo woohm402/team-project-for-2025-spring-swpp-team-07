@@ -8,19 +8,28 @@ public class MapController : MonoBehaviour
     private Camera mainCam;
     [SerializeField]
     private Camera miniCam;
+    private Camera subMiniCam;
     [SerializeField]
     private Camera fullCam;
+    private AudioManager am;
+
+    private void Start()
+    {
+        am = AudioManager.Instance;
+        subMiniCam = miniCam.gameObject.transform.GetComponentsInChildren<Camera>()[1];
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            AudioManager.Instance.PlayOneShot(AudioManager.Instance.mapAudio);
+            am.PlayOneShot(am.mapAudio);
 
             if (mainCam.isActiveAndEnabled)
             {
                 mainCam.enabled = false;
                 miniCam.enabled = false;
+                subMiniCam.enabled = false;
                 fullCam.enabled = true;
                 Time.timeScale = 0;
             }
@@ -28,6 +37,7 @@ public class MapController : MonoBehaviour
             {
                 mainCam.enabled = true;
                 miniCam.enabled = true;
+                subMiniCam.enabled = true;
                 fullCam.enabled = false;
                 Time.timeScale = 1;
             }
