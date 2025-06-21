@@ -10,6 +10,8 @@ public class CollisionManager : MonoBehaviour
     [SerializeField]
     private KartController kc;
 
+    private int roadCount = 0;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,6 +34,10 @@ public class CollisionManager : MonoBehaviour
             case "Wall":
                 am.PlayOneShot(am.hitWallAudio);
                 break;
+            case "Road":
+                roadCount++;
+                kc.SetAsOnRoad(roadCount > 0);
+                break;
             case "Terrain":
                 kc.SetAsOnGround();
                 break;
@@ -42,6 +48,21 @@ public class CollisionManager : MonoBehaviour
         {
             Vector3 v = transform.position - go.transform.position + Vector3.up;
             rb.AddForce(bumpCoef * v, ForceMode.Impulse);
+        }
+    }
+
+
+    private void OnCollisionExit(Collision collision)
+    {
+        AudioManager am = AudioManager.Instance;
+
+        switch (collision.gameObject.tag)
+        {
+
+            case "Road":
+                roadCount--;
+                kc.SetAsOnRoad(roadCount > 0);
+                break;
         }
     }
 

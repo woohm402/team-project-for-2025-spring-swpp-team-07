@@ -11,6 +11,7 @@ TagManager:
   - EndWall
   - Checkpoint
   - Terrain
+  - Road
   layers:
   - Default
   - TransparentFX

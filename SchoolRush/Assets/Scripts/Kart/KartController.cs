@@ -25,6 +25,8 @@ public class KartController : MonoBehaviour
     [Header("Settings")]
     public LayerMask layerMask;
     private float maxSpeed = 50f;
+    private float roadMaxSpeed = 80f;
+    private float defaultMaxSpeed = 50f;
     private float acceleration = 30f;
     private float deceleration = 3f;
     private float steering = 10f;
@@ -55,6 +57,13 @@ public class KartController : MonoBehaviour
 
     private PlayerData playerData;
     private int shieldCount = 0;
+
+
+    private bool isOnRoad = false;
+    private float roadRemainTime = -1f;
+    private float roadOnSetTime = 1f;
+
+    
     #endregion
 
     #region Initialize - Awake & Start
@@ -69,6 +78,8 @@ public class KartController : MonoBehaviour
 
         taxi = kartNormal.Find("Taxi");
     }
+
+
 
     void Start()
     {
@@ -97,7 +108,7 @@ public class KartController : MonoBehaviour
             primaryParticles.Add(wheelParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
         }
 
-        foreach(ParticleSystem p in flashParticles.GetComponentsInChildren<ParticleSystem>())
+        foreach (ParticleSystem p in flashParticles.GetComponentsInChildren<ParticleSystem>())
         {
             secondaryParticles.Add(p);
         }
@@ -116,6 +127,12 @@ public class KartController : MonoBehaviour
     #region Callbacks - Update
     void Update()
     {
+        
+        
+        maxSpeed = roadRemainTime<=0 ? roadMaxSpeed : defaultMaxSpeed;
+        
+        roadRemainTime -= roadRemainTime>0 ? Time.deltaTime:0;
+        
         // Follow Collider
         transform.position = sphere.transform.position - new Vector3(0, 0.4f, 0);
 
@@ -180,13 +197,13 @@ public class KartController : MonoBehaviour
         else
         {
             float control = (driftDirection == 1) ? ExtensionMethods.Remap(input, -1, 1, .5f, 2) : ExtensionMethods.Remap(input, -1, 1, 2, .5f);
-            kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y,(control * 10) * driftDirection, .2f), 0);
+            kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y, (control * 10) * driftDirection, .2f), 0);
         }
 
         //b) Wheels
         frontWheels.localEulerAngles = new Vector3(0, (input * 15), frontWheels.localEulerAngles.z);
-        frontWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude/2);
-        backWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude/2);
+        frontWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
+        backWheels.localEulerAngles += new Vector3(0, 0, sphere.velocity.magnitude / 2);
 
         //c) Steering Wheel
         steeringWheel.localEulerAngles = new Vector3(0, (input * 1), 77.4f);
@@ -206,11 +223,13 @@ public class KartController : MonoBehaviour
         {
             DOVirtual.Float(currentSpeed * 3, currentSpeed, boostDuration * driftMode, Speed);
             DOVirtual.Float(0, 1, .5f, ChromaticAmount).OnComplete(() => DOVirtual.Float(1, 0, .5f, ChromaticAmount));
-            if (isTaxi) {
+            if (isTaxi)
+            {
                 taxi.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
                 taxi.Find("Tube002").GetComponentInChildren<ParticleSystem>().Play();
             }
-            else {
+            else
+            {
                 kartModel.Find("Tube001").GetComponentInChildren<ParticleSystem>().Play();
             }
         }
@@ -266,7 +285,7 @@ public class KartController : MonoBehaviour
             pmain.startColor = c;
         }
 
-        foreach(ParticleSystem p in secondaryParticles)
+        foreach (ParticleSystem p in secondaryParticles)
         {
             var pmain = p.main;
             pmain.startColor = c;
@@ -294,7 +313,7 @@ public class KartController : MonoBehaviour
     private void FixedUpdate()
     {
         //Forward Acceleration
-        if(!drifting)
+        if (!drifting)
             sphere.AddForce(-kartModel.transform.right * currentSpeed, ForceMode.Acceleration);
         else
             sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
@@ -308,7 +327,7 @@ public class KartController : MonoBehaviour
         RaycastHit hitOn;
         RaycastHit hitNear;
 
-        Physics.Raycast(transform.position + (transform.up*.1f), Vector3.down, out hitOn, 1.1f, layerMask);
+        Physics.Raycast(transform.position + (transform.up * .1f), Vector3.down, out hitOn, 1.1f, layerMask);
         Physics.Raycast(transform.position + (transform.up * .1f), Vector3.down, out hitNear, 2.0f, layerMask);
 
         //Normal Rotation
@@ -323,50 +342,61 @@ public class KartController : MonoBehaviour
         return this.playerData;
     }
 
-    public float GetMaxSpeed() {
+    public float GetMaxSpeed()
+    {
         return maxSpeed;
     }
 
-    public void SetMaxSpeed(float x) {
+    public void SetMaxSpeed(float x)
+    {
         maxSpeed = x;
     }
 
-    public float GetAccel() {
+    public float GetAccel()
+    {
         return acceleration;
     }
 
-    public void SetAccel(float x) {
+    public void SetAccel(float x)
+    {
         acceleration = x;
     }
 
-    public float GetBoostDuration() {
+    public float GetBoostDuration()
+    {
         return boostDuration;
     }
 
-    public void SetBoostDuration(float x) {
+    public void SetBoostDuration(float x)
+    {
         boostDuration = x;
     }
 
-    public void GiveShields(int count) {
+    public void GiveShields(int count)
+    {
         shieldCount += count;
     }
 
-    public ShieldResult UseShield() {
+    public ShieldResult UseShield()
+    {
         Debug.Log($"쉴드 사용 시도 (현재 {shieldCount}개 남음)");
         if (shieldCount == 0) return ShieldResult.Failed;
         shieldCount--;
         return ShieldResult.Succeed;
     }
 
-    public int GetRemainingShields() {
+    public int GetRemainingShields()
+    {
         return shieldCount;
     }
 
-    public void IncrementDizzyTime(float x) {
+    public void IncrementDizzyTime(float x)
+    {
         dizzyDuration += x;
     }
 
-    public void GetDizzy() {
+    public void GetDizzy()
+    {
         CancelInvoke(nameof(NotDizzy));
         isDizzy = true;
         sphere.velocity = Vector3.zero;
@@ -375,12 +405,14 @@ public class KartController : MonoBehaviour
         Invoke(nameof(NotDizzy), dizzyDuration);
     }
 
-    private void NotDizzy() {
+    private void NotDizzy()
+    {
         isDizzy = false;
         Debug.Log("Not Dizzy");
     }
 
-    public void ChangeBikeToTaxi() {
+    public void ChangeBikeToTaxi()
+    {
         driver.gameObject.SetActive(false);
         colleagues.gameObject.SetActive(false);
         kartModel.gameObject.SetActive(false);
@@ -398,8 +430,15 @@ public class KartController : MonoBehaviour
 
     #endregion
 
-    public void SetAsOnGround() {
+    public void SetAsOnGround()
+    {
         isOnGround = true;
+    }
+
+    public void SetAsOnRoad(bool b)
+    {
+        isOnRoad = b;
+        if (isOnRoad) roadRemainTime = roadOnSetTime;
     }
 }
 
