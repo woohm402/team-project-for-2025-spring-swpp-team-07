@@ -8,55 +8,39 @@ public class CollisionManager : MonoBehaviour
     private float bumpCoef = 3000f;
 
     [SerializeField]
-    private KartController kc;
+    private KartController kartController;
+    private CheckpointManager checkpointManager;
 
-    private int roadCount = 0;
-
-    private void Start()
-    {
+    private void Start() {
         rb = GetComponent<Rigidbody>();
+        checkpointManager = FindObjectOfType<CheckpointManager>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        AudioManager am = AudioManager.Instance;
+        AudioManager audioManager = AudioManager.Instance;
+        GameObject gameObject = collision.gameObject;
 
-        switch (collision.gameObject.tag)
-        {
-            case "Passenger":
-                am.PlayOneShot(am.hitPassengerAudio);
-                NotifyDizziness();
-                break;
-            case "Traffic":
-                am.PlayOneShot(am.hitTrafficAudio);
-                NotifyDizziness();
-                break;
-            case "Wall":
-                am.PlayOneShot(am.hitWallAudio);
-                break;
-            case "Terrain":
-                kc.SetAsOnGround();
-                break;
-            
-        }
-
-        GameObject go = collision.gameObject;
-        if (go.CompareTag("Traffic"))
-        {
-            Vector3 v = transform.position - go.transform.position + Vector3.up;
+        if (gameObject.CompareTag("Passenger")) {
+            ShieldResult shieldResult = kartController.UseShield();
+            if (shieldResult == ShieldResult.Succeed) return;
+            checkpointManager.GoToCheckPoint(kartController.GetNextCheckpointID() - 1);
+            audioManager.PlayOneShot(audioManager.hitPassengerAudio);
+        } else if (gameObject.CompareTag("Traffic")) {
+            ShieldResult shieldResult = kartController.UseShield();
+            if (shieldResult == ShieldResult.Succeed) return;
+            audioManager.PlayOneShot(audioManager.hitTrafficAudio);
+            NotifyDizziness();
+            Vector3 v = transform.position - gameObject.transform.position + Vector3.up;
             rb.AddForce(bumpCoef * v, ForceMode.Impulse);
+        } else if (gameObject.CompareTag("Building")) {
+            audioManager.PlayOneShot(audioManager.hitWallAudio);
+        } else if (gameObject.CompareTag("Terrain")) {
+            kartController.SetAsOnGround();
         }
-    }
-
-
-
-
-    public void KCRegister(KartController kc)
-    {
-        this.kc = kc;
     }
 
     private void NotifyDizziness() {
-        kc.GetDizzy();
+        kartController.GetDizzy();
     }
 }

@@ -56,7 +56,7 @@ public class KartController : MonoBehaviour
 
     private PlayerData playerData;
     private int shieldCount = 0;
-
+    private int nextCheckpointID = 1;          // 다음 목표 checkpoint id
 
     private float roadRemainTime = -1f;
     private float roadOnSetTime = 0.5f;
@@ -77,12 +77,8 @@ public class KartController : MonoBehaviour
         taxi = kartNormal.Find("Taxi");
     }
 
-
-
     void Start()
     {
-        transform.parent.gameObject.GetComponentInChildren<CollisionManager>().KCRegister(this);
-
         postVolume = Camera.main.GetComponent<PostProcessVolume>();
         postProfile = postVolume.profile;
 
@@ -449,7 +445,7 @@ public class KartController : MonoBehaviour
         t_sphere.transform.position = sphere.transform.position;
         sphere = t_sphere;
         spherePivot = new Vector3(0, 1.8f, 0);
-        
+
         wheelParticles = t_wheelParticles;
         flashParticles = t_flashParticles;
         CacheParticles();
@@ -463,6 +459,14 @@ public class KartController : MonoBehaviour
         isOnGround = true;
     }
 
+    public int GetNextCheckpointID() {
+        return nextCheckpointID;
+    }
+
+    public void IncrementNextCheckpointID() {
+        Debug.Log($"Incrementing next checkpoint ID, {nextCheckpointID}");
+        nextCheckpointID++;
+    }
 }
 
 public enum ShieldResult {
