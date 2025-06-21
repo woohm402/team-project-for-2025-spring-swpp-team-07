@@ -12,6 +12,7 @@ TagManager:
   - Checkpoint
   - Terrain
   - Road
+  - Building
   layers:
   - Default
   - TransparentFX

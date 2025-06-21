@@ -15,6 +15,7 @@ public class MMIndicator : MonoBehaviour
     private void Update()
     {
         Vector3 vector = checkpoint.transform.position - player.transform.position;
+        vector.y = 0;
         Vector3 dir = Vector3.Normalize(vector);
         transform.position = player.transform.position + (length + amp * Mathf.Sin(Time.time * freq)) * dir;
 
