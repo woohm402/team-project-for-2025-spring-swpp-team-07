@@ -34,7 +34,7 @@ public class KartController : MonoBehaviour
     private float firstDriftLimit = 50f;
     private float secondDriftLimit = 100f;
     private float thirdDriftLimit = 150f;
-    private Vector3 spherePivot = new Vector3(0, 0.4f, 0);
+    private Vector3 spherePivot = new Vector3(0, 0.27f, 0);
 
     [Header("States")]
     private List<ParticleSystem> primaryParticles = new List<ParticleSystem>();
