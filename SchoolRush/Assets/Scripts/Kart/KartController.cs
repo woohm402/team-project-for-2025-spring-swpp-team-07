@@ -129,7 +129,7 @@ public class KartController : MonoBehaviour
     {
         
         
-        maxSpeed = roadRemainTime<=0 ? roadMaxSpeed : defaultMaxSpeed;
+        maxSpeed = roadRemainTime <= 0 ? defaultMaxSpeed : roadMaxSpeed;
         
         roadRemainTime -= roadRemainTime>0 ? Time.deltaTime:0;
         
