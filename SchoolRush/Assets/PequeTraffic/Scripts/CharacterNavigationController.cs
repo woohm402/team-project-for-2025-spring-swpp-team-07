@@ -47,7 +47,7 @@ namespace Peque.Traffic
             }
 
             // 2) 애니메이터 속도 세팅
-            animator.SetFloat("Speed", movementSpeed);
+            // animator.SetFloat("Speed", movementSpeed);
 
             // 3) 이동할 XZ 좌표 계산
             Vector3 nextPos = rb.position + flatDir.normalized * movementSpeed * Time.fixedDeltaTime;
