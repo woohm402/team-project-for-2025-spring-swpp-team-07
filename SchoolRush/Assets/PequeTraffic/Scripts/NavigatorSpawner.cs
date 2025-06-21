@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace Peque.Traffic
 { 
+    
     public class NavigatorSpawner : MonoBehaviour
     {
+
         public enum Direction
         {
             Both = 2,
@@ -23,58 +25,69 @@ namespace Peque.Traffic
         public bool optimizeOnEditorToo = true;
 
         private List<WaypointData> waypoints;
+        private float raycastHeight = 100f;
 
-        void Start() {
+        void Start()
+        {
             getChildWaypoints();
 
-            if (numberToSpawn > 0 && waypoints.Count > 0) {
+            if (numberToSpawn > 0 && waypoints.Count > 0)
+            {
                 StartCoroutine(spawn());
             }
         }
 
-        private void getChildWaypoints() {
+        private void getChildWaypoints()
+        {
             waypoints = new List<WaypointData>();
 
-            foreach (Waypoint waypoint in transform.GetComponentsInChildren<Waypoint>()) {
+            foreach (Waypoint waypoint in transform.GetComponentsInChildren<Waypoint>())
+            {
                 waypoints.Add(waypoint.data);
             }
         }
 
-        IEnumerator spawn () {
+        IEnumerator spawn()
+        {
             int count = 0;
-            int attempts = 0; 
+            int attempts = 0;
 
-            while (count < numberToSpawn) {
+            while (count < numberToSpawn)
+            {
                 WaypointData randomWaypoint = getRandomWaypoint();
 
-                // seems like there are no available slots
-                if (randomWaypoint == null) {
-                    //Debug.Log("No available slots found for " + transform.name + " waiting a second");
-                    attempts++;
-
-                    if (attempts == maxAttempts) {
-                        //Debug.Log("No available slots found for " + transform.name + ", stopping spawner.");
-                        break;
-                    }
-
-                    yield return new WaitForSeconds(1);
-                    continue;
-                }
-				// make sure this waypoint isn't reused for spawning more entities
-                randomWaypoint.occupied = true;
 
                 GameObject obj = Instantiate(prefabs[Random.Range(0, prefabs.Length)]);
+                Vector3 currPos = randomWaypoint.centerPosition;
+                Vector3 prevPos = randomWaypoint.previousWaypoint != null
+                    ? randomWaypoint.previousWaypoint.centerPosition
+                    : currPos;
 
-                Vector3 spawnPosition = randomWaypoint.centerPosition;
+                float t = Random.Range(0f, 1f);
+                Vector3 spawnPosition = Vector3.Lerp(currPos, prevPos, t);
+
+                spawnPosition.x += Random.Range(-10f, 10f);
+                spawnPosition.z += Random.Range(-10f, 10f);
+
+                Ray ray = new Ray(new Vector3(spawnPosition.x, spawnPosition.y + raycastHeight, spawnPosition.z), Vector3.down);
+
+
+                if (Physics.Raycast(ray, out RaycastHit hit, raycastHeight * 2f))
+                    spawnPosition.y = hit.point.y;
+
                 spawnPosition.y += 0.5f;
+
 
                 obj.transform.position = spawnPosition;
 
-				// Point spawned entities looking at their next waypoint
+                // Point spawned entities looking at their next waypoint
                 Vector3 lookPos = spawnPosition;
-                if (randomWaypoint.nextWaypoint != null) {
+                if (randomWaypoint.nextWaypoint != null)
+                {
                     lookPos = randomWaypoint.nextWaypoint.centerPosition;
-                } else if(randomWaypoint.previousWaypoint != null) {
+                }
+                else if (randomWaypoint.previousWaypoint != null)
+                {
                     lookPos = randomWaypoint.previousWaypoint.centerPosition;
                 }
 
@@ -84,9 +97,12 @@ namespace Peque.Traffic
 
                 int direction;
 
-                if (allowedDirection == Direction.Both) {
+                if (allowedDirection == Direction.Both)
+                {
                     direction = Mathf.RoundToInt(Random.Range(0f, 1f));
-                } else {
+                }
+                else
+                {
                     direction = (int)allowedDirection;
                 }
 
@@ -94,33 +110,26 @@ namespace Peque.Traffic
 
                 yield return new WaitForEndOfFrame();
                 count++;
+
             }
 
-            if (optimizeOnRuntime && (!Application.isEditor || (Application.isEditor && optimizeOnEditorToo))) {
+            if (optimizeOnRuntime && (!Application.isEditor || (Application.isEditor && optimizeOnEditorToo)))
+            {
                 removeWaypointsGameobjects();
             }
         }
 
-        void removeWaypointsGameobjects () {
-            foreach (Transform child in transform) {
+        void removeWaypointsGameobjects()
+        {
+            foreach (Transform child in transform)
+            {
                 Destroy(child.gameObject);
             }
         }
 
-        WaypointData getRandomWaypoint (int attempt = 0) {
+        WaypointData getRandomWaypoint(int attempt = 0)
+        {
             WaypointData waypoint = waypoints[Random.Range(0, waypoints.Count - 1)];
-
-            // to avoid overlapping on spawn, check if current or nearest waypoints are already occupied
-            if (waypoint.occupied || (waypoint.nextWaypoint != null && waypoint.nextWaypoint.occupied) || (waypoint.previousWaypoint != null && waypoint.previousWaypoint.occupied)) {
-                attempt++;
-
-                if (attempt == maxAttempts) {
-                    return null;
-                }
-
-                return getRandomWaypoint(attempt);
-            }
-
             return waypoint;
         }
     }
