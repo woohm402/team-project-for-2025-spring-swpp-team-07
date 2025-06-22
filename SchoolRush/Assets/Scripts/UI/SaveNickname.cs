@@ -13,15 +13,18 @@ public class SaveNickname : MonoBehaviour {
             string savedName = PlayerPrefs.GetString(NICKNAME_KEY);
             nicknameInputField.text = savedName;
         }
-    }
 
-    public void SaveNicknameClick() {
-        string nickname = nicknameInputField.text;
-        PlayerPrefs.SetString(NICKNAME_KEY, nickname);
-        PlayerPrefs.Save();
+        nicknameInputField.onValueChanged.AddListener(OnNicknameChanged);
     }
 
     public static string LoadNickname() {
         return PlayerPrefs.GetString(NICKNAME_KEY);
+    }
+
+    private void OnNicknameChanged(string value) {
+        string trimmed = value.Trim();
+        nicknameInputField.text = trimmed;
+        PlayerPrefs.SetString(NICKNAME_KEY, trimmed);
+        PlayerPrefs.Save();
     }
 }
