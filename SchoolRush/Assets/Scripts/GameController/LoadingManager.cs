@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadingManager : MonoBehaviour
 {
     [SerializeField]
     private Camera loadingCam;
+    [SerializeField]
+    private Image loadingPanel;
     [SerializeField]
     private TextMeshProUGUI loadingText;
     private MapController mapController;
@@ -34,6 +37,7 @@ public class LoadingManager : MonoBehaviour
 
         loadingCam.gameObject.Destroy();
         loadingText.gameObject.Destroy();
+        loadingPanel.gameObject.Destroy();
 
         mapController.Freeze(false);
         pauseMenu.Freeze(false);
