@@ -79,18 +79,24 @@ public class AggressiveCarAI : MonoBehaviour
             return;
         }
         
-        // Stop if too close to the target
         if (distanceToTarget < minDistanceToTarget)
         {
-            carController?.Break(carController.breaking);
+            if (carController != null)
+            {
+                carController.SetSpeed(10);
+                ChaseTarget();
+            }
             return;
         }
         
         // Move toward the target
         ChaseTarget();
         
-        // Detect and avoid obstacles
-        HandleObstacles();
+        // Detect and avoid obstacles (우선순위를 추적보다 낮게)
+        if (!HandleObstacles())
+        {
+            carController?.SetSpeed(chargeSpeed);
+        }
         
         lastTargetDistance = distanceToTarget;
     }
@@ -99,30 +105,26 @@ public class AggressiveCarAI : MonoBehaviour
     {
         Vector3 directionToTarget = (target.position - transform.position).normalized;
         
-        // Rotate toward the target direction
-        Vector3 targetRotation = Vector3.RotateTowards(
-            transform.forward, 
-            directionToTarget, 
-            turnSpeed * Time.fixedDeltaTime, 
-            0.0f
-        );
+        Vector3 localTarget = transform.InverseTransformPoint(target.position);
+        float steerAngle = Mathf.Clamp(localTarget.x / localTarget.magnitude * 45f, -45f, 45f);
         
-        transform.rotation = Quaternion.LookRotation(targetRotation);
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+        if (distanceToTarget < 10f)
+        {
+            steerAngle *= 1.5f;
+            steerAngle = Mathf.Clamp(steerAngle, -60f, 60f);
+        }
         
         // Move forward
         if (carController != null)
         {
             carController.Accelerate(carController.acceleration);
             carController.Break(0);
-            
-            // Steering calculation
-            Vector3 localTarget = transform.InverseTransformPoint(target.position);
-            float steerAngle = Mathf.Clamp(localTarget.x / localTarget.magnitude * 30f, -30f, 30f);
             carController.Turn(steerAngle);
         }
     }
     
-    void HandleObstacles()
+    bool HandleObstacles()
     {
         // Detect obstacles ahead
         RaycastHit hit;
@@ -134,12 +136,15 @@ public class AggressiveCarAI : MonoBehaviour
             if (hit.collider.transform != target)
             {
                 AvoidObstacle(hit);
+                return true;
             }
         }
         
         #if UNITY_EDITOR
         Debug.DrawRay(rayOrigin, transform.forward * obstacleDetectionDistance, Color.red);
         #endif
+        
+        return false;
     }
     
     void AvoidObstacle(RaycastHit obstacle)
