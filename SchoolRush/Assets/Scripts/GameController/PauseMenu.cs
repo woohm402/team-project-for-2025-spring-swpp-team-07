@@ -12,6 +12,8 @@ public class PauseMenu : MonoBehaviour
     private Camera fullCam;
     private AudioManager am;
 
+    private bool isFreezed = false;
+
     void Start()
     {
         if (pauseMenuUI != null)
@@ -22,6 +24,8 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
+        if (isFreezed) return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             am.PlayOneShot(am.pauseAudio);
@@ -75,5 +79,10 @@ public class PauseMenu : MonoBehaviour
     public void OffHelperImate()
     {
         helpImage.SetActive(false);
+    }
+
+    public void Freeze(bool b)
+    {
+        isFreezed = b;
     }
 }

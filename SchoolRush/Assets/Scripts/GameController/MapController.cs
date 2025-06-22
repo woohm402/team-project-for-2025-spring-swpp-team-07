@@ -14,8 +14,9 @@ public class MapController : MonoBehaviour
 
     [SerializeField]
     private GameObject pauseMenu;
-
     private AudioManager am;
+
+    private bool isFreezed = false;
 
     private void Start()
     {
@@ -25,6 +26,8 @@ public class MapController : MonoBehaviour
 
     private void Update()
     {
+        if (isFreezed) return;
+
         if (Input.GetKeyDown(KeyCode.M) && !pauseMenu.activeSelf)
         {
             am.PlayOneShot(am.mapAudio);
@@ -54,5 +57,10 @@ public class MapController : MonoBehaviour
         subMiniCam.enabled = true;
         fullCam.enabled = false;
         Time.timeScale = 1;
+    }
+
+    public void Freeze(bool b)
+    {
+        isFreezed = b;
     }
 }
