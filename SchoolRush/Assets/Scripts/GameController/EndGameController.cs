@@ -13,9 +13,7 @@ public class EndGameController : MonoBehaviour
 
     void Start()
     {
-        if (endGameUI != null)
-            endGameUI.SetActive(false);
-
+        endGameUI.SetActive(false);
         hud = FindObjectOfType<HUDController>();
     }
 
@@ -32,15 +30,17 @@ public class EndGameController : MonoBehaviour
         hasEnded = true;
         Time.timeScale = 0f;
 
-        if (endGameUI != null)
-            endGameUI.SetActive(true);
-            finalPanel.SetActive(true);
+        endGameUI.SetActive(true);
+        finalPanel.SetActive(true);
 
         if (finalTimeText != null && hud != null)
             finalTimeText.text = hud.timeText.text;
 
         KartController kartController = FindObjectOfType<KartController>();
         PlayerData playerData = kartController.GetPlayerData();
+
+        #if !UNITY_EDITOR
         playerData.Save((int)(hud.GetElapsedTime() * 1000));
+        #endif
     }
 }
