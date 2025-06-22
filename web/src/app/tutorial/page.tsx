@@ -15,10 +15,6 @@ export const metadata: Metadata = {
   title: "School Rush 튜토리얼",
 };
 
-export const metadata: Metadata = {
-  title: "School Rush 튜토리얼",
-};
-
 export default async function Home() {
   const items: {
     image: StaticImageData | string;
