@@ -52,6 +52,6 @@ public class CheckpointManager : MonoBehaviour
     }
 
     public void GoToCheckPoint(int id) {
-        transform.position = checkpoints[id].transform.position;
+        transform.position = checkpoints[id].transform.Find("PortPos").position;
     }
 }
