@@ -4,6 +4,7 @@ using TMPro;
 
 public class EndGameController : MonoBehaviour
 {
+    public GameObject HUDUI;
     public GameObject endGameUI;
     public GameObject finalPanel;
     public TextMeshProUGUI finalTimeText;
@@ -30,6 +31,7 @@ public class EndGameController : MonoBehaviour
         hasEnded = true;
         Time.timeScale = 0f;
 
+        HUDUI.SetActive(false);
         endGameUI.SetActive(true);
         finalPanel.SetActive(true);
 
