@@ -53,6 +53,8 @@ public class BGMController : MonoBehaviour
             while (index == prevBGMIndex);
         }
 
+        prevBGMIndex = index;
+
         audioSource.Stop();
         audioSource.clip = racingBGMs[index];
         audioSource.Play();
