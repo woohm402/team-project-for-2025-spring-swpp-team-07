@@ -90,6 +90,14 @@ public class UpgradeManager : MonoBehaviour
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u401, u402, u403, u404 }).pick(3));
                 SetColleagueActive(3, true);
                 break;
+            case 5:
+                Upgrade u501 = new Upgrade501();
+                Upgrade u502 = new Upgrade502();
+                Upgrade u503 = new Upgrade503();
+                upgrades.Add(u501);
+                upgrades.Add(u502);
+                upgrades.Add(u503);
+                break;
         }
 
         foreach (var upgrade in upgrades) {

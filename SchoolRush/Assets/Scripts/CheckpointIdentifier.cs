@@ -9,7 +9,7 @@ public class CheckpointIdentifier : MonoBehaviour {
     private UpgradeManager upgradeManager;
 
     private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Player") && ID >= 1 && ID <= 4) {
+        if (other.CompareTag("Player") && ID >= 1 && ID <= 5) {
             upgradeManager.PickUpgrade(ID);
         }
     }
