@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 8370652610664437446}
   m_Layer: 0
   m_Name: Simple Retro Car
-  m_TagString: Untagged
+  m_TagString: Traffic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

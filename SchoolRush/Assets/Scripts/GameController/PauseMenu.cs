@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public GameObject helpImage;
     private bool isPaused = false;
 
     private AudioManager am;
@@ -32,6 +33,7 @@ public class PauseMenu : MonoBehaviour
     {
         am.PlayOneShot(am.pauseAudio);
 
+        helpImage.SetActive(false);
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(true);
 
@@ -61,5 +63,15 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         Scene current = SceneManager.GetActiveScene();
         SceneManager.LoadScene(current.name);
+    }
+
+    public void OnHelperImage()
+    {
+        helpImage.SetActive(true);
+    }
+
+    public void OffHelperImate()
+    {
+        helpImage.SetActive(false);
     }
 }

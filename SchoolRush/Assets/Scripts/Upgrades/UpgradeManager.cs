@@ -26,7 +26,7 @@ public class UpgradeManager : MonoBehaviour
         colleagues = new List<Transform>();
         am = AudioManager.Instance;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 1; i <= 3; i++)
             upgradeUIItems.Add(upgradeUI.transform.GetChild(i).gameObject);
 
         for (int i = 0; i < CharacterModels.childCount; i++)
@@ -91,12 +91,14 @@ public class UpgradeManager : MonoBehaviour
 
         foreach (var upgrade in upgrades) {
             int index = upgrades.IndexOf(upgrade);
-            upgradeUIItems[index].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = upgrade.GetTitle();
-            upgradeUIItems[index].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = upgrade.GetDescription();
 
-            Button button = upgradeUIItems[index].transform.GetChild(2).gameObject.GetComponent<Button>();
+            upgradeUIItems[index].transform.GetChild(0).Find("Image").GetComponent<Image>().sprite = upgrade.GetAugment();
+
+            Button button = upgradeUIItems[index].transform.Find("Button").gameObject.GetComponent<Button>();
+            button.GetComponent<Image>().sprite = upgradeUIItems[index].transform.Find("PlaceHolder").GetComponent<Image>().sprite;
             button.onClick.AddListener(() => PickComplete(upgrade));
             button.onClick.AddListener(() => am.PlayOneShot(am.upgradeAudio));
+
             upgradeUIItems[index].SetActive(true);
         }
     }
@@ -110,6 +112,6 @@ public class UpgradeManager : MonoBehaviour
         selectedUpgrades.Add(upgrade);
 
         foreach (var item in upgradeUIItems)
-            item.transform.GetChild(2).gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+            item.transform.GetChild(1).gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
     }
 }

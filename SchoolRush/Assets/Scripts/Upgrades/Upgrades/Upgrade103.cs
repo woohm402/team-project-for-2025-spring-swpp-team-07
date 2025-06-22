@@ -1,9 +1,5 @@
 public class Upgrade103 : Upgrade {
-    public Upgrade103(): base(103, "통행 금지령", GetDescription()) {
+    public Upgrade103(): base(103, "통행 금지령") {
 
-    }
-
-    private static string GetDescription() {
-        return "행인이 더 이상\n등장하지 않습니다.";
     }
 }
