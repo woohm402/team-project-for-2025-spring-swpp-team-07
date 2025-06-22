@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image, { StaticImageData } from "next/image";
 import { ChevronLeft, ChevronRight, LucideIcon } from "lucide-react";
 import { clsx } from "@/app/utils/clsx";
@@ -16,16 +16,32 @@ export const Items = ({
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     setSelectedItemIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
-  };
+  }, [items.length]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setSelectedItemIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
-  };
+  }, [items.length]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        handlePrevious();
+      } else if (event.key === "ArrowRight") {
+        handleNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handlePrevious, handleNext]);
 
   return (
-    <div className="flex-1 w-full flex flex-col pb-8 pt-4 gap-10">
+    <div className="flex-1 w-full flex flex-col pb-8 pt-4 gap-10 max-w-[600px] mx-auto">
       <div className="overflow-hidden rounded-lg w-full flex-1 flex flex-col">
         <a
           href="/"
