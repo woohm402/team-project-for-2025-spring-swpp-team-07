@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import mainScene from "./_assets/010.mainScene.png";
 import car from "./_assets/020.car.png";
 import annoyingCar from "./_assets/030.annoying-car.png";
@@ -9,6 +10,10 @@ import control from "./_assets/080.control.png";
 import fullmap from "./_assets/090.fullmap.png";
 import final from "./_assets/final.avif";
 import { Items } from "./_components/Items";
+
+export const metadata: Metadata = {
+  title: "School Rush 튜토리얼",
+};
 
 export default async function Home() {
   const items = [
