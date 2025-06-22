@@ -5,6 +5,7 @@ using TMPro;
 public class EndGameController : MonoBehaviour
 {
     public GameObject endGameUI;
+    public GameObject finalPanel;
     public TextMeshProUGUI finalTimeText;
 
     private HUDController hud;
@@ -33,6 +34,7 @@ public class EndGameController : MonoBehaviour
 
         if (endGameUI != null)
             endGameUI.SetActive(true);
+            finalPanel.SetActive(true);
 
         if (finalTimeText != null && hud != null)
             finalTimeText.text = hud.timeText.text;
