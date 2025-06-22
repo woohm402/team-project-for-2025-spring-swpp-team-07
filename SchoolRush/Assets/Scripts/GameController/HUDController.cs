@@ -7,7 +7,10 @@ public class HUDController : MonoBehaviour
 {
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI speedText;
+    public TextMeshProUGUI checkpointLocationText;
     public TextMeshProUGUI shieldsText;
+
+    public TextMeshProUGUI checkpointNumberText;
 
     public Rigidbody playerRigidbody;
     public KartController kartController;
@@ -35,6 +38,30 @@ public class HUDController : MonoBehaviour
         // Update shields
         if (shieldsText != null)
             shieldsText.text = $"쉴드 {kartController.GetRemainingShields()}개 남음";
+
+        // Update checkpoint
+        int checkpoint = kartController.GetNextCheckpointID();
+        checkpointNumberText.text = checkpoint.ToString();
+        switch (checkpoint) {
+            case (1) :
+                checkpointLocationText.text = "사회대";
+                break;
+            case (2) :
+                checkpointLocationText.text = "아랫공대";
+                break;
+            case (3) :
+                checkpointLocationText.text = "경영대";
+                break;
+            case (4) :
+                checkpointLocationText.text = "노천강당";
+                break;
+            case (5) :
+                checkpointLocationText.text = "관정도서관";
+                break;
+            case (6) :
+                checkpointLocationText.text = "302동";
+                break;
+        }
     }
 
     public float GetElapsedTime() {
