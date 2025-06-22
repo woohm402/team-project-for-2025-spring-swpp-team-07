@@ -12,6 +12,10 @@ public class HUDController : MonoBehaviour
 
     public TextMeshProUGUI checkpointNumberText;
 
+    public Image jump;
+    public Image drifting;
+    public Image boost;
+
     public Rigidbody playerRigidbody;
     public KartController kartController;
     public CheckpointManager checkpointManager;
@@ -63,6 +67,18 @@ public class HUDController : MonoBehaviour
                 checkpointLocationText.text = "302동";
                 break;
         }
+
+        // update status
+        Color32 offColor = new Color32(0x50, 0x50, 0x50, 0xff);
+        if (kartController.GetCanJump()) jump.color = Color.white;
+        else jump.color = offColor;
+        
+        if (kartController.GetCanBoost()) boost.color = Color.white;
+        else boost.color = offColor;
+        
+        if (kartController.GetIsDrifting()) drifting.color = Color.white;
+        else drifting.color = offColor;
+
     }
 
     public float GetElapsedTime() {

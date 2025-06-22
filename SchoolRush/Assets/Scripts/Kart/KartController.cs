@@ -462,13 +462,23 @@ public class KartController : MonoBehaviour
         CacheParticles();
     }
 
-
-    #endregion
-
-    public void SetAsOnGround()
-    {
+    public void SetAsOnGround() {
         isOnGround = true;
     }
+
+    public bool GetCanJump() {
+        return isOnGround;
+    }
+
+    public bool GetIsDrifting() {
+        return drifting;
+    }
+
+    public bool GetCanBoost() {
+        return driftPower > firstDriftLimit;
+    }
+
+    #endregion
 }
 
 public enum ShieldResult {
