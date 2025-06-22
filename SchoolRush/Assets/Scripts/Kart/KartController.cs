@@ -54,6 +54,7 @@ public class KartController : MonoBehaviour
     private bool isTaxi = false;
     private bool first, second, third;
     private Color c;
+    private float autoIncrementedDriftPowerPerSecond = 0;
 
     private bool isOnGround = false;
 
@@ -94,6 +95,7 @@ public class KartController : MonoBehaviour
         playerData = new PlayerData(SaveNickname.LoadNickname());
         StartCoroutine(PerSecondUpdate());
         StartCoroutine(CheckTagBelow());
+        StartCoroutine(AutoIncrementDriftPowerPerSecond());
 
         taxi.gameObject.SetActive(false);
         t_sphere.gameObject.SetActive(false);
@@ -126,6 +128,14 @@ public class KartController : MonoBehaviour
         }
     }
 
+    private IEnumerator AutoIncrementDriftPowerPerSecond()
+    {
+        while (true)
+        {
+            driftPower += autoIncrementedDriftPowerPerSecond / 4;
+            yield return new WaitForSeconds(0.25f);
+        }
+    }
 
     IEnumerator CheckTagBelow()
     {
@@ -476,6 +486,10 @@ public class KartController : MonoBehaviour
 
     public bool GetCanBoost() {
         return driftPower > firstDriftLimit;
+    }
+
+    public void SetAutoIncrementedDriftPowerPerSecond(float value) {
+        autoIncrementedDriftPowerPerSecond = value;
     }
 
     #endregion

@@ -85,7 +85,7 @@ public class UpgradeManager : MonoBehaviour
             case 4:
                 Upgrade u401 = new Upgrade401(kartController);
                 Upgrade u402 = new Upgrade402(bgmController);
-                Upgrade u403 = new Upgrade403();
+                Upgrade u403 = new Upgrade403(kartController);
                 Upgrade u404 = new Upgrade404(trafficController, aggressiveCarSpawner);
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u401, u402, u403, u404 }).pick(3));
                 SetColleagueActive(3, true);
