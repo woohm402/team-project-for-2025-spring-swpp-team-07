@@ -90,7 +90,7 @@ public class KartController : MonoBehaviour
         CacheParticles();
 
         playerData = new PlayerData(SaveNickname.LoadNickname());
-        StartCoroutine(Per10SecondsUpdate());
+        StartCoroutine(PerSecondUpdate());
         StartCoroutine(CheckTagBelow());
 
         taxi.gameObject.SetActive(false);
@@ -115,12 +115,12 @@ public class KartController : MonoBehaviour
         }
     }
 
-    private IEnumerator Per10SecondsUpdate()
+    private IEnumerator PerSecondUpdate()
     {
         while (true)
         {
             playerData.Insert(transform.position);
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(1f);
         }
     }
 

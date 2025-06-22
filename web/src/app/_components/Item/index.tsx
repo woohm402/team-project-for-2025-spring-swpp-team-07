@@ -115,7 +115,7 @@ const MovePath = ({
 }: {
   logs: { time: number; position: { x: number; y: number } }[];
 }) => {
-  const [sliceIndex, increment] = useReducer((c) => c + 1, 0);
+  const [sliceIndex, increment] = useReducer((c) => c + 3, 0);
 
   useInterval(() => {
     if (sliceIndex < log.length) increment();
