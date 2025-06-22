@@ -60,5 +60,17 @@ namespace SchoolRush.Assets.Scripts.Utils.Tests
                 Assert.That(count, Is.GreaterThan(5700).And.LessThan(6300));
             }
         }
+
+        [Test]
+        public void Pick_ShouldWorkAnysize()
+        {
+            // Arrange
+            var items = new List<int> { 10 };
+            var picker = new RandomPicker<int>(items);
+
+            var result = picker.pick(1);
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result[0], Is.EqualTo(10));
+        }
     }
 }
