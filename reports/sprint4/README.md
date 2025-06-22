@@ -21,7 +21,9 @@
 - 지난 스프린트들 동안 일정이 다소 밀리게 되었기에 게임의 완성도를 크게 신경쓰지 못했습니다. 5명 중 3명이 6/20에 최종 발표가 있는 창의적통합설계 과목을 수강하고 있기도 하고, 다같이 모여서 진행하는 게 효율이 좋을 것 같아 게임업계의 전통과도 같은 크런치를 6월 20일~22일 주말에 진행하여 전 인원이 모여 게임의 완성도를 보완하기로 했고, QA 작업은 각각의 태스크를 미리 쪼개둘 수 없기에 팀 전체를 할당하여 20시간짜리 큰 태스크를 잡아두었습니다.
 
 - QA 작업은 [GitHub Issue](https://github.com/SWPP-2025SPRING/team-project-for-2025-spring-swpp-team-07/issues) 를 통해 진행되며, 아래 프로세스를 따랐습니다.
-   1. 개선점을 발견한 사람이 GitHub 에 Issue 등록하고, `Bug (버그)` / `Task (미구현된 작업)` / `Feature (추가 작업)` 타입 지정
+   1. 개선점을 발견한 사람이 GitHub 에 Issue 등록하고
+      - `Bug (버그)` / `Task (미구현된 작업)` / `Feature (추가 작업)` type 지정
+      - 우선순위에 따라 `P0 (매우 중요)` / `P1 (중요)` / `P2 (되면 좋음)` label 지정
    2. PM이 현재 리소스를 보고 적절하게 팀원 Assign
    3. 진행 후 Assignee가 PR을 올리며 GitHub의 [Closing Keyword](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests) 기능을 활용하여 해당 Issue와 PR을 연결
 
