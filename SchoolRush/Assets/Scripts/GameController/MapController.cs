@@ -14,6 +14,10 @@ public class MapController : MonoBehaviour
 
     [SerializeField]
     private GameObject pauseMenu;
+
+    public GameObject HUD;
+    public GameObject MapUI;
+
     private AudioManager am;
 
     private bool isFreezed = false;
@@ -47,6 +51,8 @@ public class MapController : MonoBehaviour
         miniCam.enabled = false;
         subMiniCam.enabled = false;
         fullCam.enabled = true;
+        HUD.SetActive(false);
+        MapUI.SetActive(true);
         Time.timeScale = 0;
     }
 
@@ -56,6 +62,8 @@ public class MapController : MonoBehaviour
         miniCam.enabled = true;
         subMiniCam.enabled = true;
         fullCam.enabled = false;
+        HUD.SetActive(true);
+        MapUI.SetActive(false);
         Time.timeScale = 1;
     }
 

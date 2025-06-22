@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    public GameObject HUDUI;
     public GameObject pauseMenuUI;
     public GameObject helpImage;
     private bool isPaused = false;
@@ -45,6 +46,7 @@ public class PauseMenu : MonoBehaviour
 
         Time.timeScale = 0f;
         isPaused = true;
+        HUDUI.SetActive(false);
     }
 
     public void Resume()
@@ -56,6 +58,7 @@ public class PauseMenu : MonoBehaviour
 
         Time.timeScale = 1f;
         isPaused = false;
+        HUDUI.SetActive(true);
     }
 
     public void LoadMainMenu()
