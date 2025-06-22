@@ -8,6 +8,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject helpImage;
     private bool isPaused = false;
 
+    [SerializeField]
+    private Camera fullCam;
     private AudioManager am;
 
     void Start()
@@ -25,7 +27,7 @@ public class PauseMenu : MonoBehaviour
             am.PlayOneShot(am.pauseAudio);
 
             if (isPaused) Resume();
-            else Pause();
+            else if (!fullCam.isActiveAndEnabled) Pause();
         }
     }
 
