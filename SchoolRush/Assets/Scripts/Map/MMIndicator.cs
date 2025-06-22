@@ -25,6 +25,10 @@ public class MMIndicator : MonoBehaviour
         Vector3 pos = transform.position;
         transform.position = new(pos.x, player.transform.position.y + 30, pos.z);
 
+        // Prevent from flipping over
+        if (transform.rotation.eulerAngles.x > 180)
+            transform.Rotate(new Vector3(-180, 0, 0));
+
         distUI.text = $"{(vector.magnitude / 3):F0}m";
     }
 
