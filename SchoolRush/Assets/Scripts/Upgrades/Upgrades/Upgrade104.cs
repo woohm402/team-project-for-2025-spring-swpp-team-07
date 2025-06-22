@@ -1,5 +1,11 @@
 public class Upgrade104 : Upgrade {
-    public Upgrade104(): base(104, "친환경 정책") {
+    private TrafficController trafficController;
 
+    public Upgrade104(TrafficController trafficController): base(104, "친환경 정책") {
+        this.trafficController = trafficController;
+    }
+
+    public override void OnPick() {
+        trafficController.DestroyHalf();
     }
 }

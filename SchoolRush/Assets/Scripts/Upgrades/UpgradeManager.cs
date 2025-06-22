@@ -11,6 +11,8 @@ public class UpgradeManager : MonoBehaviour
     public Transform CharacterModels;
     public BGMController bgmController;
     public PassengerController passengerController;
+    public TrafficController trafficController;
+    public AggressiveCarSpawner aggressiveCarSpawner;
 
     [SerializeField]
     private GameObject upgradeUI;
@@ -57,7 +59,7 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade u101 = new Upgrade101(kartController);
                 Upgrade u102 = new Upgrade102(kartController);
                 Upgrade u103 = new Upgrade103(passengerController);
-                Upgrade u104 = new Upgrade104();
+                Upgrade u104 = new Upgrade104(trafficController);
                 Upgrade u105 = new Upgrade105(kartController);
                 upgrades.Add(u101);
                 upgrades.Add(u102);
@@ -84,7 +86,7 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade u401 = new Upgrade401(kartController);
                 Upgrade u402 = new Upgrade402(bgmController);
                 Upgrade u403 = new Upgrade403();
-                Upgrade u404 = new Upgrade404();
+                Upgrade u404 = new Upgrade404(trafficController, aggressiveCarSpawner);
                 upgrades.AddRange(new RandomPicker<Upgrade>(new List<Upgrade> { u401, u402, u403, u404 }).pick(3));
                 SetColleagueActive(3, true);
                 break;

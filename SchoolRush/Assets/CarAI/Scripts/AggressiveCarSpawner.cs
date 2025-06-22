@@ -209,6 +209,14 @@ public class AggressiveCarSpawner : MonoBehaviour
         }
     }
 
+    public void DestroyAllSpawnedCars()
+    {
+        foreach (var car in spawnedCars) {
+            Destroy(car);
+        }
+        spawnedCars.Clear();
+    }
+
     public void ResumeSpawning()
     {
         if (spawnCoroutine == null && player != null)
