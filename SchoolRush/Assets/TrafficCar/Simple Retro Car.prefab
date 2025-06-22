@@ -119,7 +119,6 @@ Transform:
   - {fileID: 1742006733569006406}
   - {fileID: 1774412878520980066}
   - {fileID: 8633552140657442715}
-  - {fileID: 8370652611006691956}
   - {fileID: 8370652610225504217}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -174,9 +173,8 @@ MonoBehaviour:
   rearRightCollider: {fileID: 8370652610688431585}
   rearLeftCollider: {fileID: 8370652610461274126}
   nextCheckpoint: {fileID: 0}
-  checks:
-  - {fileID: 8370652611006691956}
-  CheckPointSearch: 1
+  checks: []
+  CheckPointSearch: 0
   objectDetected: 0
   isCarControlledByAI: 1
   seenLayers:
@@ -188,7 +186,10 @@ MonoBehaviour:
   recklessnessThreshold: 0
   despawnForFlippingOver: 1
   taxiMode: 0
-  acceleration: 10000
+  antiRollController: {fileID: 0}
+  limitSpeedWhenStabilizing: 0
+  stabilizationSpeedLimit: 40
+  acceleration: 20000
   breaking: 100000
 --- !u!1 &5451723997269261481
 GameObject:
@@ -536,7 +537,7 @@ Transform:
   - {fileID: 8370652610094312193}
   - {fileID: 8370652610688431590}
   m_Father: {fileID: 5102021587605374643}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8370652610461274127
 GameObject:
@@ -724,37 +725,6 @@ WheelCollider:
     m_AsymptoteValue: 0.75
     m_Stiffness: 1
   m_Enabled: 1
---- !u!1 &8370652611006691957
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8370652611006691956}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8370652611006691956
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370652611006691957}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.66, z: 4.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5102021587605374643}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8464349690575478805
 GameObject:
   m_ObjectHideFlags: 0

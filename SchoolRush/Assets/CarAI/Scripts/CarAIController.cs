@@ -51,6 +51,12 @@ public class CarAIController : MonoBehaviour
     [Tooltip("If true the car will switch to taxi mode, meaning that using the TaxiScript, it will go from a start checkpoint to an end checkpoint. These checkpoints need to be connected in a checkpoint network.")]
     public bool taxiMode = false;
 
+    //Anti-Roll Integration
+    [Header("Anti-Roll Integration")]
+    public AntiRollController antiRollController;
+    public bool limitSpeedWhenStabilizing = true;
+    public int stabilizationSpeedLimit = 40;
+
     //Car values
 
     [Tooltip("Acceleration threshold.")]
@@ -65,6 +71,15 @@ public class CarAIController : MonoBehaviour
     private Vector3 lastPos;
     private float steerAngle = 0f;
     private bool flipOverCheck = false;
+
+    private void Start()
+    {
+        // AntiRollController 자동 참조 설정
+        if (antiRollController == null)
+        {
+            antiRollController = GetComponent<AntiRollController>();
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -115,9 +130,7 @@ public class CarAIController : MonoBehaviour
         flipOverCheck = false;
 
         yield return null;
-    }
-
-    private bool isCarFlipedOver()
+    }    private bool isCarFlipedOver()
     {
 
         if(transform.rotation.eulerAngles.z > 30f || transform.rotation.eulerAngles.z < -30f)
@@ -208,6 +221,12 @@ public class CarAIController : MonoBehaviour
     /// </summary>
     public void SetSpeed(int speedLimit)
     {
+        // 전복 방지 시스템이 안정화 중이면 속도 제한 적용
+        if (limitSpeedWhenStabilizing && antiRollController != null && antiRollController.IsStabilizing())
+        {
+            speedLimit = Mathf.Min(speedLimit, stabilizationSpeedLimit);
+        }
+        
         if (kmh > speedLimit)
         {
             Break(breaking);
@@ -275,8 +294,53 @@ public class CarAIController : MonoBehaviour
                 {
                     speed = speedLimit;
                 }
+                
+                // 급커브에서 안전 속도 적용
+                int safeSpeed = CalculateSafeSpeed(steerAngle);
+                speed = Mathf.Min(speed, safeSpeed);
+                
                 SetSpeed(speed);
             }
         }
+    }
+
+    /// <summary>
+    /// 현재 차량의 기울기 각도를 반환합니다.
+    /// </summary>
+    public float GetTiltAngle()
+    {
+        Vector3 eulerAngles = transform.rotation.eulerAngles;
+        float zRotation = eulerAngles.z;
+        if (zRotation > 180f)
+            zRotation -= 360f;
+        return Mathf.Abs(zRotation);
+    }
+    
+    /// <summary>
+    /// 전복 방지 시스템의 안정화 상태를 확인합니다.
+    /// </summary>
+    public bool IsStabilizing()
+    {
+        return antiRollController != null && antiRollController.IsStabilizing();
+    }
+    
+    /// <summary>
+    /// 급커브나 고속 상황에서 안전 속도를 계산합니다.
+    /// </summary>
+    public int CalculateSafeSpeed(float steerAngle)
+    {
+        float absSteerAngle = Mathf.Abs(steerAngle);
+        
+        // 커브 각도에 따른 안전 속도 계산
+        if (absSteerAngle > 20f) // 급커브
+        {
+            return Mathf.RoundToInt(speedLimit * 0.6f); // 40% 감속
+        }
+        else if (absSteerAngle > 10f) // 중간 커브
+        {
+            return Mathf.RoundToInt(speedLimit * 0.8f); // 20% 감속
+        }
+        
+        return speedLimit;
     }
 }
