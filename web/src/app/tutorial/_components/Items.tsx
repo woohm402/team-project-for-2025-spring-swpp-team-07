@@ -8,7 +8,11 @@ import { clsx } from "@/app/utils/clsx";
 export const Items = ({
   items,
 }: {
-  items: { image: StaticImageData; title: string; description: string }[];
+  items: {
+    image: StaticImageData | string;
+    title: string;
+    description: string;
+  }[];
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
 
@@ -40,13 +44,21 @@ export const Items = ({
             >
               <div className="relative flex flex-col w-full gap-6">
                 <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
+                  {typeof item.image !== "string" ? (
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  ) : (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="object-cover"
+                    />
+                  )}
                 </div>
                 <div className="flex flex-col items-center bg-white/70 shadow-md px-3 py-4 gap-6 rounded-lg">
                   <h3 className="text-xl font-semibold">{item.title}</h3>

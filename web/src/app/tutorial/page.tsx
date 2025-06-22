@@ -8,15 +8,23 @@ import checkpoint from "./_assets/060.checkpoint.png";
 import upgrade from "./_assets/070.upgrade.png";
 import control from "./_assets/080.control.png";
 import fullmap from "./_assets/090.fullmap.png";
-import final from "./_assets/final.avif";
 import { Items } from "./_components/Items";
+import { StaticImageData } from "next/image";
+
+export const metadata: Metadata = {
+  title: "School Rush 튜토리얼",
+};
 
 export const metadata: Metadata = {
   title: "School Rush 튜토리얼",
 };
 
 export default async function Home() {
-  const items = [
+  const items: {
+    image: StaticImageData | string;
+    title: string;
+    description: string;
+  }[] = [
     {
       title: "메인화면",
       image: mainScene,
@@ -71,7 +79,7 @@ export default async function Home() {
       description:
         "학교에는 사람(!)들이 다녀요.\n\n사람을 치면 마지막으로 도착한 체크포인트로 강제로 돌아가요.",
     },
-    { title: "화이팅!", image: final, description: "재밌습니다" },
+    { title: "화이팅!", image: "/final.avif", description: "재밌습니다" },
   ];
 
   return (
