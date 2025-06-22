@@ -6,8 +6,6 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    public AudioClip buttonComfirmAudio;
-    public AudioClip buttonCancelAudio;
     public AudioClip checkpointAudio;
     public AudioClip clickAudio;
     public AudioClip hitPassengerAudio;
@@ -16,7 +14,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip jumpAudio;
     public AudioClip mapAudio;
     public AudioClip pauseAudio;
-    public AudioClip pickUpAudio;
+    public AudioClip resumeAudio;
     public AudioClip upgradeAudio;
 
     private AudioSource AS;

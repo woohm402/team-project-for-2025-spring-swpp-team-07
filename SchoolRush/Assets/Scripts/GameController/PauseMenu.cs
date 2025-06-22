@@ -30,6 +30,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
+        am.PlayOneShot(am.pauseAudio);
+
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(true);
 
@@ -39,6 +41,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        am.PlayOneShot(am.resumeAudio);
+
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(false);
 

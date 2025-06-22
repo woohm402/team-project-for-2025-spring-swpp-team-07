@@ -10,13 +10,18 @@ public class FullMapController : MonoBehaviour
     private const float fovSpeed = 40f;
     private const float moveSpeed = 60f;
 
+    private bool hasInited = false;
+
     private void Start()
     {
         cam = GetComponent<Camera>();
     }
+
     private void Update()
     {
-        if (!cam.isActiveAndEnabled) return;
+        if (!cam.isActiveAndEnabled) { hasInited = false; return; }
+
+        if (!hasInited) { Init(); hasInited = true;}
 
         bool expand = Input.GetKey(KeyCode.Equals) || Input.GetKey(KeyCode.Plus) || Input.GetKey(KeyCode.KeypadPlus);
         bool shrink = Input.GetKey(KeyCode.Minus) || Input.GetKey(KeyCode.KeypadMinus);
@@ -35,24 +40,18 @@ public class FullMapController : MonoBehaviour
             }
         }
 
-        bool right = (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow));
-        bool left = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow));
-        bool down = (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow));
-        bool up = (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow));
+        int right = (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) ? 1 : 0;
+        int left = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) ? 1 : 0;
+        int down = (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) ? 1 : 0;
+        int up = (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) ? 1 : 0;
 
-        int r = right ? 1 : 0;
-        int l = left ? 1 : 0;
-        int d = down ? 1 : 0;
-        int u = up ? 1 : 0;
-
-        transform.Translate(cam.fieldOfView * moveSpeed * Time.unscaledDeltaTime * new Vector3(r - l, 0, u - d), Space.World);
-
+        transform.Translate(cam.fieldOfView * moveSpeed * Time.unscaledDeltaTime 
+            * new Vector3(right - left, 0, up - down), Space.World);
     }
 
-    private void OnEnable()
+    private void Init()
     {
         transform.position = pos0;
         cam.fieldOfView = fov0;
     }
-
 }

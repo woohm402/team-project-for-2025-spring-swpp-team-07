@@ -18,10 +18,13 @@ public class UpgradeManager : MonoBehaviour
     private List<Upgrade> selectedUpgrades;
     private List<Transform> colleagues;
 
+    private AudioManager am;
+
     private void Start() {
         upgradeUIItems = new List<GameObject>();
         selectedUpgrades = new List<Upgrade>();
         colleagues = new List<Transform>();
+        am = AudioManager.Instance;
 
         for (int i = 0; i < 3; i++)
             upgradeUIItems.Add(upgradeUI.transform.GetChild(i).gameObject);
@@ -42,9 +45,11 @@ public class UpgradeManager : MonoBehaviour
     }
 
     public void PickUpgrade(int checkpoint) {
+        am.PlayOneShot(am.checkpointAudio);
+
         upgradeUI.SetActive(true);
         Time.timeScale = 0;
-        List<Upgrade> upgrades = new List<Upgrade>(); // should be length 3
+        List<Upgrade> upgrades = new(); // should be of length 3
 
         switch (checkpoint) {
             case 1:
@@ -88,7 +93,10 @@ public class UpgradeManager : MonoBehaviour
             int index = upgrades.IndexOf(upgrade);
             upgradeUIItems[index].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = upgrade.GetTitle();
             upgradeUIItems[index].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = upgrade.GetDescription();
-            upgradeUIItems[index].transform.GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(() => PickComplete(upgrade));
+
+            Button button = upgradeUIItems[index].transform.GetChild(2).gameObject.GetComponent<Button>();
+            button.onClick.AddListener(() => PickComplete(upgrade));
+            button.onClick.AddListener(() => am.PlayOneShot(am.upgradeAudio));
             upgradeUIItems[index].SetActive(true);
         }
     }

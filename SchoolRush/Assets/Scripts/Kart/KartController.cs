@@ -65,6 +65,8 @@ public class KartController : MonoBehaviour
     private float roadOnSetTime = 0.5f;
     private float roadSpeedMultiplier = 1.5f;
 
+    private AudioManager am;
+
     #endregion
 
     #region Initialize - Awake & Start
@@ -80,6 +82,7 @@ public class KartController : MonoBehaviour
         taxi = kartNormal.Find("Taxi");
 
         thirdPersonFollow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        am = AudioManager.Instance;
     }
 
     void Start()
@@ -203,6 +206,8 @@ public class KartController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
+            am.PlayOneShot(am.jumpAudio);
+
             sphere.velocity = new Vector3(sphere.velocity.x, 30f, sphere.velocity.z);
             isOnGround = false;
         }
