@@ -59,7 +59,6 @@ public class KartController : MonoBehaviour
 
     private PlayerData playerData;
     private int shieldCount = 0;
-    private int nextCheckpointID = 1;          // 다음 목표 checkpoint id
 
     private float roadRemainTime = -1f;
     private float roadOnSetTime = 0.5f;
@@ -469,15 +468,6 @@ public class KartController : MonoBehaviour
     public void SetAsOnGround()
     {
         isOnGround = true;
-    }
-
-    public int GetNextCheckpointID() {
-        return nextCheckpointID;
-    }
-
-    public void IncrementNextCheckpointID() {
-        Debug.Log($"Incrementing next checkpoint ID, {nextCheckpointID}");
-        nextCheckpointID++;
     }
 }
 

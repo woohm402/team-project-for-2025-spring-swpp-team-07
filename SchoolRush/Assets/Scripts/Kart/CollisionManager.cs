@@ -1,19 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CollisionManager : MonoBehaviour
 {
     private Rigidbody rb;
-    private float bumpCoef = 3000f;
+    private const float bumpCoef = 3000f;
 
     [SerializeField]
     private KartController kartController;
+    [SerializeField]
     private CheckpointManager checkpointManager;
 
-    private void Start() {
+    private void Start()
+    {
         rb = GetComponent<Rigidbody>();
-        checkpointManager = FindObjectOfType<CheckpointManager>();
+    }
+
+    private void Update()
+    {
+        // 개발용 치트키: checkpoint 로 순간이동
+        #if UNITY_EDITOR
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        {
+            for (int i = 0; i <= 6; i++)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha0 + i) || Input.GetKeyDown(KeyCode.Keypad0 + i))
+                {
+                    Debug.Log($"Cheat: Teleporting to checkpoint {i}");
+                    GoToCheckPoint(i);
+                    break;
+                }
+            }
+        }
+        #endif
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -21,26 +39,45 @@ public class CollisionManager : MonoBehaviour
         AudioManager audioManager = AudioManager.Instance;
         GameObject gameObject = collision.gameObject;
 
-        if (gameObject.CompareTag("Passenger")) {
+        if (gameObject.CompareTag("Passenger"))
+        {
             ShieldResult shieldResult = kartController.UseShield();
             if (shieldResult == ShieldResult.Succeed) return;
-            checkpointManager.GoToCheckPoint(kartController.GetNextCheckpointID() - 1);
+            GoToCheckPoint(checkpointManager.GetPreviousCheckpointID());
             audioManager.PlayOneShot(audioManager.hitPassengerAudio);
-        } else if (gameObject.CompareTag("Traffic")) {
+        }
+        else if (gameObject.CompareTag("Traffic"))
+        {
             ShieldResult shieldResult = kartController.UseShield();
             if (shieldResult == ShieldResult.Succeed) return;
             audioManager.PlayOneShot(audioManager.hitTrafficAudio);
             NotifyDizziness();
             Vector3 v = transform.position - gameObject.transform.position + Vector3.up;
             rb.AddForce(bumpCoef * v, ForceMode.Impulse);
-        } else if (gameObject.CompareTag("Building")) {
+        }
+        else if (gameObject.CompareTag("Building"))
+        {
             audioManager.PlayOneShot(audioManager.hitWallAudio);
-        } else if (gameObject.CompareTag("Terrain")) {
+        }
+        else if (gameObject.CompareTag("Terrain"))
+        {
             kartController.SetAsOnGround();
         }
     }
 
-    private void NotifyDizziness() {
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Checkpoint")) return;
+        checkpointManager.OnEnterCheckpoint(other.GetComponent<CheckpointIdentifier>().ID);
+    }
+
+    public void GoToCheckPoint(int id)
+    {
+        transform.position = checkpointManager.checkpoints[id].transform.Find("PortPos").position;
+    }
+
+    private void NotifyDizziness()
+    {
         kartController.GetDizzy();
     }
 }

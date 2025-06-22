@@ -14,6 +14,7 @@ public class HUDController : MonoBehaviour
 
     public Rigidbody playerRigidbody;
     public KartController kartController;
+    public CheckpointManager checkpointManager;
 
     private float elapsedTime = 0f;
 
@@ -40,7 +41,7 @@ public class HUDController : MonoBehaviour
             shieldsText.text = $"쉴드 {kartController.GetRemainingShields()}개 남음";
 
         // Update checkpoint
-        int checkpoint = kartController.GetNextCheckpointID();
+        int checkpoint = checkpointManager.GetNextCheckpointID();
         checkpointNumberText.text = checkpoint.ToString();
         switch (checkpoint) {
             case (1) :
