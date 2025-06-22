@@ -203,7 +203,7 @@ public class KartController : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.LeftShift)) Boost();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        if (Input.GetKeyDown(KeyCode.Space) && this.GetCanJump())
         {
             am.PlayOneShot(am.jumpAudio);
 
@@ -467,7 +467,7 @@ public class KartController : MonoBehaviour
     }
 
     public bool GetCanJump() {
-        return isOnGround;
+        return roadRemainTime <= 0 && isOnGround;
     }
 
     public bool GetIsDrifting() {
