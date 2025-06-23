@@ -5,6 +5,7 @@ using UnityEngine;
 public class BGMController : MonoBehaviour
 {
     public List<AudioClip> racingBGMs;
+    public AudioClip gameclearBGM;
     public AudioClip aegukgaBGM;
 
     private AudioSource audioSource;
@@ -58,5 +59,14 @@ public class BGMController : MonoBehaviour
         audioSource.Stop();
         audioSource.clip = racingBGMs[index];
         audioSource.Play();
+    }
+
+    public void PlayGameclearBGM()
+    {
+        audioSource.Stop();
+        audioSource.clip = gameclearBGM;
+        audioSource.Play();
+
+        StopAllCoroutines();
     }
 }

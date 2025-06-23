@@ -12,6 +12,9 @@ public class EndGameController : MonoBehaviour
     private HUDController hud;
     private bool hasEnded = false;
 
+    [SerializeField]
+    private BGMController bgmController;
+
     void Start()
     {
         endGameUI.SetActive(false);
@@ -28,6 +31,8 @@ public class EndGameController : MonoBehaviour
 
     private void EndGame()
     {
+        bgmController.PlayGameclearBGM();
+
         hasEnded = true;
         Time.timeScale = 0f;
 
