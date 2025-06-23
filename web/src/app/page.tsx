@@ -66,9 +66,9 @@ export default async function Home() {
               nickname={item.nickname}
               rank={i + 1}
               totalTime={item.totalTime}
-              upgradeIds={item.augmentIds.map((id) =>
-                ensure(UPGRADE_IDS.find((i) => i === id)),
-              )}
+              upgradeIds={item.augmentIds
+                .map((id) => ensure(UPGRADE_IDS.find((i) => i === id)))
+                .filter((a) => a < 500)}
             />
           </li>
         ))}
