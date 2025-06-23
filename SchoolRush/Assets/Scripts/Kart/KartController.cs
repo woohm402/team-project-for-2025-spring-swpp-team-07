@@ -31,7 +31,7 @@ public class KartController : MonoBehaviour
     private float acceleration = 30f;
     private float deceleration = 3f;
     private float steering = 10f;
-    private float gravity = 25f;
+    private float gravity = 50f;
     private float boostDuration = 0.3f;
     private float dizzyDuration = 1.5f;
     private float firstDriftLimit = 50f;
