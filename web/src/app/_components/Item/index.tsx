@@ -1,11 +1,52 @@
 "use client";
 
+import upgrade101 from "./upgrades/101.png";
+import upgrade104 from "./upgrades/104.png";
+import upgrade202 from "./upgrades/202.png";
+import upgrade301 from "./upgrades/301.png";
+import upgrade401 from "./upgrades/401.png";
+import upgrade404 from "./upgrades/404.png";
+import upgrade503 from "./upgrades/503.png";
+import upgrade102 from "./upgrades/102.png";
+import upgrade105 from "./upgrades/105.png";
+import upgrade203 from "./upgrades/203.png";
+import upgrade302 from "./upgrades/302.png";
+import upgrade402 from "./upgrades/402.png";
+import upgrade501 from "./upgrades/501.png";
+import upgrade103 from "./upgrades/103.png";
+import upgrade201 from "./upgrades/201.png";
+import upgrade204 from "./upgrades/204.png";
+import upgrade303 from "./upgrades/303.png";
+import upgrade403 from "./upgrades/403.png";
+import upgrade502 from "./upgrades/502.png";
 import { useInterval } from "@/app/utils/useInterval";
 import type { UpgradeId } from "@/entities/upgrade";
 import { formatTimeMMSS } from "@/utils/time";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { memo, useReducer } from "react";
 import map from "./map.png";
+
+const upgradeIdImageMap: Record<UpgradeId, StaticImageData> = {
+  101: upgrade101,
+  102: upgrade102,
+  103: upgrade103,
+  104: upgrade104,
+  105: upgrade105,
+  201: upgrade201,
+  202: upgrade202,
+  203: upgrade203,
+  204: upgrade204,
+  301: upgrade301,
+  302: upgrade302,
+  303: upgrade303,
+  401: upgrade401,
+  402: upgrade402,
+  403: upgrade403,
+  404: upgrade404,
+  501: upgrade501,
+  502: upgrade502,
+  503: upgrade503,
+};
 
 export const Item = memo(
   ({
@@ -84,16 +125,12 @@ export const Item = memo(
             </h4>
             <div className="flex flex-wrap gap-2">
               {upgradeIds.map((id) => (
-                <button
+                <Image
+                  src={upgradeIdImageMap[id]}
                   key={id}
-                  className="h-10 px-2 bg-gray-100 rounded-md flex items-center justify-center text-sm font-medium transition-all duration-200 cursor-pointer border border-gray-200"
-                  type="button"
-                  tabIndex={0}
-                  onClick={(e) => e.stopPropagation()}
-                  onKeyDown={(e) => e.stopPropagation()}
-                >
-                  {id}
-                </button>
+                  alt={id.toString()}
+                  className="w-40 px-2 bg-gray-100 rounded-md flex items-center justify-center text-sm font-medium transition-all duration-200 cursor-pointer border border-gray-200"
+                />
               ))}
             </div>
           </div>
