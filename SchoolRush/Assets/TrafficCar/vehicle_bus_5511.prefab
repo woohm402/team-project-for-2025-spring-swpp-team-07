@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 681059413567473478}
   m_LocalRotation: {x: 0.0063985605, y: -0.124125026, z: -0.028700894, w: 0.99183077}
   m_LocalPosition: {x: -852.87573, y: 44.8451, z: -3268.437}
-  m_LocalScale: {x: 1.6, y: 2.0341487, z: 2.0341487}
+  m_LocalScale: {x: 1.6, y: 2.0341487, z: 2.034149}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7901566240152372725}
@@ -174,16 +174,16 @@ MonoBehaviour:
   seenLayers:
     serializedVersion: 2
     m_Bits: 0
-  kmh: 10
-  speedLimit: 30
-  distanceFromObjects: 2
+  kmh: 0
+  speedLimit: 40
+  distanceFromObjects: 0
   recklessnessThreshold: 0
   despawnForFlippingOver: 0
   taxiMode: 0
   antiRollController: {fileID: 3861714447783383653}
   limitSpeedWhenStabilizing: 1
   stabilizationSpeedLimit: 20
-  acceleration: 10000
+  acceleration: 14000
   breaking: 200000
 --- !u!114 &3861714447783383653
 MonoBehaviour:
@@ -212,8 +212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aade53834feb949f4b75a3428bf9bf8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activateDistance: 200
-  deactivateDistance: 240
+  activateDistance: 400
+  deactivateDistance: 460
 --- !u!1 &3661316679777278348
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +780,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6562172273648926386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.71, y: 0.23, z: 2.24}
+  m_LocalPosition: {x: 0.01, y: 0.639, z: 2.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

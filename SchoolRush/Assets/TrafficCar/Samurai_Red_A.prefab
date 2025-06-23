@@ -291,7 +291,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2433071575006218099}
-  m_LocalRotation: {x: 0.100429796, y: 0.11870682, z: -0.011444068, w: 0.98777103}
+  m_LocalRotation: {x: 0.10042544, y: 0.11870863, z: -0.011445844, w: 0.9877712}
   m_LocalPosition: {x: -434.11575, y: 178.6951, z: -4323.177}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -356,7 +356,7 @@ MonoBehaviour:
   antiRollController: {fileID: 7620518258607348083}
   limitSpeedWhenStabilizing: 1
   stabilizationSpeedLimit: 30
-  acceleration: 10000
+  acceleration: 30000
   breaking: 100000
 --- !u!114 &1256148550142881957
 MonoBehaviour:
@@ -370,8 +370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aade53834feb949f4b75a3428bf9bf8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activateDistance: 200
-  deactivateDistance: 240
+  activateDistance: 400
+  deactivateDistance: 460
 --- !u!114 &7620518258607348083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,8 +844,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7815823085846295611}
-  m_LocalRotation: {x: -0.12712236, y: -0.5584312, z: -0.087091066, w: 0.8151133}
-  m_LocalPosition: {x: 0, y: 0.712, z: 2.879}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.72, z: 2.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

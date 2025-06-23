@@ -21,7 +21,7 @@ public class AggressiveCarSpawner : MonoBehaviour
     public int maxConcurrentCars = 5;
 
     [Tooltip("Cars will be removed if they get farther than this distance from player")]
-    public float despawnDistance = 100f;
+    public float despawnDistance = 300f;
 
     [Header("Spawn Area Settings")]
     [Tooltip("Spawn angle range (degrees, 0 is directly in front of player)")]

@@ -726,7 +726,7 @@ MonoBehaviour:
   antiRollController: {fileID: 8785761426624636444}
   limitSpeedWhenStabilizing: 1
   stabilizationSpeedLimit: 30
-  acceleration: 20000
+  acceleration: 30000
   breaking: 100000
 --- !u!114 &8785761426624636444
 MonoBehaviour:
@@ -755,8 +755,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aade53834feb949f4b75a3428bf9bf8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activateDistance: 200
-  deactivateDistance: 240
+  activateDistance: 400
+  deactivateDistance: 460
 --- !u!1 &8225678395863934739
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,7 +864,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8785761426786891031}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.22, y: 0.53, z: 2.95}
+  m_LocalPosition: {x: 0.015, y: 0.548, z: 2.655}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
